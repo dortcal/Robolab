@@ -1,6 +1,6 @@
 # RoboLab · Misión Archipiélago · Estado del proyecto
 
-**Última actualización:** 17/11/2026 (conversación 1, octava tanda)
+**Última actualización:** 17/11/2026 (conversación 1, novena tanda)
 **Fase 4 (prototipo de El Monteverde):** probada por David con alumnado de 3.º: **salió bien, algo difícil para el nivel**. Se da por superada la condición de salida con esa salvedad; no hay detalle de dónde costó.
 **Fase actual:** 5 · Motor completo (en curso). Hay motor, interfaz, una misión de 5.º y edición del programa en cualquier punto.
 **Dirección de arte:** A · Guagua (confirmada el 15/11 junto con Infantil en la fase 11). **No se tomó como confirmación de la vigencia del decreto ni de los criterios contra el BOC**, que siguen pendientes.
@@ -45,6 +45,12 @@ Misiones de 3.º: z3m1 «El helecho que se seca», z3m2 «La lluvia que no cae»
 - **Alternativa sin arrastrar** (también teclado y Makey Makey): Espacio o toque sobre un bloque lo marca; tocar un hueco lo mueve allí; «borrar» quita solo ese bloque. Sin bloque marcado, «borrar» quita el anterior al cursor.
 - **Ejecutado:** `tests/nav/editar.py` (21 comprobaciones) con ratón en Chrome real; arrastre táctil emulado; regresión de las 3 misiones de 3.º, z5m1 e informe sin errores de consola; validador estático de la skill, 0 errores.
 - **No verificado:** táctil en móvil o tableta reales; Makey Makey físico; los huecos miden unos 30 px de ancho (menos de 44 px); no se ha probado con alumnado.
+
+## Novena tanda (17/11): dificultad de 3.º
+- David: la prueba de 3.º fue buena, «quizás» bajar ligeramente la dificultad. Sin más detalle de dónde costó.
+- **Cambio mínimo, reversible:** límite de órdenes z3m1 10→12, z3m2 8→10, z3m3 10→12. El óptimo no cambia (la estrella de eficiencia sigue pidiendo el bucle). Las pistas ya suben un escalón tras dos fallos seguidos.
+- **Ejecutado:** pruebas de Node y `jugar.py` (3 misiones, 3 estrellas). **No verificado:** que con alumnado resulte más fácil.
+- **Si sigue costando:** probar a que la 1.ª pista salga sin pedirla tras el primer fallo, o a reducir las piezas distractoras.
 
 ## Octava tanda (17/11): `si … si no` y bloques anidados en la interfaz
 - **Modelo de programa:** el programa es un árbol; un hueco se identifica por una ruta (`0.body.0.sino`). Cada misión fija la **profundidad** (`profundidad`, por defecto 1; en z5m2, 2). Un bloque no se puede soltar dentro de sí mismo ni superar la profundidad.
