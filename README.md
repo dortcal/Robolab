@@ -2,7 +2,7 @@
 
 Juego web de Conocimiento del Medio para Primaria (1.º a 6.º) en el que el alumnado **diseña, programa y prueba un robot** para resolver problemas reales de Canarias. No hay combates, vidas ni preguntas de cuatro opciones: se aprende decidiendo, viendo qué le pasa al robot y corrigiendo.
 
-> **Estado: prototipo (fase 5 de 12).** Hay 4 misiones jugables: tres de 3.º (El Monteverde) y una de 5.º (La Isla Sostenible). El resto se construye por fases; ver `proyecto/estado.md`.
+> **Estado: prototipo (fase 5 de 12).** Hay 5 misiones jugables: tres de 3.º (El Monteverde) y dos de 5.º (La Isla Sostenible), con bloques `si… si no` y bucles que se pueden anidar. El resto se construye por fases; ver `proyecto/estado.md`.
 
 ## Cómo se juega
 

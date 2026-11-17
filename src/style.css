@@ -46,7 +46,13 @@ h2{font-size:1.1rem;margin:.4rem 0}
 .step{display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:44px;border:3px solid var(--ink);border-radius:12px;background:#FFF4D6;font:600 1.4rem Fredoka,sans-serif;transition:transform .15s,background .15s}
 .step.on{background:var(--amarillo);transform:scale(1.2)}
 .bucle{display:inline-flex;gap:4px;align-items:center;padding:4px 6px;border:3px solid var(--coral);border-radius:14px;background:#FFE4DC}
-.bucle.act{box-shadow:0 0 0 4px var(--amarillo)}
+.bucle.act,.rama.act{box-shadow:0 0 0 4px var(--amarillo)}
+.bucle{flex-wrap:wrap}.dentro{display:inline-flex;gap:4px;align-items:center;flex-wrap:wrap}
+.cond{display:inline-flex;gap:6px;align-items:center;padding:4px 6px;border:3px solid var(--mar);border-radius:14px;background:#D7EEFB}
+.ramas{display:flex;flex-direction:column;gap:4px}
+.rama{display:flex;gap:6px;align-items:center;padding:2px 6px;border-radius:10px;background:#F3FAFE;border:2px dashed var(--mar)}
+.rama .et{font:700 .8rem Nunito,sans-serif;min-width:4.6em}
+.ord.rp.si{background:#D7EEFB}
 .rep{font-size:.9rem;margin-right:2px}
 .vacia{opacity:.7}
 .pal{display:flex;gap:8px;flex-wrap:wrap}

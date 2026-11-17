@@ -1,6 +1,6 @@
 # RoboLab · Misión Archipiélago · Estado del proyecto
 
-**Última actualización:** 17/11/2026 (conversación 1, séptima tanda)
+**Última actualización:** 17/11/2026 (conversación 1, octava tanda)
 **Fase 4 (prototipo de El Monteverde):** probada por David con alumnado de 3.º: **salió bien, algo difícil para el nivel**. Se da por superada la condición de salida con esa salvedad; no hay detalle de dónde costó.
 **Fase actual:** 5 · Motor completo (en curso). Hay motor, interfaz, una misión de 5.º y edición del programa en cualquier punto.
 **Dirección de arte:** A · Guagua (confirmada el 15/11 junto con Infantil en la fase 11). **No se tomó como confirmación de la vigencia del decreto ni de los criterios contra el BOC**, que siguen pendientes.
@@ -46,13 +46,21 @@ Misiones de 3.º: z3m1 «El helecho que se seca», z3m2 «La lluvia que no cae»
 - **Ejecutado:** `tests/nav/editar.py` (21 comprobaciones) con ratón en Chrome real; arrastre táctil emulado; regresión de las 3 misiones de 3.º, z5m1 e informe sin errores de consola; validador estático de la skill, 0 errores.
 - **No verificado:** táctil en móvil o tableta reales; Makey Makey físico; los huecos miden unos 30 px de ancho (menos de 44 px); no se ha probado con alumnado.
 
+## Octava tanda (17/11): `si … si no` y bloques anidados en la interfaz
+- **Modelo de programa:** el programa es un árbol; un hueco se identifica por una ruta (`0.body.0.sino`). Cada misión fija la **profundidad** (`profundidad`, por defecto 1; en z5m2, 2). Un bloque no se puede soltar dentro de sí mismo ni superar la profundidad.
+- **Interfaz:** bloque «Si roca» con dos ramas rotuladas («entonces», «si no»); paleta con «si roca / si meta» y «hasta …»; «salir» sube un nivel; «borrar» quita un bloque vacío; marcar y mover o arrastrar un bloque entero (con lo que contiene).
+- **Misión z5m2 «El muro de piedra seca»** (5.º, La Isla Sostenible): seguir el muro con `repetir hasta meta [ si roca [girar der.] si no [avanzar] ]` y un paso final; óptimo 5, límite 8 (la solución sin «si» cuesta 8: el «si» es el objetivo de la estrella de eficiencia). Saberes `I.3.2`, `II.2.3`; criterios `3.2`, `6.1`: **mi propuesta**, no figura en `diseno.md`. La batería llega (14 órdenes) pero pierde la estrella sostenible.
+- **Validador:** el buscador genera `si … si no` dentro de `repetir`/`hasta` (marca `siEnBucle`) y confirma el óptimo 5.
+- **Ejecutado:** pruebas de Node (intérprete, misiones); en Chrome real `editar.py` (21), `muro.py` (pc y móvil: construir, límites de profundidad, mover el «si» entero, probar y llegar), `jugar`, `teclado`, `informe`, `isla`, `tactil`; sin errores de consola; validador estático 0 errores.
+- **No verificado:** táctil real; no hay prueba de teclado/Makey para armar un «si» (solo ratón y emulación); z5m2 con alumnado; las pistas no explican aún las condiciones.
+
 ## Primera subida al repositorio (17/11)
 - **Ejecutado antes de subir:** `node --check` de todos los JS; pruebas de Node del intérprete y de misiones; `build.py` desde el repositorio reproduce el mismo `index.html`; `tests/nav/editar.py` ejecutado desde la copia del repositorio.
 - **Añadido:** README, LICENSE.md (resumen con enlace al texto legal de CC BY-NC-ND 4.0; **no incluye el texto legal completo**), `.nojekyll`, `.gitignore`, fuentes con su licencia y `proyecto/`.
 - **No hecho:** activar GitHub Pages; imagen para compartir (`og-image.jpg`); abrir el enlace publicado y completar una misión en él (no se da nada por publicado).
 
 ## No hecho aún
-`si … si no` y bucles anidados en la interfaz; funciones y contadores; más misiones de 5.º y 6.º; sonido real; pistas afinadas para condiciones; el robot no gira su dibujo (solo la flecha).
+funciones y contadores; bucles dentro de bucles en una misión de 4.º (el motor y la interfaz lo permiten con `profundidad:2`); más misiones de 5.º y 6.º; sonido real; pistas afinadas para condiciones; el robot no gira su dibujo (solo la flecha).
 
 ## No verificado (global)
 Makey Makey físico y táctil real; 60 fps en tableta; sonido, tecla M, modo sin movimiento y texto grande a la vista; lista de pruebas manuales; PDF del informe visto página a página; z5m1 con alumnado de 5.º; qué parte de las misiones de 3.º resultó difícil.
@@ -61,4 +69,4 @@ Makey Makey físico y táctil real; 60 fps en tableta; sonido, tecla M, modo sin
 Decirme qué costó en la prueba de 3.º; probar la edición con arrastre en la tableta o el móvil del aula; comprobar la vigencia en Juriscan y un par de criterios contra el BOC; revisar z5m1; decir si se activa GitHub Pages.
 
 ## Siguiente paso
-Subir cada versión estable al repositorio. Después, `si … si no` y bucles anidados en la interfaz con una segunda misión de 5.º (aerogenerador de `diseno.md`); luego funciones y contadores para 6.º y el sonido real. Si los huecos resultan pequeños en táctil, ampliarlos.
+Subir cada versión estable al repositorio. Después, probar el armado de `si` por teclado, pistas para condiciones, funciones y contadores para 6.º y el sonido real. Si los huecos resultan pequeños en táctil, ampliarlos.

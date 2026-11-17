@@ -14,7 +14,7 @@ with sync_playwright() as pw:
     cdp=ctx.new_cdp_session(p)
     def cen(sel):
         b=p.query_selector(sel).bounding_box(); return b['x']+b['width']/2,b['y']+b['height']/2
-    x,y=cen('.pal [data-o="E"]'); x2,y2=cen('.tira .slot[data-i="1"][data-p=""]')
+    x,y=cen('.pal [data-o="E"]'); x2,y2=cen('.tira .slot[data-i="1"][data-c=""]')
     cdp.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[{'x':x,'y':y}]})
     for k in range(1,11): cdp.send('Input.dispatchTouchEvent',{'type':'touchMove','touchPoints':[{'x':x+(x2-x)*k/10,'y':y+(y2-y)*k/10}]})
     cdp.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]}); p.wait_for_timeout(200)

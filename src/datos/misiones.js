@@ -47,6 +47,17 @@ RL.misiones=[
  errores:{humedad:{cambio:{sen:'humedad'},fallo:'sinSensor'},regadera:{cambio:{her:'regadera'},fallo:'herramienta'}},
  porque:{sinSensor:'Para saber si hay una roca delante, el robot necesita la cámara. El sensor de humedad no la ve.',herramienta:'El interruptor se aprieta con la pinza; la regadera no sirve.',roca:'El robot ha chocado: «hasta roca» lo para delante de ella.',noLlega:'Recuerda girar a la derecha al llegar a la roca y seguir hasta la siguiente.',borde:'Fíjate en hacia dónde mira el robot al girar.'},
  bitacora:[{t:'Usé «repetir hasta roca» porque no sé cuántos pasos hay, y giré a la derecha.',ok:true},{t:'Giré a la izquierda porque es más fácil.',ok:false},{t:'Elegí el panel solar porque pesa menos.',ok:false}],
+ saberes:['I.3.2','II.2.3'],criterios:['3.2','6.1']},
+{id:'z5m2',zona:'isla',curso:5,ciclo:3,titulo:'El muro de piedra seca',
+ aviso:{quien:'Técnico del parque eólico',texto:'El interruptor de la turbina está en la esquina del cercado, pegado al muro de piedra seca. Hay que seguir el muro hasta llegar. ¿Programas el robot?',
+  datos:[{id:'muro',x:50,y:60,t:'El muro rodea todo el cercado: el robot lo detecta con la cámara cuando lo tiene delante.'},{id:'viento',x:78,y:14,t:'El viento sopla y el sol brilla: aquí hay energía renovable de sobra.'},{id:'interruptor',x:84,y:70,t:'El interruptor está en la esquina del cercado, al final del recorrido.'}]},
+ clima:'sol',rumbo:'N',tablero:['#######','#.....#','#.....#','#.....#','#.....#','#R###G#','#######'],lecturas:{},
+ meta:{tipo:'llegar',x:5,y:5,herramienta:'pinza'},ordenes:['A','GI','GD','repetir','hasta','si'],condiciones:['roca','meta'],limite:8,optimo:5,siEnBucle:true,profundidad:2,
+ diseno:{mov:'ruedas',ene:'solar',sen:'camara',her:'pinza'},energiaOK:'solar',
+ solucion:[{hasta:'meta',body:[{si:'roca',alto:['GD'],sino:['A']}]},{o:'A'}],
+ errores:{humedad:{cambio:{sen:'humedad'},fallo:'sinSensor'},regadera:{cambio:{her:'regadera'},fallo:'herramienta'}},
+ porque:{sinSensor:'Para saber si hay muro delante, el robot necesita la cámara.',herramienta:'El interruptor se aprieta con la pinza; la regadera no sirve.',roca:'El robot ha chocado: antes de avanzar hay que mirar si hay muro.',noLlega:'Repite «si hay roca, gira a la derecha; si no, avanza» hasta tener la meta delante. Luego da un último paso.',borde:'Fíjate en hacia dónde mira el robot al girar.',demasiados:'El programa no termina: ¿hasta cuándo se repite?'},
+ bitacora:[{t:'Repetí «si hay roca giro; si no, avanzo» porque el muro se repite en cada esquina.',ok:true},{t:'Escribí los pasos uno a uno porque no me fiaba.',ok:false},{t:'Elegí la batería porque es más fácil de montar.',ok:false}],
  saberes:['I.3.2','II.2.3'],criterios:['3.2','6.1']}
 ];
 RL.misiones.forEach(function(m){if(m.bancoLecturas){var v=m.bancoLecturas[0];m.ordenLecturas.forEach(function(k,i){m.lecturas[k]=v[i]})}});
