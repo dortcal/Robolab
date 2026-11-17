@@ -331,6 +331,19 @@ El prototipo jugable incluye misiones que sirvieron para probar mecánicas y que
 | z5p1 | Energía para el cuadro eléctrico (`repetir hasta roca`) | Extra de prototipo; no es la z5m1 «Apagón en la isla». |
 | z5p2 | El muro de piedra seca (`si … si no` dentro de `repetir hasta`) | Extra de prototipo; no figura en la sección 6. |
 
-**Propuesta pendiente de decisión (David):** conservar z3p3, z5p1 y z5p2 como retos extra del Reto rápido de cada zona, o retirarlos al escribir las misiones definitivas (fase 6). Las tres cumplen las reglas de diseño y tienen solución dentro del límite según el validador.
+**Decisión (David, 17/11/2026):** z3p3, z5p1 y z5p2 se **conservan como retos extra** del Reto rápido de cada zona. Cumplen las reglas de diseño y tienen solución dentro del límite según el validador. Por eso el Reto rápido de El Monteverde y de La Isla Sostenible ya tiene contenido desde el prototipo; en las demás zonas se escribirá en la fase 6 con el mismo formato (un tablero, tres a cuatro minutos).
 
 **Dificultad (17/11):** tras la prueba de 3.º se subieron los límites de órdenes (z3m1 12, z3m2 10, z3p3 12) sin tocar el óptimo.
+
+## 9. Pistas con condiciones y ampliación de 6.º (17/11/2026)
+
+### Pistas con condiciones (aplicado)
+Cuando el programa contiene `si` o `repetir hasta`, el segundo escalón de la pista añade qué tenía delante el robot en el paso donde se desvía («una roca», «camino libre», «barro», «la meta» o «el borde del tablero»). Así el alumnado compara lo que veía el sensor con la rama que se ejecutó, que es el error típico («confunde si con siempre que»). Sin condiciones el escalón 2 no cambia. Probado en `tests/interprete.test.js`.
+
+### Funciones y contadores (ampliación opcional de 6.º; propuesta, sin implementar)
+No vienen en el decreto (ver sección 2): son una ampliación declarada, solo en 6.º, que no se cita en ningún criterio ni condiciona las estrellas.
+
+- **Función.** Un bloque «Mi rutina» que se define una vez, con hasta 4 órdenes o condiciones dentro, y se llama por su nombre. Una función no puede llamar a otra (sin recursión). Coste: la definición cuenta 1 más su contenido; cada llamada cuenta 1. Objetivo: que la estrella de eficiencia premie reutilizar un tramo que se repite con variaciones, algo que un bucle no resuelve.
+- **Contador.** Una orden «contar» suma 1 a un contador del robot (por ejemplo, cúpulas revisadas) y una condición «contador < n» permite repetir hasta que llegue a n. Se muestra siempre en pantalla con su valor.
+- **Misión de ejemplo (propuesta z6p1, retos extra de la zona):** «Las cúpulas del observatorio». Cuatro cúpulas en las esquinas de un tablero 8×8: la rutina «revisar cúpula» (girar, avanzar, medir luz, volver) se llama cuatro veces con un giro entre medias. Solución óptima con función: definición (5) + `repetir 4 [llamar, GD]` (3) = 8; sin función, el programa largo no cabe en el límite.
+- **Pendiente:** ampliar el intérprete (`{llamar}` y `{contar}`), el validador y la interfaz (bloque de definición aparte de la tira principal). Cuesta algo más que una misión normal; se hace tras fijar con alumnado de 5.º que `si … si no` se entiende.

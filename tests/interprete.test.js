@@ -51,4 +51,11 @@ r=I.ejecutar(F,DC,[{rep:2,body:[{rep:3,body:['A']},'GD']}]);ok(r.traza.every(fun
 var FS=Object.assign({},F,{ordenes:['A','GI','GD','repetir','hasta','si'],condiciones:['roca'],anidado:true}),bs=V.buscar(FS,DC,7);
 ok(bs&&bs.coste===6,'validador de 3.er ciclo: óptimo 6 (girar, 5 avances, girar, 5 avances)');
 ok(V.buscar(FS,DC,5)===null,'validador de 3.er ciclo: no existe solución con coste 5');
+/* pistas con condiciones */
+(function(){var mz=M.filter(function(x){return x.id==='z5p2'})[0];
+ var prog=[{hasta:'meta',body:[{si:'roca',alto:['A'],sino:['GD']}]},{o:'A'}];
+ var r=I.ejecutar(mz,mz.diseno,prog),ps=I.pistas(mz,mz.diseno,prog,r);
+ ok(r.fallo&&ps&&/tenía delante/.test(ps[1].texto),'pistas con condiciones dicen qué había delante: '+(ps&&ps[1].texto));
+ var plano=[{o:'GD'}],r2=I.ejecutar(mz,mz.diseno,plano),p2=I.pistas(mz,mz.diseno,plano,r2);
+ ok(p2&&!/tenía delante/.test(p2[1].texto),'sin condiciones el escalón 2 no cambia')})();
 console.log(fallos?('\n'+fallos+' fallos'):'\nTodas las pruebas del intérprete pasan');process.exit(fallos?1:0);

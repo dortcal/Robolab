@@ -68,13 +68,19 @@ var TXT={
  sinSensor:'El sensor no sirve para medir aquí.',medirFuera:'El robot ha medido donde no hay poste.',
  herramienta:'El robot ha llegado, pero su herramienta no sirve para esto.',
  noLlega:'El programa ha terminado y el robot no ha llegado a la meta.',faltanMedidas:'Faltan puntos por medir.',demasiados:'El programa tiene demasiados pasos o no termina.'};
+/* Si el programa usa condiciones, el segundo escalón dice qué tenía delante el robot en ese paso. */
+function delante(m,ev,prog){
+ if(!ev||!ev.de||!ev.dir||!/"(si|hasta)":/.test(JSON.stringify(prog)))return'';
+ var v=DIR[ev.dir],k=celda(m,ev.de.x+v[0],ev.de.y+v[1]);
+ var t=k===null?'el borde del tablero':(k==='#'?'una roca':(k==='G'?'la meta':(k==='B'||k==='M'?'barro':'camino libre')));
+ return' En ese momento tenía delante '+t+'.'}
 /* Tres escalones: qué ha pasado, en qué paso se desvía, primera parte de la solución. */
 function pistas(m,d,prog,res){
  var f=res.fallo;if(!f)return null;
  var desv=primerDesvio(m,d,prog,res),n1=(f.tipo==='noLlega'||f.tipo==='faltanMedidas')?desv:f.paso;
  var sol=ejecutar(m,m.diseno,m.solucion).pasos.slice(0,2).map(function(s){return s.o}).join(' ');
  return[{nivel:1,texto:TXT[f.tipo]||'Algo ha salido mal.'},
-  {nivel:2,texto:'El robot se desvía en el paso '+(n1+1)+'.',paso:n1,ref:(res.pasos[n1]||{}).ref},
+  {nivel:2,texto:'El robot se desvía en el paso '+(n1+1)+'.'+delante(m,res.traza[n1],prog),paso:n1,ref:(res.pasos[n1]||{}).ref},
   {nivel:3,texto:(m.porque[f.tipo]||'')+' El programa empieza así: '+sol+'.',porque:m.porque[f.tipo]||''}]}
 RL.Interprete={flatten:flatten,coste:coste,ejecutar:ejecutar,primerDesvio:primerDesvio,pistas:pistas,inicio:inicio,postes:postes,celda:celda,capacidad:capacidad};
 if(typeof module!=='undefined')module.exports=RL.Interprete;
