@@ -1,6 +1,6 @@
 # RoboLab · Misión Archipiélago · Estado del proyecto
 
-**Última actualización:** 17/11/2026 (conversación 1, novena tanda)
+**Última actualización:** 17/11/2026 (conversación 1, décima tanda)
 **Fase 4 (prototipo de El Monteverde):** probada por David con alumnado de 3.º: **salió bien, algo difícil para el nivel**. Se da por superada la condición de salida con esa salvedad; no hay detalle de dónde costó.
 **Fase actual:** 5 · Motor completo (en curso). Hay motor, interfaz, una misión de 5.º y edición del programa en cualquier punto.
 **Dirección de arte:** A · Guagua (confirmada el 15/11 junto con Infantil en la fase 11). **No se tomó como confirmación de la vigencia del decreto ni de los criterios contra el BOC**, que siguen pendientes.
@@ -30,7 +30,7 @@ Criterios y saberes del segundo ciclo literales contra el PDF; ciclos 1 y 3 extr
 
 ## Fase 4 (resumen)
 Intérprete con traza y pistas de 3 escalones; validador; 3 misiones de 3.º con el bucle completo; guardado local sin datos personales; ajustes; informe imprimible.
-Misiones de 3.º: z3m1 «El helecho que se seca», z3m2 «La lluvia que no cae», z3m3 «El mirador del sendero». **z3m3 no coincide con z3m6 de diseno.md**: actualizar uno de los dos.
+Misiones de 3.º: z3m1 «El helecho que se seca», z3m2 «La lluvia que no cae», z3m3 «El mirador del sendero». (z3m3 pasó a llamarse z3p3 en la décima tanda: ya no choca con el diseño.)
 
 ## Fase 5: qué se hizo
 - **Intérprete recursivo:** `A`, `GI`/`GD`, bucles anidados, `si … si no` y `repetir hasta` con condiciones del sensor (`roca`, `barro`, `libre`, `meta`; necesitan la cámara). Corte de seguridad para bucles que no terminan.
@@ -45,6 +45,11 @@ Misiones de 3.º: z3m1 «El helecho que se seca», z3m2 «La lluvia que no cae»
 - **Alternativa sin arrastrar** (también teclado y Makey Makey): Espacio o toque sobre un bloque lo marca; tocar un hueco lo mueve allí; «borrar» quita solo ese bloque. Sin bloque marcado, «borrar» quita el anterior al cursor.
 - **Ejecutado:** `tests/nav/editar.py` (21 comprobaciones) con ratón en Chrome real; arrastre táctil emulado; regresión de las 3 misiones de 3.º, z5m1 e informe sin errores de consola; validador estático de la skill, 0 errores.
 - **No verificado:** táctil en móvil o tableta reales; Makey Makey físico; los huecos miden unos 30 px de ancho (menos de 44 px); no se ha probado con alumnado.
+
+## Décima tanda (17/11): diseño y teclado
+- **Códigos:** las misiones del prototipo que no están en `diseno.md` pasan a llevar «p»: z3m3→**z3p3**, z5m1→**z5p1**, z5m2→**z5p2**. z3m1 y z3m2 coinciden con el diseño. Así z3m3, z5m1 y z5m2 quedan libres para las misiones de la sección 6. Resuelve el desajuste z3m3/z3m6 anotado antes. Correspondencia en `diseno.md`, sección 8. Cualquier progreso guardado con los códigos antiguos queda huérfano (solo prototipo).
+- **Teclado:** `tests/nav/teclado_si.py` arma z5p2 solo con flechas y Espacio (incluida la rama «si no», «salir» y mover el «si» marcado): llega a la meta con 5 órdenes, sin errores de consola. **Sin verificar:** Makey Makey físico.
+- **Decisión pendiente (David):** qué hacer con z3p3, z5p1 y z5p2 (Reto rápido o retirar).
 
 ## Novena tanda (17/11): dificultad de 3.º
 - David: la prueba de 3.º fue buena, «quizás» bajar ligeramente la dificultad. Sin más detalle de dónde costó.

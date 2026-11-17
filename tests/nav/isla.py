@@ -7,7 +7,7 @@ with sync_playwright() as pw:
         p=b.new_page(viewport={'width':w,'height':h}); e=[]
         p.on('pageerror',lambda x:e.append(str(x))); p.on('console',lambda m: e.append(m.text) if m.type in('error','warning') else None)
         p.goto('file://'+RAIZ+'/index.html'); c=lambda s:p.click(s,timeout=3000,force=True)
-        c('[data-id="z5m1"]')
+        c('[data-id="z5p1"]')
         for i in p.evaluate('Array.from(document.querySelectorAll("[data-act=dato]")).map(e=>e.dataset.id)'): c(f'[data-act="dato"][data-id="{i}"]')
         p.wait_for_timeout(400); p.screenshot(path=f'/tmp/shots/isla_aviso_{nom}.png',full_page=True)
         c('[data-p="disena"]')

@@ -13,7 +13,7 @@ def pulsar(p,sel): ir_a(p,sel); p.keyboard.press(' '); p.wait_for_timeout(150)
 with sync_playwright() as pw:
     b=pw.chromium.launch(executable_path='/usr/bin/google-chrome',args=['--no-sandbox']); p=b.new_page(viewport={'width':820,'height':1100}); errs=[]
     p.on('pageerror',lambda e:errs.append(str(e))); p.goto(URL); p.wait_for_selector('.card.mis'); p.wait_for_timeout(400)
-    pulsar(p,'[data-id="z3m3"]')
+    pulsar(p,'[data-id="z3p3"]')
     for i in p.evaluate('Array.from(document.querySelectorAll("[data-act=dato]")).map(e=>e.dataset.id)'): pulsar(p,f'[data-act="dato"][data-id="{i}"]')
     pulsar(p,'[data-act="ir"][data-p="disena"]')
     for k,i in [('mov','patas'),('ene','solar'),('sen','camara'),('her','pinza')]: pulsar(p,f'[data-act="pieza"][data-k="{k}"][data-id="{i}"]')

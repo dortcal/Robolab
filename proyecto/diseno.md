@@ -318,3 +318,19 @@ Cada zona tiene seis misiones y un Gran Reto. Los límites de órdenes (≤n) so
 - **Aborígenes canarios y Edad Media o Moderna:** se redactarán con fuentes de museos o del cabildo, y con revisión tuya, antes de publicarlas.
 - **Tiempos de misión y límites de órdenes:** hipótesis; se miden en la fase 4 con alumnado.
 - **Nivel Semilla de Infantil:** decisión tomada (opcional, fase 11). Aún no se ha leído el Decreto 196/2022.
+
+## 8. Misiones del prototipo y misiones del diseño (17/11/2026)
+
+El prototipo jugable incluye misiones que sirvieron para probar mecánicas y que **no coinciden** con las de la sección 6. Para que sus códigos no choquen con las 42 previstas, llevan una «p» (prototipo) en lugar de la «m».
+
+| Código en el juego | Misión | Relación con la sección 6 |
+|---|---|---|
+| z3m1 | El helecho que se seca | Coincide con z3m1. |
+| z3m2 | La lluvia que no cae | Coincide con z3m2. |
+| z3p3 | El mirador del sendero (escalera con bucle) | Extra de prototipo; no es la z3m3 «Hielo, agua y vapor». |
+| z5p1 | Energía para el cuadro eléctrico (`repetir hasta roca`) | Extra de prototipo; no es la z5m1 «Apagón en la isla». |
+| z5p2 | El muro de piedra seca (`si … si no` dentro de `repetir hasta`) | Extra de prototipo; no figura en la sección 6. |
+
+**Propuesta pendiente de decisión (David):** conservar z3p3, z5p1 y z5p2 como retos extra del Reto rápido de cada zona, o retirarlos al escribir las misiones definitivas (fase 6). Las tres cumplen las reglas de diseño y tienen solución dentro del límite según el validador.
+
+**Dificultad (17/11):** tras la prueba de 3.º se subieron los límites de órdenes (z3m1 12, z3m2 10, z3p3 12) sin tocar el óptimo.

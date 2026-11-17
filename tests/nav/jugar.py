@@ -45,12 +45,12 @@ def sesion(p,tam,shot):
     ms=p.evaluate('RL.App._E.res.medidas.map(x=>x.v)'); i=ms.index(max(ms)); p.screenshot(path=f'/tmp/shots/{shot}_lectura.png')
     click(p,f'[data-act="barra"][data-i="{i}"]'); click(p,'[data-act="ir"][data-p="bitacora"]')
     ok=p.evaluate('RL.App._E.m.bitacora.findIndex(b=>b.ok)'); final(p,ok); print(tam,'z3m2 ok',ms)
-    # z3m3
-    montar(p,'z3m3',[('mov','patas'),('ene','solar'),('sen','camara'),('her','pinza')])
+    # z3p3
+    montar(p,'z3p3',[('mov','patas'),('ene','solar'),('sen','camara'),('her','pinza')])
     rep(p,5);ord_(p,'N');ord_(p,'E')
     click(p,'[data-act="probar"]'); esperar(p); assert p.evaluate('RL.App._E.res.meta===true')
     click(p,'[data-act="ir"][data-p="bitacora"]'); ok=p.evaluate('RL.App._E.m.bitacora.findIndex(b=>b.ok)'); final(p,ok)
-    print(tam,'z3m3 ok', p.evaluate('JSON.parse(localStorage.getItem("robolab.proto.v1")).estrellas'))
+    print(tam,'z3p3 ok', p.evaluate('JSON.parse(localStorage.getItem("robolab.proto.v1")).estrellas'))
 with sync_playwright() as pw:
     b=pw.chromium.launch(executable_path='/usr/bin/google-chrome',args=['--no-sandbox'])
     for tam,(w,h) in {'movil':(390,800),'tableta':(820,1100),'pc':(1280,800)}.items():
