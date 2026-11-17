@@ -41,7 +41,7 @@ h2{font-size:1.1rem;margin:.4rem 0}
 .ficha{margin:10px 0;padding:10px 14px;background:var(--paper);border:3px solid var(--ink);border-radius:16px;min-height:3.2em}
 .pred .fila,.fila{display:flex;gap:10px;flex-wrap:wrap}.fila .btn{width:auto;flex:1 1 170px}
 .prog{display:flex;gap:10px;align-items:stretch;margin:12px 0}
-.tira{flex:1;min-height:64px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px;background:var(--paper);border:3px solid var(--ink);border-radius:16px}
+.tira{flex:1;min-height:64px;display:flex;flex-direction:column;gap:6px;align-items:stretch;padding:8px;background:var(--paper);border:3px solid var(--ink);border-radius:16px}
 .cont{align-self:center;white-space:nowrap}
 .step{display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:44px;border:3px solid var(--ink);border-radius:12px;background:#FFF4D6;font:600 1.4rem Fredoka,sans-serif;transition:transform .15s,background .15s}
 .step.on{background:var(--amarillo);transform:scale(1.2)}
@@ -125,3 +125,8 @@ body.arrastrando,body.arrastrando *{cursor:grabbing!important}
 body.arrastrando .pal{outline:3px dashed var(--ink);outline-offset:4px}
 .nomotion .slot.cur .bar{animation:none}
 .tira .bucle{align-items:center}
+.linea{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.linea.rutina{padding:6px 8px;border:3px dashed var(--mar);border-radius:14px;background:#F3FAFE}
+.linea .et{font:700 .9rem Nunito,sans-serif;margin-right:4px}
+.step.llama{background:#D7EEFB}
+.cuenta{margin:.3rem 0;font:700 1.05rem Nunito,sans-serif}

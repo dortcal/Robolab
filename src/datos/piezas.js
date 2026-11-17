@@ -8,7 +8,8 @@
   {id:'solar',n:'Panel solar',f:'El panel solar transforma la luz del sol en electricidad. Con niebla casi no carga.'}]},
  sen:{nombre:'Sensor',op:[
   {id:'humedad',n:'Sensor de humedad',f:'Mide cuánta agua hay en el aire o en el suelo.'},
-  {id:'camara',n:'Cámara',f:'Hace fotos y reconoce lo que hay delante: roca, barro o camino libre. No mide la humedad.'}]},
+  {id:'camara',n:'Cámara',f:'Hace fotos y reconoce lo que hay delante: roca, barro o camino libre. No mide la humedad.'},
+  {id:'telescopio',n:'Telescopio',z:['cumbre'],f:'Los espejos y las lentes del telescopio recogen la poca luz de los astros y la hacen mayor. Sirve para observar el cielo de noche, no para ver el suelo.'}]},
  her:{nombre:'Herramienta',op:[
   {id:'regadera',n:'Regadera',f:'Echa agua a las plantas.'},
   {id:'pinza',n:'Pinza',f:'Agarra y coloca objetos pequeños, como un poste.'}]}};

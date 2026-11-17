@@ -1,6 +1,6 @@
 # RoboLab · Misión Archipiélago · Estado del proyecto
 
-**Última actualización:** 17/11/2026 (conversación 1, undécima tanda)
+**Última actualización:** 17/11/2026 (conversación 1, duodécima tanda)
 **Fase 4 (prototipo de El Monteverde):** probada por David con alumnado de 3.º: **salió bien, algo difícil para el nivel**. Se da por superada la condición de salida con esa salvedad; no hay detalle de dónde costó.
 **Fase actual:** 5 · Motor completo (en curso). Hay motor, interfaz, una misión de 5.º y edición del programa en cualquier punto.
 **Dirección de arte:** A · Guagua (confirmada el 15/11 junto con Infantil en la fase 11). **No se tomó como confirmación de la vigencia del decreto ni de los criterios contra el BOC**, que siguen pendientes.
@@ -46,6 +46,14 @@ Misiones de 3.º: z3m1 «El helecho que se seca», z3m2 «La lluvia que no cae»
 - **Ejecutado:** `tests/nav/editar.py` (21 comprobaciones) con ratón en Chrome real; arrastre táctil emulado; regresión de las 3 misiones de 3.º, z5m1 e informe sin errores de consola; validador estático de la skill, 0 errores.
 - **No verificado:** táctil en móvil o tableta reales; Makey Makey físico; los huecos miden unos 30 px de ancho (menos de 44 px); no se ha probado con alumnado.
 
+## Duodécima tanda (17/11): funciones y contadores implementados
+- **Motor:** `ejecutar(m,d,prog,fn)` y `coste(prog,fn)` con «Mi rutina» (`{llama}`), la orden `contar` (solo sobre una cúpula `C`, con telescopio), condiciones `cont=N` y meta `contar`. Casilla `C`, clima `noche` (el panel solar no carga) y batería por misión (`bateria`). `expandir()` sustituye las llamadas por la rutina para comparar costes.
+- **Validador:** con rutina comprueba la referencia, el coste óptimo y que sin la función no cabe; no busca exhaustivamente (ver `diseno.md`, sección 9).
+- **Interfaz:** zona «Mi rutina» bajo el programa (huecos, arrastrar, marcar y mover como el resto; una llamada no se puede meter en la rutina), botón «Mi rutina», orden «+1 contar», contador a la vista y animado; pieza **Telescopio** (solo en la cumbre, con dibujo en el robot); escena de la cumbre (noche violeta, estrellas, casillas violeta) y cúpulas.
+- **Misión z6p1 «Las cúpulas del observatorio»:** óptimo 13, límite 14, el mismo programa sin rutina cuesta 17. Saberes `III.1.1`, `II.2.3`; criterio `3.2`. **Mi propuesta**, no figura en `diseno.md` como misión numerada (es un extra).
+- **Ejecutado:** `interprete.test.js` y `misiones.test.js`; en Chrome real `cupulas.py` (pc y móvil, 13 comprobaciones cada uno, con capturas vistas). Regresión de las pruebas anteriores: ver el informe de la entrega.
+- **No verificado:** que el alumnado de 6.º entienda la rutina; Makey Makey (el teclado se probó con `si`, no con la rutina); las condiciones `cont=N` solo están probadas en el motor, no en pantalla; el óptimo con rutina no es una búsqueda exhaustiva.
+
 ## Undécima tanda (17/11): decisión y pistas
 - **Decisión de David:** z3p3, z5p1 y z5p2 **se conservan como retos extra** (Reto rápido). Anotado en `diseno.md`, sección 8.
 - **Pistas con condiciones:** el escalón 2 dice qué había delante del robot cuando el programa usa `si`/`hasta`. Prueba en `interprete.test.js`.
@@ -77,7 +85,7 @@ Misiones de 3.º: z3m1 «El helecho que se seca», z3m2 «La lluvia que no cae»
 - **No hecho:** activar GitHub Pages; imagen para compartir (`og-image.jpg`); abrir el enlace publicado y completar una misión en él (no se da nada por publicado).
 
 ## No hecho aún
-funciones y contadores; bucles dentro de bucles en una misión de 4.º (el motor y la interfaz lo permiten con `profundidad:2`); más misiones de 5.º y 6.º; sonido real; pistas afinadas para condiciones; el robot no gira su dibujo (solo la flecha).
+bucles dentro de bucles en una misión de 4.º (el motor y la interfaz lo permiten con `profundidad:2`); más misiones de 5.º y 6.º; sonido real; pistas afinadas para condiciones; el robot no gira su dibujo (solo la flecha).
 
 ## No verificado (global)
 Makey Makey físico y táctil real; 60 fps en tableta; sonido, tecla M, modo sin movimiento y texto grande a la vista; lista de pruebas manuales; PDF del informe visto página a página; z5m1 con alumnado de 5.º; qué parte de las misiones de 3.º resultó difícil.

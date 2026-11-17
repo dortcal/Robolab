@@ -33,15 +33,25 @@ function validar(m,cur){
   m.criterios.forEach(function(c){if(!C.criterios[c])e.push(m.id+': criterio '+c+' no existe en el ciclo '+m.ciclo)})}
  m.criterios.forEach(function(c){if(c==='3.1'||c==='3.3')e.push(m.id+': el criterio cooperativo '+c+' solo se cita en modo pareja')});
  if(m.ciclo===2&&JSON.stringify(m.solucion).indexOf('"rep":')>=0&&m.solucion.some(function(it){return it.rep&&it.body.some(function(b){return typeof b!=='string'})}))e.push(m.id+': bucles anidados no permitidos en 3.º y 4.º');
- var r=I.ejecutar(m,m.diseno,m.solucion);
+ var r=I.ejecutar(m,m.diseno,m.solucion,m.rutina);
  if(r.fallo||!r.meta)e.push(m.id+': la solución de referencia no cumple la misión ('+(r.fallo&&r.fallo.tipo)+')');
- if(I.coste(m.solucion)>m.limite)e.push(m.id+': la solución de referencia ('+I.coste(m.solucion)+') supera el límite '+m.limite);
- var b=buscar(m,m.diseno,m.limite);
- if(!b)e.push(m.id+': no hay solución dentro del límite '+m.limite);
+ var cs=I.coste(m.solucion,m.rutina);
+ if(cs>m.limite)e.push(m.id+': la solución de referencia ('+cs+') supera el límite '+m.limite);
+ var b;
+ if(m.rutina){
+  /* Con «Mi rutina» no se busca exhaustivamente (el espacio es enorme): se comprueba la solución de referencia y que, sin la función, el mismo programa no cabe en el límite. */
+  b={coste:cs,programa:m.solucion};
+  var sin=I.coste(I.expandir(m.solucion,m.rutina));
+  if(sin<=m.limite)e.push(m.id+': la función no hace falta: el programa sin ella cuesta '+sin+' y el límite es '+m.limite);
+  if(m.ordenes.indexOf('llamar')<0)e.push(m.id+': tiene rutina pero no ofrece «llamar»');
+  if(cs!==m.optimo)e.push(m.id+': óptimo declarado '+m.optimo+' pero la referencia cuesta '+cs)}
+ else b=buscar(m,m.diseno,m.limite);
+ if(m.rutina){}
+ else if(!b)e.push(m.id+': no hay solución dentro del límite '+m.limite);
  else if(b.coste!==m.optimo)e.push(m.id+': óptimo declarado '+m.optimo+' pero el buscador halla '+b.coste);
  /* cada «porque» debe ocurrir de verdad con la pieza equivocada */
  Object.keys(m.errores||{}).forEach(function(k){
-  var x=m.errores[k],d=Object.assign({},m.diseno,x.cambio),rr=I.ejecutar(m,d,m.solucion);
+  var x=m.errores[k],d=Object.assign({},m.diseno,x.cambio),rr=I.ejecutar(m,d,m.solucion,m.rutina);
   if(!rr.fallo||rr.fallo.tipo!==x.fallo)e.push(m.id+': con '+JSON.stringify(x.cambio)+' se esperaba el fallo '+x.fallo+' y ocurre '+(rr.fallo&&rr.fallo.tipo))});
  /* la solución debe pedir bucle si el límite no deja otra cosa */
  if(m.ordenes.indexOf('repetir')<0&&m.exigeBucle)e.push(m.id+': exige bucle pero no ofrece «repetir»');

@@ -10,7 +10,7 @@ RL.misiones.forEach(function(m){
  (m.bancoLecturas||[]).forEach(function(v,i){var mm=Object.assign({},m,{lecturas:{}});m.ordenLecturas.forEach(function(k,j){mm.lecturas[k]=v[j]});
   var x=RL.Interprete.ejecutar(mm,m.diseno,m.solucion);ok(!x.fallo&&x.meta&&x.medidas.length===4,m.id+' banco '+i+' completa')});
  /* en 3.º las órdenes no pasan del segundo ciclo */
- var perm=m.ciclo===2?['N','S','E','O','medir','repetir']:['A','GI','GD','N','S','E','O','medir','repetir','hasta','si'];
+ var perm=m.ciclo===2?['N','S','E','O','medir','repetir']:['A','GI','GD','N','S','E','O','medir','contar','llamar','repetir','hasta','si'];
  ok(m.ordenes.every(function(o){return perm.indexOf(o)>=0})&&(m.ciclo===3||!m.condiciones),m.id+' órdenes del ciclo '+m.ciclo);
 });
 /* Piezas del prototipo existen */

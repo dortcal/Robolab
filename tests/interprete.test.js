@@ -58,4 +58,23 @@ ok(V.buscar(FS,DC,5)===null,'validador de 3.er ciclo: no existe solución con co
  ok(r.fallo&&ps&&/tenía delante/.test(ps[1].texto),'pistas con condiciones dicen qué había delante: '+(ps&&ps[1].texto));
  var plano=[{o:'GD'}],r2=I.ejecutar(mz,mz.diseno,plano),p2=I.pistas(mz,mz.diseno,plano,r2);
  ok(p2&&!/tenía delante/.test(p2[1].texto),'sin condiciones el escalón 2 no cambia')})();
+/* rutina, llamada y contador */
+(function(){var mz=M.filter(function(x){return x.id==='z6p1'})[0],d=mz.diseno;
+ var r=I.ejecutar(mz,d,mz.solucion,mz.rutina);
+ ok(r.meta&&r.cuenta===4&&r.coste===13,'z6p1: la solución con rutina cuenta 4 cúpulas con coste 13');
+ ok(I.coste(I.expandir(mz.solucion,mz.rutina))===17,'sin la rutina el mismo programa cuesta 17');
+ ok(I.ejecutar(mz,d,I.expandir(mz.solucion,mz.rutina)).meta,'el programa expandido hace lo mismo');
+ var v=I.ejecutar(mz,d,[{llama:1}]);ok(v.fallo&&v.fallo.tipo==='sinRutina','llamar a una rutina vacía falla');
+ var rr=I.ejecutar(mz,d,[{llama:1}],[{llama:1}]);ok(rr.fallo&&rr.fallo.tipo==='rutinaEnRutina','una rutina no llama a otra');
+ var cf=I.ejecutar(mz,d,[{o:'contar'}]);ok(cf.fallo&&cf.fallo.tipo==='contarFuera','contar fuera de una cúpula falla');
+ var ss=I.ejecutar(mz,Object.assign({},d,{sen:'camara'}),[{o:'A'},{o:'A'},{o:'contar'}]);ok(ss.fallo&&ss.fallo.tipo==='sinSensor','contar sin telescopio falla');
+ var ec=I.ejecutar(mz,Object.assign({},d,{ene:'solar'}),mz.solucion,mz.rutina);ok(ec.fallo&&ec.fallo.tipo==='sinEnergia','de noche el panel solar no llega');
+ /* condición del contador: repetir hasta contar 2 */
+ var mm=Object.assign({},mz,{tablero:['........','........','........','........','.C.C....','........','.R......','........']});
+ var h=I.ejecutar(mm,d,[{rep:2,body:[{o:'A'},{o:'A'},{o:'contar'}]},{hasta:'cont=2',body:[{o:'GD'}]}]);
+ ok(h.cuenta===2||h.fallo,'el contador se acumula entre llamadas ('+h.cuenta+')');
+ var h2=I.ejecutar(mz,d,[{o:'A'},{o:'A'},{o:'contar'},{si:'cont=1',alto:['GD'],sino:['GI']}]);
+ ok(h2.dir==='E'||h2.dir==='O','«si cont=1» se evalúa sin cámara ('+h2.dir+')');
+ var h3=I.ejecutar(mz,d,[{o:'A'},{o:'A'},{o:'contar'},{si:'cont=1',alto:['GD'],sino:['GI']}]);
+ ok(h3.dir==='E','con un contador en 1 se toma la rama «entonces»')})();
 console.log(fallos?('\n'+fallos+' fallos'):'\nTodas las pruebas del intérprete pasan');process.exit(fallos?1:0);

@@ -21,5 +21,14 @@ function monteverde(w,h,niebla){
  s+='<rect x="0" y="360" width="'+w+'" height="'+(h-360)+'" fill="'+shade(P.grass,-.25)+'"/>';
  return s}
 function lluvia(){var s='<g opacity=".8">';for(var i=0;i<22;i++)s+='<line class="drop" style="animation-delay:'+(-i*.14)+'s" x1="'+(i*42+10)+'" y1="40" x2="'+(i*42+4)+'" y2="58" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>';return s+'</g>'}
-RL.Fondos={isla:isla,monteverde:monteverde,lluvia:lluvia};
+function cumbre(w,h){
+ var s='<defs><linearGradient id="skyC" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B1445"/><stop offset=".6" stop-color="#4B3A8C"/><stop offset="1" stop-color="#8A6FC0"/></linearGradient></defs>';
+ s+='<rect width="'+w+'" height="'+h+'" fill="url(#skyC)"/>';
+ for(var i=0;i<46;i++){var x=(i*97)%w,y=(i*53)%260;s+='<circle cx="'+x+'" cy="'+y+'" r="'+(1+(i%3)*.7)+'" fill="#FFF8D6" opacity="'+(.5+(i%4)*.12)+'"/>'}
+ s+='<path d="M-20 90Q300 40 900 120" stroke="#E9DFFF" stroke-width="26" fill="none" opacity=".12" stroke-linecap="round"/>';
+ s+='<g class="par" data-p="8"><path d="M-40 300q150-60 300-10t280-30q160-40 320 20v120H-40z" fill="#EDE8F7" opacity=".85"/><path d="M-40 330q160-40 320 0t300-20q140-20 320 20v100H-40z" fill="#D5CDEB"/></g>';
+ s+='<g class="par" data-p="16"><path d="M-40 360q140-60 300-20t300-30q160-30 320 30v120H-40z" fill="#3A2F63"/></g>';
+ s+='<rect x="0" y="400" width="'+w+'" height="'+(h-400)+'" fill="#2A2252"/>';
+ return s}
+RL.Fondos={isla:isla,monteverde:monteverde,lluvia:lluvia,cumbre:cumbre};
 })(globalThis.RL=globalThis.RL||{});

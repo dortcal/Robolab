@@ -23,6 +23,7 @@ function robot(d,ojosT,mover){var s='',met=P.metal;
  else{s+=rr(22,92,30,44,8,P.monte)+rr(31,86,12,8,3,shade(met,.1))+'<path d="M38 104l-8 14h7l-3 12 11-17h-7l3-9z" fill="#FFF" opacity=".95"/>'}
  s+=rr(52,62,96,92,24,P.body)+rr(62,74,76,52,14,P.screen)+ojos(ojosT||'reposo')+'<rect x="76" y="136" width="48" height="8" rx="4" fill="'+shade(P.body,-.3)+'" opacity=".7"/>';
  if(d.sen==='humedad'){s+='<rect x="97" y="38" width="6" height="26" fill="'+shade(met,-.3)+'"/><path d="M100 4q-13 17-13 25a13 13 0 0 0 26 0q0-8-13-25z" fill="'+P.mar+'" '+SW+'/><path d="M94 28a6 6 0 0 0 5 6" stroke="#FFF" stroke-width="3" fill="none" stroke-linecap="round"/>'}
+ else if(d.sen==='telescopio'){s+='<rect x="96" y="50" width="8" height="14" fill="'+shade(met,-.3)+'"/><g transform="rotate(-28 100 52)"><rect x="88" y="6" width="24" height="48" rx="7" fill="'+P.mar+'" '+SW+'/><rect x="84" y="4" width="32" height="10" rx="4" fill="'+shade(P.mar,-.25)+'" '+SW+'/><circle cx="100" cy="9" r="5" fill="'+P.screen+'"/></g>'}
  else{s+='<rect x="96" y="44" width="8" height="20" fill="'+shade(met,-.3)+'"/>'+circ(100,38,15,met,'')+circ(100,38,7,P.screen,'')+'<circle cx="97" cy="35" r="2.4" fill="#fff"/>'}
  s+=rr(146,100,22,12,6,shade(met,-.1));
  if(d.her==='regadera'){s+=rr(166,92,28,26,7,P.mar)+'<path d="M194 102l14-9" '+SW+' fill="none"/><rect x="206" y="86" width="8" height="10" rx="2" fill="'+P.amarillo+'" '+SW+'/><path d="M170 92q8-14 16 0" fill="none" '+SW+'/>'}

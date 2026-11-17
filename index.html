@@ -50,7 +50,7 @@ h2{font-size:1.1rem;margin:.4rem 0}
 .ficha{margin:10px 0;padding:10px 14px;background:var(--paper);border:3px solid var(--ink);border-radius:16px;min-height:3.2em}
 .pred .fila,.fila{display:flex;gap:10px;flex-wrap:wrap}.fila .btn{width:auto;flex:1 1 170px}
 .prog{display:flex;gap:10px;align-items:stretch;margin:12px 0}
-.tira{flex:1;min-height:64px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px;background:var(--paper);border:3px solid var(--ink);border-radius:16px}
+.tira{flex:1;min-height:64px;display:flex;flex-direction:column;gap:6px;align-items:stretch;padding:8px;background:var(--paper);border:3px solid var(--ink);border-radius:16px}
 .cont{align-self:center;white-space:nowrap}
 .step{display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:44px;border:3px solid var(--ink);border-radius:12px;background:#FFF4D6;font:600 1.4rem Fredoka,sans-serif;transition:transform .15s,background .15s}
 .step.on{background:var(--amarillo);transform:scale(1.2)}
@@ -134,6 +134,11 @@ body.arrastrando,body.arrastrando *{cursor:grabbing!important}
 body.arrastrando .pal{outline:3px dashed var(--ink);outline-offset:4px}
 .nomotion .slot.cur .bar{animation:none}
 .tira .bucle{align-items:center}
+.linea{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.linea.rutina{padding:6px 8px;border:3px dashed var(--mar);border-radius:14px;background:#F3FAFE}
+.linea .et{font:700 .9rem Nunito,sans-serif;margin-right:4px}
+.step.llama{background:#D7EEFB}
+.cuenta{margin:.3rem 0;font:700 1.05rem Nunito,sans-serif}
 
 </style>
 </head>
@@ -192,7 +197,8 @@ if(typeof module!=='undefined')module.exports=RL.curriculo;})(globalThis.RL=glob
   {id:'solar',n:'Panel solar',f:'El panel solar transforma la luz del sol en electricidad. Con niebla casi no carga.'}]},
  sen:{nombre:'Sensor',op:[
   {id:'humedad',n:'Sensor de humedad',f:'Mide cuánta agua hay en el aire o en el suelo.'},
-  {id:'camara',n:'Cámara',f:'Hace fotos y reconoce lo que hay delante: roca, barro o camino libre. No mide la humedad.'}]},
+  {id:'camara',n:'Cámara',f:'Hace fotos y reconoce lo que hay delante: roca, barro o camino libre. No mide la humedad.'},
+  {id:'telescopio',n:'Telescopio',z:['cumbre'],f:'Los espejos y las lentes del telescopio recogen la poca luz de los astros y la hacen mayor. Sirve para observar el cielo de noche, no para ver el suelo.'}]},
  her:{nombre:'Herramienta',op:[
   {id:'regadera',n:'Regadera',f:'Echa agua a las plantas.'},
   {id:'pinza',n:'Pinza',f:'Agarra y coloca objetos pequeños, como un poste.'}]}};
@@ -259,7 +265,19 @@ RL.misiones=[
  errores:{humedad:{cambio:{sen:'humedad'},fallo:'sinSensor'},regadera:{cambio:{her:'regadera'},fallo:'herramienta'}},
  porque:{sinSensor:'Para saber si hay muro delante, el robot necesita la cámara.',herramienta:'El interruptor se aprieta con la pinza; la regadera no sirve.',roca:'El robot ha chocado: antes de avanzar hay que mirar si hay muro.',noLlega:'Repite «si hay roca, gira a la derecha; si no, avanza» hasta tener la meta delante. Luego da un último paso.',borde:'Fíjate en hacia dónde mira el robot al girar.',demasiados:'El programa no termina: ¿hasta cuándo se repite?'},
  bitacora:[{t:'Repetí «si hay roca giro; si no, avanzo» porque el muro se repite en cada esquina.',ok:true},{t:'Escribí los pasos uno a uno porque no me fiaba.',ok:false},{t:'Elegí la batería porque es más fácil de montar.',ok:false}],
- saberes:['I.3.2','II.2.3'],criterios:['3.2','6.1']}
+ saberes:['I.3.2','II.2.3'],criterios:['3.2','6.1']},
+{id:'z6p1',zona:'cumbre',curso:6,ciclo:3,titulo:'Las cúpulas del observatorio',
+ aviso:{quien:'Astrónomo del observatorio',texto:'Esta noche hay que revisar las cuatro cúpulas del observatorio y contarlas en el registro. El camino tiene tramos distintos, pero en cada cúpula se hace lo mismo: avanzar dos pasos y contar. ¿Programas el robot?',
+  datos:[{id:'noche',x:78,y:14,t:'Es de noche: el panel solar no carga. La batería sí funciona.'},{id:'cupulas',x:50,y:52,t:'Hay cuatro cúpulas. En cada una el robot repite lo mismo: avanzar dos pasos y contar.'},{id:'luz',x:16,y:70,t:'Se han apagado las farolas para ver mejor las estrellas: la contaminación lumínica las taparía.'}]},
+ clima:'noche',bateria:18,rumbo:'N',tablero:['........','........','....C..C','........','.C..C...','........','.R....#.','......#.'],lecturas:{},
+ meta:{tipo:'contar'},ordenes:['A','GI','GD','contar','llamar','repetir'],limite:14,optimo:13,
+ diseno:{mov:'ruedas',ene:'bateria',sen:'telescopio',her:'pinza'},energiaOK:'bateria',
+ rutina:[{o:'A'},{o:'A'},{o:'contar'}],
+ solucion:[{llama:1},{o:'GD'},{o:'A'},{llama:1},{o:'GI'},{llama:1},{o:'GD'},{o:'A'},{llama:1}],
+ errores:{solar:{cambio:{ene:'solar'},fallo:'sinEnergia'},camara:{cambio:{sen:'camara'},fallo:'sinSensor'}},
+ porque:{sinEnergia:'De noche el panel solar no carga. La batería sí funciona.',sinSensor:'La cámara no distingue las cúpulas en la oscuridad. El telescopio recoge la poca luz de los astros.',contarFuera:'Solo se cuenta encima de una cúpula.',faltanCupulas:'Hay cuatro cúpulas y hay que contar en todas.',borde:'Fíjate en hacia dónde mira el robot al girar.',sinRutina:'Escribe algo dentro de «Mi rutina» antes de llamarla.',rutinaEnRutina:'Una rutina no puede llamar a otra rutina.',noLlega:'Fíjate en lo que se repite en cada cúpula y escríbelo una sola vez en «Mi rutina».'},
+ bitacora:[{t:'Escribí «avanzar, avanzar, contar» una sola vez en una rutina y la llamé en cada cúpula.',ok:true},{t:'Copié los mismos pasos cuatro veces porque no sabía otra forma.',ok:false},{t:'Elegí el panel solar porque es más ecológico, aunque sea de noche.',ok:false}],
+ saberes:['III.1.1','II.2.3'],criterios:['3.2']}
 ];
 RL.misiones.forEach(function(m){if(m.bancoLecturas){var v=m.bancoLecturas[0];m.ordenLecturas.forEach(function(k,i){m.lecturas[k]=v[i]})}});
 })(globalThis.RL=globalThis.RL||{});
@@ -269,20 +287,29 @@ RL.misiones.forEach(function(m){if(m.bancoLecturas){var v=m.bancoLecturas[0];m.o
 var DIR={N:[0,-1],S:[0,1],E:[1,0],O:[-1,0]},GIRO={GD:{N:'E',E:'S',S:'O',O:'N'},GI:{N:'O',O:'S',S:'E',E:'N'}};
 /* Un elemento del programa: {o}, {rep,body}, {si,alto,sino} o {hasta,body}. En un cuerpo se admite además la orden como texto. */
 function norm(x){return typeof x==='string'?{o:x}:x}
-function coste(prog){return prog.reduce(function(a,it){it=norm(it);
+/* Coste del programa; si hay «Mi rutina» (fn) con contenido, su definición cuenta 1 más sus órdenes y cada llamada cuenta 1. */
+function coste(prog,fn){return prog.reduce(function(a,it){it=norm(it);
  if(it.rep||it.hasta)return a+1+coste(it.body);
- if(it.si)return a+1+coste(it.alto||[])+coste(it.sino||[]);return a+1},0)}
+ if(it.si)return a+1+coste(it.alto||[])+coste(it.sino||[]);return a+1},0)+(fn&&fn.length?1+coste(fn):0)}
+/* Programa equivalente con cada llamada sustituida por el contenido de la rutina (para comparar con y sin función). */
+function expandir(prog,fn){function ex(L){var o=[];L.forEach(function(x){var it=norm(x);
+  if(it.llama)(fn||[]).forEach(function(y){o.push(y)});
+  else if(it.rep||it.hasta){var c=Object.assign({},it);c.body=ex(it.body);o.push(c)}
+  else if(it.si){var c2=Object.assign({},it);c2.alto=ex(it.alto||[]);c2.sino=ex(it.sino||[]);o.push(c2)}
+  else o.push(x)});return o}return ex(prog)}
 function celda(m,x,y){var f=m.tablero[y];if(!f||x<0||y<0||x>=f.length)return null;return f.charAt(x)}
 function inicio(m){for(var y=0;y<m.tablero.length;y++){var x=m.tablero[y].indexOf('R');if(x>=0)return{x:x,y:y}}}
 function postes(m){var p=[];m.tablero.forEach(function(f,y){for(var x=0;x<f.length;x++)if('HM'.indexOf(f[x])>=0)p.push({x:x,y:y})});return p}
-function capacidad(m,d){return d.ene==='bateria'?14:(m.clima==='niebla'?3:30)}
+function cupulas(m){var p=[];m.tablero.forEach(function(f,y){for(var x=0;x<f.length;x++)if(f[x]==='C')p.push({x:x,y:y})});return p}
+function capacidad(m,d){return d.ene==='bateria'?(m.bateria||14):((m.clima==='niebla'||m.clima==='noche')?3:30)}
 /* Ejecuta el programa con el diseño dado. Devuelve la traza y, si falla, dónde y por qué.
    Las condiciones (si / hasta) se evalúan con el sensor: «roca», «barro», «libre» y «meta» miran la casilla de enfrente y necesitan la cámara. */
-function ejecutar(m,d,prog){
- var p=inicio(m),dir=m.rumbo||'N',cap=capacidad(m,d),tr=[],pasos=[],med=[],fallo=null,i=0,LIM=200,exceso=false;
+function ejecutar(m,d,prog,fn){
+ var p=inicio(m),dir=m.rumbo||'N',cap=capacidad(m,d),tr=[],pasos=[],med=[],fallo=null,i=0,LIM=200,exceso=false,cnt=0,cup=[],enFn=false;
  function fail(t,ref,ev){fallo={tipo:t,paso:i,ref:ref};if(ev)ev.fallo=t}
  function delante(){var v=DIR[dir];return{x:p.x+v[0],y:p.y+v[1]}}
  function cond(c,ref){
+  var mc=/^cont=(\d+)$/.exec(c);if(mc)return cnt>=+mc[1];
   if(d.sen!=='camara'){fail('sinSensor',ref);return null}
   var q=delante(),k=celda(m,q.x,q.y);
   if(c==='roca')return k==='#';if(c==='barro')return k==='B'||k==='M';
@@ -291,6 +318,12 @@ function ejecutar(m,d,prog){
   var ev={i:i,o:o,ref:ref,de:{x:p.x,y:p.y},dir:dir};pasos.push({o:o,ref:ref});
   if(i>=cap){fail('sinEnergia',ref,ev);ev.a={x:p.x,y:p.y};tr.push(ev);i++;return}
   if(o==='GD'||o==='GI'){dir=GIRO[o][dir];ev.a={x:p.x,y:p.y};ev.dir=dir;ev.giro=o;tr.push(ev);i++;return}
+  if(o==='contar'){
+   var cc=celda(m,p.x,p.y);
+   if(d.sen!=='telescopio')fail('sinSensor',ref,ev);
+   else if(cc!=='C')fail('contarFuera',ref,ev);
+   else{cnt++;if(!cup.some(function(q){return q.x===p.x&&q.y===p.y}))cup.push({x:p.x,y:p.y});ev.cuenta=cnt}
+   ev.a={x:p.x,y:p.y};tr.push(ev);i++;return}
   if(o==='medir'){
    var c=celda(m,p.x,p.y);
    if(d.sen!=='humedad')fail('sinSensor',ref,ev);
@@ -309,6 +342,7 @@ function ejecutar(m,d,prog){
    if(i>LIM){exceso=true;return}
    if(it.rep){for(var r=0;r<it.rep&&!fallo&&!exceso;r++)correr(it.body,ref)}
    else if(it.hasta){var g=0;while(!fallo&&!exceso){var c=cond(it.hasta,ref);if(fallo||c)break;if(++g>60||i>LIM){exceso=true;break}correr(it.body,ref)}}
+   else if(it.llama){if(!fn||!fn.length)fail('sinRutina',ref);else if(enFn)fail('rutinaEnRutina',ref);else{enFn=true;correr(fn,['f']);enFn=false}}
    else if(it.si){var c2=cond(it.si,ref);if(!fallo){var br=c2?0:1;correr((c2?it.alto:it.sino)||[],ref.concat(br))}}
    else orden(it.o,ref)}}
  correr(prog,[]);
@@ -320,12 +354,15 @@ function ejecutar(m,d,prog){
    else fallo={tipo:'noLlega',paso:pasos.length-1,ref:ult}}
   else if(g.tipo==='medir'){
    var ok=postes(m).every(function(q){return med.some(function(z){return z.x===q.x&&z.y===q.y})});
-   if(ok)meta=true;else fallo={tipo:'faltanMedidas',paso:pasos.length-1,ref:ult}}}
- return{pasos:pasos,traza:tr,fallo:fallo,medidas:med,meta:meta,coste:coste(prog),fin:p,dir:dir}}
+   if(ok)meta=true;else fallo={tipo:'faltanMedidas',paso:pasos.length-1,ref:ult}}
+  else if(g.tipo==='contar'){
+   var okc=cupulas(m).every(function(q){return cup.some(function(z){return z.x===q.x&&z.y===q.y})});
+   if(okc)meta=true;else fallo={tipo:'faltanCupulas',paso:pasos.length-1,ref:ult}}}
+ return{pasos:pasos,traza:tr,fallo:fallo,medidas:med,meta:meta,coste:coste(prog,fn),fin:p,dir:dir,cuenta:cnt,cupulas:cup}}
 function flatten(prog){return ejecutarSolo(prog)}
 function ejecutarSolo(prog){var o=[];(function f(items,path){items.forEach(function(x,k){var it=norm(x),ref=path.concat(k);if(it.rep){for(var r=0;r<it.rep;r++)f(it.body,ref)}else if(it.o)o.push({o:it.o,ref:ref})})})(prog,[]);return o}
 function primerDesvio(m,d,prog,res){
- var ref=ejecutar(m,m.diseno,m.solucion).traza,k;
+ var ref=ejecutar(m,m.diseno,m.solucion,m.rutina).traza,k;
  for(k=0;k<res.traza.length;k++){var a=res.traza[k].a,b=ref[k]&&ref[k].a;if(!b||!a||a.x!==b.x||a.y!==b.y)return k}
  return res.traza.length?res.traza.length-1:0}
 var TXT={
@@ -333,7 +370,7 @@ var TXT={
  roca:'El robot ha chocado con una roca.',borde:'El robot se ha salido del tablero.',
  sinSensor:'El sensor no sirve para medir aquí.',medirFuera:'El robot ha medido donde no hay poste.',
  herramienta:'El robot ha llegado, pero su herramienta no sirve para esto.',
- noLlega:'El programa ha terminado y el robot no ha llegado a la meta.',faltanMedidas:'Faltan puntos por medir.',demasiados:'El programa tiene demasiados pasos o no termina.'};
+ noLlega:'El programa ha terminado y el robot no ha llegado a la meta.',faltanMedidas:'Faltan puntos por medir.',contarFuera:'El robot ha contado donde no hay cúpula.',faltanCupulas:'Faltan cúpulas por contar.',sinRutina:'Has llamado a «Mi rutina», pero está vacía.',rutinaEnRutina:'Una rutina no puede llamar a otra rutina.',demasiados:'El programa tiene demasiados pasos o no termina.'};
 /* Si el programa usa condiciones, el segundo escalón dice qué tenía delante el robot en ese paso. */
 function delante(m,ev,prog){
  if(!ev||!ev.de||!ev.dir||!/"(si|hasta)":/.test(JSON.stringify(prog)))return'';
@@ -343,12 +380,12 @@ function delante(m,ev,prog){
 /* Tres escalones: qué ha pasado, en qué paso se desvía, primera parte de la solución. */
 function pistas(m,d,prog,res){
  var f=res.fallo;if(!f)return null;
- var desv=primerDesvio(m,d,prog,res),n1=(f.tipo==='noLlega'||f.tipo==='faltanMedidas')?desv:f.paso;
- var sol=ejecutar(m,m.diseno,m.solucion).pasos.slice(0,2).map(function(s){return s.o}).join(' ');
+ var desv=primerDesvio(m,d,prog,res),n1=(f.tipo==='noLlega'||f.tipo==='faltanMedidas'||f.tipo==='faltanCupulas')?desv:f.paso;
+ var sol=ejecutar(m,m.diseno,m.solucion,m.rutina).pasos.slice(0,2).map(function(s){return s.o}).join(' ');
  return[{nivel:1,texto:TXT[f.tipo]||'Algo ha salido mal.'},
   {nivel:2,texto:'El robot se desvía en el paso '+(n1+1)+'.'+delante(m,res.traza[n1],prog),paso:n1,ref:(res.pasos[n1]||{}).ref},
   {nivel:3,texto:(m.porque[f.tipo]||'')+' El programa empieza así: '+sol+'.',porque:m.porque[f.tipo]||''}]}
-RL.Interprete={flatten:flatten,coste:coste,ejecutar:ejecutar,primerDesvio:primerDesvio,pistas:pistas,inicio:inicio,postes:postes,celda:celda,capacidad:capacidad};
+RL.Interprete={flatten:flatten,coste:coste,expandir:expandir,cupulas:cupulas,ejecutar:ejecutar,primerDesvio:primerDesvio,pistas:pistas,inicio:inicio,postes:postes,celda:celda,capacidad:capacidad};
 if(typeof module!=='undefined')module.exports=RL.Interprete;
 })(globalThis.RL=globalThis.RL||{});
 
@@ -387,15 +424,25 @@ function validar(m,cur){
   m.criterios.forEach(function(c){if(!C.criterios[c])e.push(m.id+': criterio '+c+' no existe en el ciclo '+m.ciclo)})}
  m.criterios.forEach(function(c){if(c==='3.1'||c==='3.3')e.push(m.id+': el criterio cooperativo '+c+' solo se cita en modo pareja')});
  if(m.ciclo===2&&JSON.stringify(m.solucion).indexOf('"rep":')>=0&&m.solucion.some(function(it){return it.rep&&it.body.some(function(b){return typeof b!=='string'})}))e.push(m.id+': bucles anidados no permitidos en 3.º y 4.º');
- var r=I.ejecutar(m,m.diseno,m.solucion);
+ var r=I.ejecutar(m,m.diseno,m.solucion,m.rutina);
  if(r.fallo||!r.meta)e.push(m.id+': la solución de referencia no cumple la misión ('+(r.fallo&&r.fallo.tipo)+')');
- if(I.coste(m.solucion)>m.limite)e.push(m.id+': la solución de referencia ('+I.coste(m.solucion)+') supera el límite '+m.limite);
- var b=buscar(m,m.diseno,m.limite);
- if(!b)e.push(m.id+': no hay solución dentro del límite '+m.limite);
+ var cs=I.coste(m.solucion,m.rutina);
+ if(cs>m.limite)e.push(m.id+': la solución de referencia ('+cs+') supera el límite '+m.limite);
+ var b;
+ if(m.rutina){
+  /* Con «Mi rutina» no se busca exhaustivamente (el espacio es enorme): se comprueba la solución de referencia y que, sin la función, el mismo programa no cabe en el límite. */
+  b={coste:cs,programa:m.solucion};
+  var sin=I.coste(I.expandir(m.solucion,m.rutina));
+  if(sin<=m.limite)e.push(m.id+': la función no hace falta: el programa sin ella cuesta '+sin+' y el límite es '+m.limite);
+  if(m.ordenes.indexOf('llamar')<0)e.push(m.id+': tiene rutina pero no ofrece «llamar»');
+  if(cs!==m.optimo)e.push(m.id+': óptimo declarado '+m.optimo+' pero la referencia cuesta '+cs)}
+ else b=buscar(m,m.diseno,m.limite);
+ if(m.rutina){}
+ else if(!b)e.push(m.id+': no hay solución dentro del límite '+m.limite);
  else if(b.coste!==m.optimo)e.push(m.id+': óptimo declarado '+m.optimo+' pero el buscador halla '+b.coste);
  /* cada «porque» debe ocurrir de verdad con la pieza equivocada */
  Object.keys(m.errores||{}).forEach(function(k){
-  var x=m.errores[k],d=Object.assign({},m.diseno,x.cambio),rr=I.ejecutar(m,d,m.solucion);
+  var x=m.errores[k],d=Object.assign({},m.diseno,x.cambio),rr=I.ejecutar(m,d,m.solucion,m.rutina);
   if(!rr.fallo||rr.fallo.tipo!==x.fallo)e.push(m.id+': con '+JSON.stringify(x.cambio)+' se esperaba el fallo '+x.fallo+' y ocurre '+(rr.fallo&&rr.fallo.tipo))});
  /* la solución debe pedir bucle si el límite no deja otra cosa */
  if(m.ordenes.indexOf('repetir')<0&&m.exigeBucle)e.push(m.id+': exige bucle pero no ofrece «repetir»');
@@ -429,6 +476,7 @@ function robot(d,ojosT,mover){var s='',met=P.metal;
  else{s+=rr(22,92,30,44,8,P.monte)+rr(31,86,12,8,3,shade(met,.1))+'<path d="M38 104l-8 14h7l-3 12 11-17h-7l3-9z" fill="#FFF" opacity=".95"/>'}
  s+=rr(52,62,96,92,24,P.body)+rr(62,74,76,52,14,P.screen)+ojos(ojosT||'reposo')+'<rect x="76" y="136" width="48" height="8" rx="4" fill="'+shade(P.body,-.3)+'" opacity=".7"/>';
  if(d.sen==='humedad'){s+='<rect x="97" y="38" width="6" height="26" fill="'+shade(met,-.3)+'"/><path d="M100 4q-13 17-13 25a13 13 0 0 0 26 0q0-8-13-25z" fill="'+P.mar+'" '+SW+'/><path d="M94 28a6 6 0 0 0 5 6" stroke="#FFF" stroke-width="3" fill="none" stroke-linecap="round"/>'}
+ else if(d.sen==='telescopio'){s+='<rect x="96" y="50" width="8" height="14" fill="'+shade(met,-.3)+'"/><g transform="rotate(-28 100 52)"><rect x="88" y="6" width="24" height="48" rx="7" fill="'+P.mar+'" '+SW+'/><rect x="84" y="4" width="32" height="10" rx="4" fill="'+shade(P.mar,-.25)+'" '+SW+'/><circle cx="100" cy="9" r="5" fill="'+P.screen+'"/></g>'}
  else{s+='<rect x="96" y="44" width="8" height="20" fill="'+shade(met,-.3)+'"/>'+circ(100,38,15,met,'')+circ(100,38,7,P.screen,'')+'<circle cx="97" cy="35" r="2.4" fill="#fff"/>'}
  s+=rr(146,100,22,12,6,shade(met,-.1));
  if(d.her==='regadera'){s+=rr(166,92,28,26,7,P.mar)+'<path d="M194 102l14-9" '+SW+' fill="none"/><rect x="206" y="86" width="8" height="10" rx="2" fill="'+P.amarillo+'" '+SW+'/><path d="M170 92q8-14 16 0" fill="none" '+SW+'/>'}
@@ -440,7 +488,7 @@ RL.Arte={P:P,shade:shade,SW:SW,rr:rr,circ:circ,robot:robot};
 /* Casillas en vista de tres cuartos y objetos de pie. */
 (function(RL){var A=RL.Arte,P=A.P,shade=A.shade,SW=A.SW,uid=0;
 function tile(kind,x,y,s,dep){
- var top={hierba:P.grass,barro:P.mud,roca:P.rock}[kind]||P.grass,o='',id='t'+(++uid),k=s/56;
+ var top={hierba:P.grass,barro:P.mud,roca:P.rock,cumbre:'#7A6BB5'}[kind]||P.grass,o='',id='t'+(++uid),k=s/56;
  o+='<rect x="'+x+'" y="'+(y+dep)+'" width="'+s+'" height="'+s+'" rx="9" fill="'+shade(top,-.35)+'"/><rect x="'+x+'" y="'+y+'" width="'+s+'" height="'+s+'" rx="9" fill="'+top+'"/>';
  o+='<clipPath id="'+id+'"><rect x="'+x+'" y="'+y+'" width="'+s+'" height="'+s+'" rx="9"/></clipPath><g clip-path="url(#'+id+')">';
  if(kind==='hierba')o+='<path d="M'+(x+10*k)+' '+(y+36*k)+'l3-9 3 9M'+(x+34*k)+' '+(y+20*k)+'l3-9 3 9M'+(x+42*k)+' '+(y+44*k)+'l3-9 3 9" stroke="'+shade(top,-.3)+'" stroke-width="3" fill="none" stroke-linecap="round"/>';
@@ -448,6 +496,7 @@ function tile(kind,x,y,s,dep){
  if(kind==='roca')o+='<circle cx="'+(x+18*k)+'" cy="'+(y+20*k)+'" r="'+4*k+'" fill="'+shade(top,-.25)+'"/><circle cx="'+(x+40*k)+'" cy="'+(y+36*k)+'" r="'+5*k+'" fill="'+shade(top,.25)+'"/><circle cx="'+(x+24*k)+'" cy="'+(y+44*k)+'" r="'+3*k+'" fill="'+shade(top,-.25)+'"/>';
  o+='</g><rect x="'+x+'" y="'+y+'" width="'+s+'" height="'+s+'" rx="9" fill="none" '+SW+'/><path d="M'+x+' '+(y+s)+'v'+dep+'a9 9 0 0 0 9 9h'+(s-18)+'a9 9 0 0 0 9-9v-'+dep+'" fill="none" '+SW+'/>';return o}
 function obj(kind,cx,by,k){var o='<g transform="translate('+cx+' '+by+') scale('+k+')">';
+ if(kind==='cupula')o+=A.rr(-18,-14,36,14,3,P.metal)+'<path d="M-17-14a17 17 0 0 1 34 0z" fill="#F4F1EA" '+SW+'/><g class="sway"><path d="M-3-30l6 0 0 16-6 0z" fill="#3B2F6B" '+SW+'/></g><circle cx="0" cy="-8" r="2.5" fill="#FFE27A"/>';
  if(kind==='helecho')o+=A.rr(-5,-26,10,26,3,P.mud)+'<g class="sway"><path d="M0-24q-30-4-32 22q12-14 32-14zM0-24q30-4 32 22q-12-14-32-14zM0-26q-6-22 6-28q8 14-6 28z" fill="'+P.tree+'" '+SW+'/></g>';
  if(kind==='seco')o+=A.rr(-5,-26,10,26,3,P.mud)+'<g class="sway"><path d="M0-24q-30 2-30 24q10-16 30-12zM0-24q30 2 30 24q-10-16-30-12zM0-26q-4-20 6-26q6 12-6 26z" fill="#B7A25A" '+SW+'/></g>';
  if(kind==='poste')o+='<rect x="-3" y="-38" width="6" height="38" fill="'+shade(P.metal,-.2)+'" '+SW+'/>'+A.rr(-10,-52,20,16,5,P.post)+'<circle cx="0" cy="-44" r="3" fill="#fff"/>';
@@ -479,13 +528,22 @@ function monteverde(w,h,niebla){
  s+='<rect x="0" y="360" width="'+w+'" height="'+(h-360)+'" fill="'+shade(P.grass,-.25)+'"/>';
  return s}
 function lluvia(){var s='<g opacity=".8">';for(var i=0;i<22;i++)s+='<line class="drop" style="animation-delay:'+(-i*.14)+'s" x1="'+(i*42+10)+'" y1="40" x2="'+(i*42+4)+'" y2="58" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>';return s+'</g>'}
-RL.Fondos={isla:isla,monteverde:monteverde,lluvia:lluvia};
+function cumbre(w,h){
+ var s='<defs><linearGradient id="skyC" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B1445"/><stop offset=".6" stop-color="#4B3A8C"/><stop offset="1" stop-color="#8A6FC0"/></linearGradient></defs>';
+ s+='<rect width="'+w+'" height="'+h+'" fill="url(#skyC)"/>';
+ for(var i=0;i<46;i++){var x=(i*97)%w,y=(i*53)%260;s+='<circle cx="'+x+'" cy="'+y+'" r="'+(1+(i%3)*.7)+'" fill="#FFF8D6" opacity="'+(.5+(i%4)*.12)+'"/>'}
+ s+='<path d="M-20 90Q300 40 900 120" stroke="#E9DFFF" stroke-width="26" fill="none" opacity=".12" stroke-linecap="round"/>';
+ s+='<g class="par" data-p="8"><path d="M-40 300q150-60 300-10t280-30q160-40 320 20v120H-40z" fill="#EDE8F7" opacity=".85"/><path d="M-40 330q160-40 320 0t300-20q140-20 320 20v100H-40z" fill="#D5CDEB"/></g>';
+ s+='<g class="par" data-p="16"><path d="M-40 360q140-60 300-20t300-30q160-30 320 30v120H-40z" fill="#3A2F63"/></g>';
+ s+='<rect x="0" y="400" width="'+w+'" height="'+(h-400)+'" fill="#2A2252"/>';
+ return s}
+RL.Fondos={isla:isla,monteverde:monteverde,lluvia:lluvia,cumbre:cumbre};
 })(globalThis.RL=globalThis.RL||{});
 
 /* Escenas del prototipo: inicio, aviso, diseña, programa y prueba, lectura de datos y bitácora. */
 (function(RL){
 var E=RL.E,A=RL.Arte,I=RL.Interprete,G=RL.Guardado,$=function(s){return document.querySelector(s)},app,timers=[];
-var GL={N:'↑',S:'↓',E:'→',O:'←',medir:'⌖',A:'▲',GI:'↶',GD:'↷'},NOM={N:'norte',S:'sur',E:'este',O:'oeste',medir:'medir',A:'avanzar',GI:'girar izq.',GD:'girar der.'},DV={N:[0,-1],E:[1,0],S:[0,1],O:[-1,0]},ANG={N:0,E:90,S:180,O:270};
+var GL={N:'↑',S:'↓',E:'→',O:'←',medir:'⌖',contar:'+1',llamar:'↪',A:'▲',GI:'↶',GD:'↷'},NOM={N:'norte',S:'sur',E:'este',O:'oeste',medir:'medir',contar:'contar',llamar:'Mi rutina',A:'avanzar',GI:'girar izq.',GD:'girar der.'},DV={N:[0,-1],E:[1,0],S:[0,1],O:[-1,0]},ANG={N:0,E:90,S:180,O:270};
 function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function decir(t){var e=$('#estado');if(e)e.textContent=t}
 function limpiar(){timers.forEach(clearTimeout);timers=[]}
@@ -498,15 +556,16 @@ function hdT(d){var v=DV[d];return'translate('+(100+v[0]*78)+' '+(140+v[1]*78)+'
 function setHead(d){var h=$('#hd');if(h)h.setAttribute('transform',hdT(d))}
 function estrecha(){return window.innerWidth<640}
 function board(m,o){o=o||{};var g=geo(m),s='';var vb=estrecha()?[g.X0-24,0,g.w*g.S+48,540]:[0,0,900,540];
- s+=(m.zona==='isla'?RL.Fondos.isla(900,540):RL.Fondos.monteverde(900,540,m.clima==='niebla'));
- for(var y=0;y<g.n;y++)for(var x=0;x<g.w;x++){var c=m.tablero[y][x],k=c==='#'?'roca':(c==='B'||c==='M')?'barro':'hierba';s+=RL.Casillas.tile(k,g.X0+x*g.S,g.Y0+y*g.S,g.S-4,12)}
+ s+=(m.zona==='isla'?RL.Fondos.isla(900,540):(m.zona==='cumbre'?RL.Fondos.cumbre(900,540):RL.Fondos.monteverde(900,540,m.clima==='niebla')));
+ for(var y=0;y<g.n;y++)for(var x=0;x<g.w;x++){var c=m.tablero[y][x],k=c==='#'?'roca':(c==='B'||c==='M')?'barro':(m.zona==='cumbre'?'cumbre':'hierba');s+=RL.Casillas.tile(k,g.X0+x*g.S,g.Y0+y*g.S,g.S-4,12)}
  for(y=0;y<g.n;y++)for(x=0;x<g.w;x++){c=m.tablero[y][x];var cx=g.X0+x*g.S+g.S/2-2,by=g.Y0+y*g.S+g.S-10;
   if(c==='H'||c==='M')s+=RL.Casillas.obj('poste',cx,by,.9);
+  if(c==='C')s+=RL.Casillas.obj('cupula',cx,by,.95);
   if(c==='G')s+=RL.Casillas.obj(m.meta.herramienta==='regadera'?(o.hecho?'helecho':'seco'):'meta',cx,by,.95)}
  s+=rosa(vb[0]);
  if(m.clima==='niebla')s+=RL.Fondos.lluvia();
  s+='<g id="fxs"></g><g id="bot" style="transition:transform '+(.5/E.ajustes.vel)+'s cubic-bezier(.3,1.3,.5,1);transform:'+botT(g,o.pos||I.inicio(m))+'"><g id="botInner">'+A.robot(o.diseno||E.diseno,o.ojos||'reposo',false)+'</g>'+(m.rumbo?'<g id="hd" style="transition:transform .25s" transform="'+hdT(m.rumbo)+'"><path d="M0-18L13 8H-13z" fill="#FF6A4D" stroke="#2B1A16" stroke-width="5" stroke-linejoin="round"/></g>':'')+'</g>';
- return'<svg id="tab" viewBox="'+vb.join(' ')+'" role="img" aria-label="Tablero de '+g.w+' por '+g.n+' casillas en el monteverde">'+s+'</svg>'}
+ return'<svg id="tab" viewBox="'+vb.join(' ')+'" role="img" aria-label="Tablero de '+g.w+' por '+g.n+' casillas en '+({isla:'la isla',cumbre:'la cumbre'}[m.zona]||'el monteverde')+'">'+s+'</svg>'}
 function setBot(ojos,mover){var b=$('#botInner');if(b)b.innerHTML=A.robot(E.diseno,ojos,mover)}
 function par(){var sv=$('#tab');if(!sv)return}
 /* ---------- pantallas ---------- */
@@ -528,18 +587,23 @@ function aviso(){var m=E.m,o=Object.keys(E.datos).length;
 function disena(){var m=E.m,d=E.diseno,h=barra('Diseña el robot','aviso'),listo=d.mov&&d.ene&&d.sen&&d.her&&E.pred;
  h+='<div class="dis"><div class="stage"><svg viewBox="0 0 220 200" role="img" aria-label="Robot con las piezas elegidas">'+'<g transform="translate(10 0)">'+A.robot({mov:d.mov||'ruedas',ene:d.ene||'bateria',sen:d.sen||'camara',her:d.her||'pinza'},E.pred?'reposo':'duda',false)+'</g></svg></div><div class="slots">';
  ['mov','ene','sen','her'].forEach(function(k){var S=RL.piezas[k];h+='<div class="col"><h2>'+S.nombre+'</h2>';
-  S.op.forEach(function(o){h+='<button class="btn pz" data-nav data-act="pieza" data-k="'+k+'" data-id="'+o.id+'" aria-pressed="'+(d[k]===o.id)+'">'+o.n+'</button>'});h+='</div>'});
+  S.op.filter(function(o){return!o.z||o.z.indexOf(E.m.zona)>=0}).forEach(function(o){h+='<button class="btn pz" data-nav data-act="pieza" data-k="'+k+'" data-id="'+o.id+'" aria-pressed="'+(d[k]===o.id)+'">'+o.n+'</button>'});h+='</div>'});
  h+='</div></div><div class="ficha" id="ficha" aria-live="polite">'+(E.ficha?'<b>'+esc(E.ficha.n)+'.</b> '+esc(E.ficha.f):'Elige una pieza en cada columna para ver su ficha.')+'</div>';
  h+='<div class="pred"><h2>¿Qué crees que pasará?</h2><div class="fila">';
  [['ok','Lo conseguirá'],['atasca','Se atascará o chocará'],['energia','Se quedará sin energía']].forEach(function(p){h+='<button class="btn pz" data-nav data-act="pred" data-id="'+p[0]+'" aria-pressed="'+(E.pred===p[0])+'">'+p[1]+'</button>'});
  return h+'</div></div><div class="acc"><button class="btn gr" data-nav data-act="ir" data-p="programa"'+(listo?'':' disabled')+'>Programar</button>'+(listo?'':'<span class="nota">Elige cuatro piezas y una predicción.</span>')+'</div>'}
-function K(c){return c===''?[]:c.split('.').map(function(x,k){return k%2?x:+x})}
-function cont(c){var a=E.prog,k=K(c),j;for(j=0;j<k.length;j+=2){var it=a[k[j]];if(!it||!it[k[j+1]])return null;a=it[k[j+1]]}return a}
-function prof(c){return c===''?0:c.split('.').length/2}
+function raiz(c){return c==='F'||c.indexOf('F.')===0}
+function rel(c){return c==='F'?'':(c.indexOf('F.')===0?c.slice(2):c)}
+function K(c){c=rel(c);return c===''?[]:c.split('.').map(function(x,k){return k%2?x:+x})}
+function cont(c){var a=raiz(c)?E.fn:E.prog,k=K(c),j;for(j=0;j<k.length;j+=2){var it=a[k[j]];if(!it||!it[k[j+1]])return null;a=it[k[j+1]]}return a}
+function prof(c){var r=rel(c);return r===''?0:r.split('.').length/2}
 function alt(it){if(!(it.rep||it.hasta||it.si))return 0;var m=0;['body','alto','sino'].forEach(function(k){(it[k]||[]).forEach(function(x){m=Math.max(m,alt(typeof x==='string'?{o:x}:x))})});return 1+m}
 function hallar(it,L,c){for(var j=0;j<L.length;j++){if(L[j]===it)return{c:c,i:j};var x=L[j],ks=(x.rep||x.hasta)?['body']:(x.si?['alto','sino']:[]);for(var k=0;k<ks.length;k++){var r=hallar(it,x[ks[k]],(c?c+'.':'')+j+'.'+ks[k]);if(r)return r}}return null}
-function setCur(c,i){E.cur={c:c,i:i};E.enBucle=c===''?null:c}
-function ajustarCur(){var c=E.cur.c,L=cont(c);if(!L){c='';L=E.prog;E.cur={c:'',i:E.prog.length}}E.cur={c:c,i:Math.max(0,Math.min(E.cur.i,L.length))};E.enBucle=c===''?null:c}
+function raizDe(c){return raiz(c)?'F':''}
+function setCur(c,i){E.cur={c:c,i:i};E.enBucle=(c===''||c==='F')?null:c}
+function ajustarCur(){var c=E.cur.c,L=cont(c);if(!L){c='';L=E.prog;E.cur={c:'',i:E.prog.length}}E.cur={c:c,i:Math.max(0,Math.min(E.cur.i,L.length))};E.enBucle=(c===''||c==='F')?null:c}
+function padre(c){var k=K(c),pr=raizDe(c),pa=k.slice(0,-2).join('.');return{c:pa===''?pr:(pr?pr+'.':'')+pa,i:k[k.length-2]}}
+function coste(){return I.coste(E.prog,E.fn)}
 function esSel(c,i){return!!E.sel&&E.sel.c===c&&E.sel.i===i}
 function slot(c,i){var on=E.cur.c===c&&E.cur.i===i;return'<button class="slot'+(on?' cur':'')+'" data-nav data-act="slot" data-c="'+c+'" data-i="'+i+'" aria-pressed="'+on+'" aria-label="'+(E.sel?'Mover aquí':'Poner aquí')+'"'+(E.ejecutando?' disabled':'')+'><span class="bar"></span></button>'}
 function blk(c,i,ref,txt,nom,cls){return'<button class="'+cls+' blk'+(esSel(c,i)?' sel':'')+'" data-nav data-act="sel" data-c="'+c+'" data-i="'+i+'" data-ref="'+ref+'" aria-pressed="'+esSel(c,i)+'" aria-label="'+nom+'"'+(E.ejecutando?' disabled':'')+'>'+txt+'</button>'}
@@ -547,21 +611,26 @@ function lista(items,c,ref){var h=slot(c,0);
  items.forEach(function(it,j){it=typeof it==='string'?{o:it}:it;var r=ref.concat(j),rs=r.join('-'),cj=(c?c+'.':'')+j;
   if(it.rep||it.hasta){var cb=cj+'.body';h+='<div class="bucle'+(E.cur.c===cb?' act':'')+'">'+blk(c,j,rs,it.rep?'Repetir ×'+it.rep:'Repetir hasta '+it.hasta,(it.rep?'Repetir '+it.rep+' veces':'Repetir hasta '+it.hasta)+', bucle','rep')+'<div class="dentro">'+lista(it.body,cb,r)+'</div></div>'}
   else if(it.si){h+='<div class="cond">'+blk(c,j,rs,'Si '+it.si,'Si hay '+it.si+', condición','rep')+'<div class="ramas"><div class="rama'+(E.cur.c===cj+'.alto'?' act':'')+'"><span class="et">entonces</span><div class="dentro">'+lista(it.alto||[],cj+'.alto',r.concat(0))+'</div></div><div class="rama'+(E.cur.c===cj+'.sino'?' act':'')+'"><span class="et">si no</span><div class="dentro">'+lista(it.sino||[],cj+'.sino',r.concat(1))+'</div></div></div></div>'}
+  else if(it.llama)h+=blk(c,j,rs,GL.llamar+' Mi rutina','Llamar a Mi rutina','step llama');
   else h+=blk(c,j,rs,GL[it.o],NOM[it.o],'step');
   h+=slot(c,j+1)});
  return h}
-function tira(m){ajustarCur();var h=lista(E.prog,'',[]);return h+(E.prog.length?'':'<span class="vacia">Pulsa una orden de abajo, o arrástrala hasta aquí.</span>')}
-function programa(){var m=E.m,c=I.coste(E.prog),lleno=c>=m.limite,h=barra(m.titulo,'disena');
+function tira(m){ajustarCur();var h='<div class="linea">'+lista(E.prog,'',[])+(E.prog.length?'':'<span class="vacia">Pulsa una orden de abajo, o arrástrala hasta aquí.</span>')+'</div>';
+ if(m.ordenes.indexOf('llamar')>=0)h+='<div class="linea rutina"><span class="et">Mi rutina</span>'+lista(E.fn,'F',['f'])+(E.fn.length?'':'<span class="vacia">Escribe aquí lo que se repite; luego usa «Mi rutina» en el programa.</span>')+'</div>';
+ return h}
+function programa(){var m=E.m,c=coste(),lleno=c>=m.limite,h=barra(m.titulo,'disena');
  h+='<div class="escena'+(E.ejecutando?'':' calm')+'" id="esc">'+board(m,{diseno:E.diseno,ojos:'reposo'})+'</div>';
+ if(m.meta.tipo==='contar')h+='<p class="cuenta" aria-live="polite">Cúpulas contadas: <b id="cnt">'+(E.res&&!E.ejecutando?E.res.cuenta:0)+'</b> de '+I.cupulas(m).length+'</p>';
+if(m.ordenes.indexOf('llamar')>=0)h+='<p class="guia">Si un tramo se repite pero entre medias hay otros pasos, escríbelo una sola vez en «Mi rutina» y llámala cuando la necesites.</p>';
  h+='<p class="guia">Pulsa una orden por cada paso. Si algo se repite, usa un bucle (↻ o ⟳): así necesitas menos órdenes y ganas una estrella. Arrastra los bloques adonde quieras, o toca un hueco, un bloque y «borrar» para cambiarlo.</p><div class="prog"><div class="tira" id="tira" aria-label="Tu programa">'+tira(m)+'</div><div class="cont">Órdenes: <b>'+c+'</b> de '+m.limite+'</div></div>';
  h+='<div class="pal" role="group" aria-label="Órdenes">';
- m.ordenes.forEach(function(o){if(o==='repetir'||o==='hasta'||o==='si')return;h+='<button class="btn ord" data-nav data-act="ord" data-o="'+o+'"'+((lleno||E.ejecutando)?' disabled':'')+' aria-label="'+NOM[o]+'"><span class="g" aria-hidden="true">'+GL[o]+'</span><span class="n">'+(o==='medir'?'medir':NOM[o])+'</span></button>'});
+ m.ordenes.forEach(function(o){if(o==='repetir'||o==='hasta'||o==='si')return;h+='<button class="btn ord" data-nav data-act="ord" data-o="'+o+'"'+((lleno||E.ejecutando||(o==='llamar'&&(raiz(E.cur.c)||!E.fn.length)))?' disabled':'')+' aria-label="'+NOM[o]+'"><span class="g" aria-hidden="true">'+GL[o]+'</span><span class="n">'+(o==='medir'?'medir':NOM[o])+'</span></button>'});
  var sinHueco=lleno||E.ejecutando||prof(E.cur.c)>=(m.profundidad||1);
  if(m.ordenes.indexOf('hasta')>=0)(m.condiciones||[]).forEach(function(c){h+='<button class="btn ord rp" data-nav data-act="hasta" data-cond="'+c+'"'+(sinHueco?' disabled':'')+'><span class="g" aria-hidden="true">⟳</span><span class="n">hasta '+c+'</span></button>'});
  if(m.ordenes.indexOf('si')>=0)(m.condiciones||[]).forEach(function(c){h+='<button class="btn ord rp" data-nav data-act="si" data-cond="'+c+'"'+(sinHueco?' disabled':'')+'><span class="g" aria-hidden="true">?</span><span class="n">si '+c+'</span></button>'});
  if(m.ordenes.indexOf('repetir')>=0)[2,3,4,5].forEach(function(n){h+='<button class="btn ord rp" data-nav data-act="rep" data-n="'+n+'"'+(sinHueco?' disabled':'')+'><span class="g" aria-hidden="true">↻</span><span class="n">×'+n+'</span></button>'});
  if(m.ordenes.indexOf('repetir')>=0||m.ordenes.indexOf('hasta')>=0||m.ordenes.indexOf('si')>=0){h+='<button class="btn ord" data-nav data-act="salir"'+((E.enBucle===null||E.ejecutando)?' disabled':'')+'><span class="g" aria-hidden="true">⤴</span><span class="n">salir</span></button>'}
- h+='<button class="btn ord" data-nav data-act="borrar"'+((!E.prog.length||E.ejecutando)?' disabled':'')+'><span class="g" aria-hidden="true">⌫</span><span class="n">borrar</span></button></div>';
+ h+='<button class="btn ord" data-nav data-act="borrar"'+((!(E.prog.length+E.fn.length)||E.ejecutando)?' disabled':'')+'><span class="g" aria-hidden="true">⌫</span><span class="n">borrar</span></button></div>';
  h+='<div class="acc"><button class="btn gr" data-nav data-act="probar"'+((!E.prog.length||E.ejecutando)?' disabled':'')+'>Probar</button><button class="btn peq" data-nav data-act="vel">Velocidad ×'+E.ajustes.vel+'</button><span class="nota" id="aviso-lim">'+(E.sel?'Bloque marcado: toca un hueco para moverlo o pulsa borrar.':(E.enBucle!==null?(/\.(alto|sino)$/.test(E.enBucle)?'Estás dentro de un «si»: lo que añadas ocurre solo en esa rama.':'Estás dentro de un bucle: lo que añadas se repite.'):(lleno?'Has llegado al límite de órdenes.':'')))+'</span></div>';
  h+='<div class="res" id="res" aria-live="polite">'+resultado()+'</div>';return h}
 function resultado(){var r=E.res;if(!r||E.ejecutando)return'';
@@ -583,7 +652,7 @@ function bitacora(){var m=E.m,s=estrellasMision(),h=barra('Bitácora','programa'
  h+='<h2>¿Cómo te has sentido?</h2><div class="fila">';[['c','Contento'],['t','Tranquilo'],['n','Nervioso'],['f','Frustrado']].forEach(function(e){h+='<button class="btn pz" data-nav data-act="emo" data-e="'+e[0]+'" aria-pressed="'+(E.emo===e[0])+'">'+e[1]+'</button>'});
  return h+'</div><div class="acc"><button class="btn gr" data-nav data-act="terminar"'+((E.frase!=null&&m.bitacora[E.frase].ok&&E.emo)?'':' disabled')+'>Terminar</button></div>'}
 function ajustes(){var a=E.ajustes;return barra('Ajustes','inicio')+'<div class="fila aj">'+[['grande','Texto grande'],['sinMov','Sin movimiento'],['silencio','Silencio']].map(function(x){return'<button class="btn pz" data-nav data-act="ajuste" data-k="'+x[0]+'" aria-pressed="'+a[x[0]]+'">'+x[1]+'</button>'}).join('')+'<button class="btn pz" data-nav data-act="vel" aria-pressed="false">Velocidad del robot ×'+a.vel+'</button></div><p class="nota">M silencia el sonido. Esc vuelve al inicio.</p><p class="nota">Este prototipo no guarda nombres ni datos personales. El progreso queda en este navegador.</p>'}
-var EMO={c:'Contento',t:'Tranquilo',n:'Nervioso',f:'Frustrado'},TIPO={patina:'Se atascó',roca:'Chocó con una roca',borde:'Se salió del tablero',sinEnergia:'Se quedó sin energía',sinSensor:'Faltaba el sensor',medirFuera:'Midió donde no había poste',herramienta:'Herramienta equivocada',noLlega:'No llegó a la meta',faltanMedidas:'Faltaron medidas',demasiados:'Demasiadas órdenes'};
+var EMO={c:'Contento',t:'Tranquilo',n:'Nervioso',f:'Frustrado'},TIPO={contarFuera:'Contó donde no había cúpula',faltanCupulas:'Faltaron cúpulas',sinRutina:'Llamó a una rutina vacía',rutinaEnRutina:'Una rutina llamó a otra',patina:'Se atascó',roca:'Chocó con una roca',borde:'Se salió del tablero',sinEnergia:'Se quedó sin energía',sinSensor:'Faltaba el sensor',medirFuera:'Midió donde no había poste',herramienta:'Herramienta equivocada',noLlega:'No llegó a la meta',faltanMedidas:'Faltaron medidas',demasiados:'Demasiadas órdenes'};
 function informe(){var d=G.datos,h='<div class="top noprint"><button class="btn peq" data-nav data-act="inicio">← Volver</button><h1>Informe</h1><button class="btn peq gr" data-nav data-act="imprimir">Imprimir o guardar PDF</button></div>';
  h+='<div class="hoja"><h1 class="tit">RoboLab · Informe</h1><p class="nom">Nombre: ______________________ Fecha: ____________</p><p class="nota">Informe orientativo generado en este dispositivo. No recoge datos personales y no sustituye la evaluación docente.</p>';
  RL.misiones.forEach(function(m){var n=d.estrellas[m.id];h+='<section class="im"><h2>'+esc(m.titulo)+'</h2>';
@@ -601,9 +670,9 @@ function render(foco){limpiar();if(E.pantalla!=='ajustes')previa=E.pantalla;app.
 function ir(p,foco){E.pantalla=p;render(foco);window.scrollTo(0,0)}
 /* ---------- animación de la prueba ---------- */
 function probar(){var m=E.m;if(!E.prog.length||E.ejecutando)return;
- E.sel=null;E.cur={c:'',i:E.prog.length};E.enBucle=null;E.intentos++;E.res=I.ejecutar(m,E.diseno,E.prog);E.pistas=I.pistas(m,E.diseno,E.prog,E.res);
+ E.sel=null;E.cur={c:'',i:E.prog.length};E.enBucle=null;E.intentos++;E.res=I.ejecutar(m,E.diseno,E.prog,E.fn);E.pistas=I.pistas(m,E.diseno,E.prog,E.res);
  if(E.res.fallo){var er=G.datos.errores[m.id]=G.datos.errores[m.id]||{},tp=E.res.fallo.tipo;er[tp]=er[tp]||{n:0,t:E.pistas&&E.pistas[0]?E.pistas[0].texto:''};er[tp].n++;E.fallosSeguidos++;E.hint=Math.min(3,Math.max(1,E.hint)+(E.fallosSeguidos>=2?1:0)-(E.hint>0&&E.fallosSeguidos<2?0:0));if(E.fallosSeguidos===1)E.hint=1}else E.fallosSeguidos=0;
- E.ejecutando=true;var g=geo(m),tr=E.res.traza,dt=650/E.ajustes.vel,i=0;
+ E.ejecutando=true;var g=geo(m),tr=E.res.traza,dt=650/E.ajustes.vel,i=0;var cn0=$('#cnt');if(cn0)cn0.textContent='0';
  $('#esc').classList.remove('calm');render('#tira');$('#esc').classList.remove('calm');
  document.querySelectorAll('.pal .btn,.acc .gr').forEach(function(b){b.disabled=true});
  RL.Audio.beep(520,.15,'triangle');setBot('sorpresa',true);decir('El robot se pone en marcha.');
@@ -612,6 +681,7 @@ function probar(){var m=E.m;if(!E.prog.length||E.ejecutando)return;
   var r=ev.ref.join('-'),el=document.querySelector('.step[data-ref="'+r+'"]');if(el)el.classList.add('on');
   var b=$('#bot');if(b&&ev.a)b.style.transform=botT(g,ev.a);if(ev.dir)setHead(ev.dir);RL.Audio.paso();
   if(ev.medida!==undefined){var x=g.X0+ev.a.x*g.S+g.S/2,y=g.Y0+ev.a.y*g.S-8;$('#fxs').insertAdjacentHTML('beforeend','<g class="pop" transform="translate('+x+' '+y+')"><rect x="-28" y="-22" width="56" height="28" rx="10" fill="#FFFDFA" stroke="#2B1A16" stroke-width="3"/><text y="-2" text-anchor="middle" font-family="Fredoka" font-weight="600" font-size="18" fill="#2B1A16">'+ev.medida+'%</text></g>');RL.Audio.beep(880,.1,'triangle')}
+  if(ev.cuenta!==undefined){var cn=$('#cnt');if(cn)cn.textContent=ev.cuenta;var cx2=g.X0+ev.a.x*g.S+g.S/2,cy2=g.Y0+ev.a.y*g.S-8;$('#fxs').insertAdjacentHTML('beforeend','<g class="pop" transform="translate('+cx2+' '+cy2+')"><rect x="-26" y="-22" width="52" height="28" rx="10" fill="#FFFDFA" stroke="#2B1A16" stroke-width="3"/><text y="-2" text-anchor="middle" font-family="Fredoka" font-weight="600" font-size="18" fill="#2B1A16">+1</text></g>');RL.Audio.beep(880,.12,'triangle')}
   if(ev.fallo){setBot('duda',false);RL.Audio.error();decir(I.pistas(m,E.diseno,E.prog,E.res)[0].texto)}
   },(k+1)*dt))});
  timers.push(setTimeout(function(){E.ejecutando=false;
@@ -623,18 +693,24 @@ function probar(){var m=E.m;if(!E.prog.length||E.ejecutando)return;
   RL.App.refrescarPal();var foc=RL.Entrada.visibles().filter(function(e){return e.closest('#res')&&e.classList.contains('gr')})[0]||RL.Entrada.visibles().filter(function(e){return e.closest('#res')})[0];if(foc)foc.focus({preventScroll:true})},(tr.length+1.4)*dt))}
 /* ---------- acciones ---------- */
 /* Edición del programa: hueco de inserción (E.cur), bloque marcado (E.sel), arrastrar y soltar. */
-function nuevo(x,foco){var m=E.m;if(!insertar(E.cur.c,E.cur.i,x)){decir(I.coste(E.prog)>=m.limite?'Has llegado al límite de órdenes.':'Ahí no cabe.');return}RL.Audio.toca();refrescar(foco)}
-function insertar(c,i,x){var L=cont(c);if(!L||I.coste(E.prog)>=E.m.limite)return false;
- if(x.o){L.splice(i,0,{o:x.o});setCur(c,i+1)}
+function nuevo(x,foco){var m=E.m;if(!insertar(E.cur.c,E.cur.i,x)){decir(coste()>=m.limite?'Has llegado al límite de órdenes.':'Ahí no cabe.');return}RL.Audio.toca();refrescar(foco)}
+function insertar(c,i,x){var L=cont(c);if(!L||coste()>=E.m.limite)return false;var it,ant=E.cur;
+ if(x.o==='llamar'){if(raiz(c)||!E.fn.length)return false;it={llama:1}}
+ else if(x.o)it={o:x.o};
  else{if(prof(c)>=(E.m.profundidad||1))return false;
-  var it=x.rep?{rep:x.rep,body:[]}:(x.si?{si:x.si,alto:[],sino:[]}:{hasta:x.hasta,body:[]});
-  L.splice(i,0,it);setCur((c?c+'.':'')+i+(it.si?'.alto':'.body'),0)}
+  it=x.rep?{rep:x.rep,body:[]}:(x.si?{si:x.si,alto:[],sino:[]}:{hasta:x.hasta,body:[]})}
+ L.splice(i,0,it);
+ if(coste()>E.m.limite){L.splice(i,1);return false}
+ if(x.o)setCur(c,i+1);else setCur((c?c+'.':'')+i+(it.si?'.alto':'.body'),0);
  E.sel=null;return true}
+function conLlama(it){return!!(it.llama||(['body','alto','sino'].some(function(k){return(it[k]||[]).some(function(x){return conLlama(typeof x==='string'?{o:x}:x)})})))}
 function mover(de,a){var src=cont(de.c),dst=cont(a.c);if(!src||!dst)return false;var it=src[de.i];if(!it)return false;
  var itp=(de.c?de.c+'.':'')+de.i,x=alt(it);
  if(x>0){if(a.c.indexOf(itp+'.')===0)return false;if(prof(a.c)+x>(E.m.profundidad||1))return false}
+ if(raiz(a.c)&&conLlama(it))return false;
  var i=a.i;src.splice(de.i,1);if(src===dst&&de.i<a.i)i--;dst.splice(i,0,it);
- var q=hallar(it,E.prog,'');if(q)setCur(q.c,q.i+1);return true}
+ if(coste()>E.m.limite){dst.splice(i,1);src.splice(de.i,0,it);return false}
+ var q=hallar(it,E.prog,'')||hallar(it,E.fn,'F');if(q)setCur(q.c,q.i+1);return true}
 var arr=null,fant=null,sinClic=false;
 function soltarDonde(e){var t=document.elementFromPoint(e.clientX,e.clientY);return{slot:t&&t.closest('.slot:not(:disabled)'),pal:t&&t.closest('.pal')}}
 function iniciarArrastre(){
@@ -654,13 +730,13 @@ function iniciarArrastre(){
   var d=soltarDonde(e),ok=false;
   if(d.slot){var t={c:d.slot.dataset.c,i:+d.slot.dataset.i};
    if(a.mv)ok=mover({c:a.c,i:a.i},t);else ok=insertar(t.c,t.i,a.act==='ord'?{o:a.o}:(a.act==='rep'?{rep:+a.n}:(a.act==='si'?{si:a.cond}:{hasta:a.cond})));
-   if(!ok)decir(I.coste(E.prog)>=E.m.limite&&!a.mv?'Has llegado al límite de órdenes.':'Ahí no cabe.')}
+   if(!ok)decir(coste()>=E.m.limite&&!a.mv?'Has llegado al límite de órdenes.':'Ahí no cabe.')}
   else if(d.pal&&a.mv){cont(a.c).splice(a.i,1);setCur(a.c,a.i);ok=true}
   E.sel=null;if(ok)RL.Audio.toca();refrescar('.slot.cur')}
  document.addEventListener('pointerup',function(e){fin(e,false)});document.addEventListener('pointercancel',function(e){fin(e,true)});
  document.addEventListener('click',function(e){if(sinClic){e.stopPropagation();e.preventDefault()}},true)}
 var AC={
- mision:function(d){E.m=mision(d.id);E.datos={};E.diseno={mov:null,ene:null,sen:null,her:null};E.pred=null;E.prog=[];E.cur={c:'',i:0};E.sel=null;E.enBucle=null;E.intentos=0;E.hint=0;E.fallosSeguidos=0;E.ficha=null;E.res=null;E.pistas=null;E.lectura=null;E.frase=null;E.emo=null;
+ mision:function(d){E.m=mision(d.id);E.datos={};E.diseno={mov:null,ene:null,sen:null,her:null};E.pred=null;E.prog=[];E.fn=[];E.cur={c:'',i:0};E.sel=null;E.enBucle=null;E.intentos=0;E.hint=0;E.fallosSeguidos=0;E.ficha=null;E.res=null;E.pistas=null;E.lectura=null;E.frase=null;E.emo=null;
   if(E.m.bancoLecturas){var v=E.m.bancoLecturas[Math.floor(Math.random()*E.m.bancoLecturas.length)];E.m.ordenLecturas.forEach(function(k,i){E.m.lecturas[k]=v[i]})}ir('aviso')},
  ir:function(d){if(d.p==='programa'&&!(E.diseno.mov&&E.diseno.ene&&E.diseno.sen&&E.diseno.her&&E.pred))return;ir(d.p)},
  aviso:function(){ir('aviso')},disena:function(){ir('disena')},programa:function(){ir('programa')},inicio:function(){G.guardar();ir('inicio')},
@@ -676,12 +752,12 @@ var AC={
   if(E.sel){var de=E.sel;if(mover(de,{c:d.c,i:i}))RL.Audio.toca();E.sel=null}else{setCur(d.c,i);RL.Audio.toca()}
   refrescar('.slot.cur')},
  sel:function(d){var i=+d.i;if(esSel(d.c,i))E.sel=null;else{E.sel={c:d.c,i:i};setCur(d.c,i)}RL.Audio.toca();refrescar('.blk.sel')},
- salir:function(){var k=K(E.cur.c);if(k.length)setCur(k.slice(0,-2).join('.'),k[k.length-2]+1);RL.Audio.toca();refrescar('[data-act="ord"]')},
+ salir:function(){if(K(E.cur.c).length){var pd=padre(E.cur.c);setCur(pd.c,pd.i+1)}RL.Audio.toca();refrescar('[data-act="ord"]')},
  borrar:function(){var s=E.sel;
   if(s){cont(s.c).splice(s.i,1);E.sel=null;setCur(s.c,s.i)}
   else{var c=E.cur,L=cont(c.c);if(c.i>0){L.splice(c.i-1,1);setCur(c.c,c.i-1)}
-   else if(c.c!==''){var k=K(c.c),pc=k.slice(0,-2).join('.'),ix=k[k.length-2],it=cont(pc)[ix];
-    if(!(it.body||[]).length&&!(it.alto||[]).length&&!(it.sino||[]).length){cont(pc).splice(ix,1);setCur(pc,ix)}}}
+   else if(K(c.c).length){var pd=padre(c.c),it=cont(pd.c)[pd.i];
+    if(!(it.body||[]).length&&!(it.alto||[]).length&&!(it.sino||[]).length){cont(pd.c).splice(pd.i,1);setCur(pd.c,pd.i)}}}
   RL.Audio.toca();refrescar('[data-act="borrar"]')},
  probar:probar,pista:function(){E.hint=Math.min(3,E.hint+1);$('#res').innerHTML=resultado();var b=RL.Entrada.visibles().filter(function(e){return e.closest('#res')})[0];if(b)b.focus()},
  vel:function(){var v=E.ajustes.vel;E.ajustes.vel=v===1?2:(v===2?.5:1);if(E.pantalla==='ajustes')ir('ajustes','[data-act="vel"]');else{var b=$('[data-act="vel"]');if(b)b.textContent='Velocidad ×'+E.ajustes.vel}},

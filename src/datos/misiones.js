@@ -58,7 +58,19 @@ RL.misiones=[
  errores:{humedad:{cambio:{sen:'humedad'},fallo:'sinSensor'},regadera:{cambio:{her:'regadera'},fallo:'herramienta'}},
  porque:{sinSensor:'Para saber si hay muro delante, el robot necesita la cámara.',herramienta:'El interruptor se aprieta con la pinza; la regadera no sirve.',roca:'El robot ha chocado: antes de avanzar hay que mirar si hay muro.',noLlega:'Repite «si hay roca, gira a la derecha; si no, avanza» hasta tener la meta delante. Luego da un último paso.',borde:'Fíjate en hacia dónde mira el robot al girar.',demasiados:'El programa no termina: ¿hasta cuándo se repite?'},
  bitacora:[{t:'Repetí «si hay roca giro; si no, avanzo» porque el muro se repite en cada esquina.',ok:true},{t:'Escribí los pasos uno a uno porque no me fiaba.',ok:false},{t:'Elegí la batería porque es más fácil de montar.',ok:false}],
- saberes:['I.3.2','II.2.3'],criterios:['3.2','6.1']}
+ saberes:['I.3.2','II.2.3'],criterios:['3.2','6.1']},
+{id:'z6p1',zona:'cumbre',curso:6,ciclo:3,titulo:'Las cúpulas del observatorio',
+ aviso:{quien:'Astrónomo del observatorio',texto:'Esta noche hay que revisar las cuatro cúpulas del observatorio y contarlas en el registro. El camino tiene tramos distintos, pero en cada cúpula se hace lo mismo: avanzar dos pasos y contar. ¿Programas el robot?',
+  datos:[{id:'noche',x:78,y:14,t:'Es de noche: el panel solar no carga. La batería sí funciona.'},{id:'cupulas',x:50,y:52,t:'Hay cuatro cúpulas. En cada una el robot repite lo mismo: avanzar dos pasos y contar.'},{id:'luz',x:16,y:70,t:'Se han apagado las farolas para ver mejor las estrellas: la contaminación lumínica las taparía.'}]},
+ clima:'noche',bateria:18,rumbo:'N',tablero:['........','........','....C..C','........','.C..C...','........','.R....#.','......#.'],lecturas:{},
+ meta:{tipo:'contar'},ordenes:['A','GI','GD','contar','llamar','repetir'],limite:14,optimo:13,
+ diseno:{mov:'ruedas',ene:'bateria',sen:'telescopio',her:'pinza'},energiaOK:'bateria',
+ rutina:[{o:'A'},{o:'A'},{o:'contar'}],
+ solucion:[{llama:1},{o:'GD'},{o:'A'},{llama:1},{o:'GI'},{llama:1},{o:'GD'},{o:'A'},{llama:1}],
+ errores:{solar:{cambio:{ene:'solar'},fallo:'sinEnergia'},camara:{cambio:{sen:'camara'},fallo:'sinSensor'}},
+ porque:{sinEnergia:'De noche el panel solar no carga. La batería sí funciona.',sinSensor:'La cámara no distingue las cúpulas en la oscuridad. El telescopio recoge la poca luz de los astros.',contarFuera:'Solo se cuenta encima de una cúpula.',faltanCupulas:'Hay cuatro cúpulas y hay que contar en todas.',borde:'Fíjate en hacia dónde mira el robot al girar.',sinRutina:'Escribe algo dentro de «Mi rutina» antes de llamarla.',rutinaEnRutina:'Una rutina no puede llamar a otra rutina.',noLlega:'Fíjate en lo que se repite en cada cúpula y escríbelo una sola vez en «Mi rutina».'},
+ bitacora:[{t:'Escribí «avanzar, avanzar, contar» una sola vez en una rutina y la llamé en cada cúpula.',ok:true},{t:'Copié los mismos pasos cuatro veces porque no sabía otra forma.',ok:false},{t:'Elegí el panel solar porque es más ecológico, aunque sea de noche.',ok:false}],
+ saberes:['III.1.1','II.2.3'],criterios:['3.2']}
 ];
 RL.misiones.forEach(function(m){if(m.bancoLecturas){var v=m.bancoLecturas[0];m.ordenLecturas.forEach(function(k,i){m.lecturas[k]=v[i]})}});
 })(globalThis.RL=globalThis.RL||{});
