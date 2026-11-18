@@ -130,3 +130,8 @@ body.arrastrando .pal{outline:3px dashed var(--ink);outline-offset:4px}
 .linea .et{font:700 .9rem Nunito,sans-serif;margin-right:4px}
 .step.llama{background:#D7EEFB}
 .cuenta{margin:.3rem 0;font:700 1.05rem Nunito,sans-serif}
+
+.v-docentes .hoja{background:#FFFDFA;border:3px solid var(--ink);border-radius:16px;padding:14px;max-width:900px;margin:8px auto}
+.v-docentes h2{font:600 1.3rem Fredoka,sans-serif;margin:1rem 0 .3rem}.v-docentes h3{font:600 1.1rem Fredoka,sans-serif;margin:.2rem 0}
+.v-docentes .ficha{break-inside:avoid;border-top:2px solid #D8CFC6;padding:.6rem 0}.v-docentes li{margin:.2rem 0;line-height:1.4}
+.aviso-doc{background:#FFF1C7;border:2px solid var(--ink);border-radius:12px;padding:8px 10px}

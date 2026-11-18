@@ -31,10 +31,10 @@ function barra(titulo,atras){return'<div class="top"><button class="btn peq" dat
 function estrellas(n){var s='';for(var i=0;i<3;i++)s+='<svg class="est'+(i<n?' on':'')+'" viewBox="-12 -12 24 24" aria-hidden="true"><path d="M0-10l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>';return'<span class="estrellas" role="img" aria-label="'+n+' de 3 estrellas">'+s+'</span>'}
 function inicio(){
  var h='<div class="top"><h1>RoboLab · Prototipo</h1><button class="btn peq" data-nav data-act="ajustes">Ajustes</button></div>';
- h+='<p class="lead">Prototipo con misiones de 3.º y 5.º. Elige una misión: diseña el robot, prográmalo y mira qué pasa.</p><div class="cards">';
+ h+='<p class="lead">Prototipo con misiones de 3.º, 5.º y 6.º. Elige una misión: diseña el robot, prográmalo y mira qué pasa.</p><div class="cards">';
  RL.misiones.forEach(function(m){var n=G.datos.estrellas[m.id]||0;
   h+='<button class="card mis" data-nav data-act="mision" data-id="'+m.id+'"><span class="t">'+esc(m.titulo)+'</span><span class="q">'+m.curso+'.º · '+esc(m.aviso.quien)+'</span>'+estrellas(n)+'</button>'});
- return h+'</div><div class="acc"><button class="btn peq" data-nav data-act="ir" data-p="informe">Ver mi informe</button></div><p class="nota">Flechas para moverte, Espacio para elegir. También funciona tocando.</p>'}
+ return h+'</div><div class="acc"><button class="btn peq" data-nav data-act="ir" data-p="informe">Ver mi informe</button><button class="btn peq" data-nav data-act="ir" data-p="docentes">Para docentes</button></div><p class="nota">Flechas para moverte, Espacio para elegir. También funciona tocando.</p>'}
 function aviso(){var m=E.m,o=Object.keys(E.datos).length;
  var h=barra(m.titulo,'inicio');
  h+='<div class="escena">'+board(m,{})+'';
@@ -120,7 +120,18 @@ function informe(){var d=G.datos,h='<div class="top noprint"><button class="btn 
   var er=d.errores[m.id];if(er)Object.keys(er).forEach(function(k){h+='<p class="er"><b>'+(TIPO[k]||k)+'</b> ('+er[k].n+(er[k].n>1?' veces':' vez')+'): '+esc(er[k].t)+'</p>'});
   h+='<p class="crit"><b>Criterios relacionados (orientativo):</b> '+m.criterios.map(function(c){return c}).join(', ')+'</p></section>'});
  h+='<p class="nota">Criterios según el Decreto 211/2022 (segundo y tercer ciclo), consultado el '+RL.curriculo.consulta+'; vigencia sin confirmar. El juego trabaja una selección de saberes.</p></div>';return h}
-var VISTAS={informe:informe,inicio:inicio,aviso:aviso,disena:disena,programa:programa,lectura:lectura,bitacora:bitacora,ajustes:ajustes};
+function docentes(){var C=RL.curriculo,h='<div class="top noprint"><button class="btn peq" data-nav data-act="inicio">← Volver</button><h1>Para docentes</h1><button class="btn peq gr" data-nav data-act="imprimir">Imprimir o guardar en PDF</button></div><div class="hoja">';
+ h+='<p class="aviso-doc"><b>Importante.</b> RoboLab trabaja una <b>selección</b> de saberes de Conocimiento del Medio y no sustituye la programación del área. La relación con criterios y saberes es <b>orientativa</b>: no sustituye la evaluación docente. Código Escuela 4.0 es un programa, no un currículo.</p>';
+ h+='<h2>Fuente curricular</h2><p>'+esc(C.fuente)+'. Consultado el '+esc(C.consulta)+'. Estado: '+esc(C.estado)+'. No se ha comprobado si el decreto tiene modificaciones posteriores.</p>';
+ h+='<h2>Cómo usarlo</h2><ul><li><b>Individual:</b> cada misión dura unos minutos (duración sin medir con alumnado todavía).</li><li><b>En pareja:</b> una persona diseña y otra programa, y cambian. Los criterios que piden trabajo cooperativo solo se evidencian así y con observación docente.</li><li><b>Gran grupo:</b> con la pizarra digital, el grupo propone y el docente pulsa.</li><li><b>Makey Makey:</b> todo se maneja con cuatro flechas y Espacio.</li></ul>';
+ h+='<h2>Misiones</h2>';
+ RL.misiones.forEach(function(m){var cc=C.ciclos[m.ciclo]||{criterios:{},saberes:{}};
+  h+='<section class="ficha"><h3>'+esc(m.titulo)+' <small>('+m.curso+'.º)</small></h3><p><b>Aviso de:</b> '+esc(m.aviso.quien)+'. <b>Programación:</b> '+esc(m.ordenes.filter(function(o){return o!=='llamar'}).join(', '))+(m.ordenes.indexOf('llamar')>=0?', rutina propia (ampliación fuera del decreto)':'')+'.</p>';
+  h+='<p><b>Saberes</b></p><ul>'+m.saberes.map(function(k){return'<li><b>'+esc(k)+'</b> '+esc(cc.saberes[k]||'')+'</li>'}).join('')+'</ul>';
+  h+='<p><b>Criterios de evaluación (orientativos)</b></p><ul>'+m.criterios.map(function(k){return'<li><b>'+esc(k)+'</b> '+esc(cc.criterios[k]||'')+'</li>'}).join('')+'</ul>';
+  h+='<p><b>Para conversar después de jugar:</b> '+esc(m.conversa||'')+'</p></section>'});
+ return h+'</div>'}
+var VISTAS={docentes:docentes,informe:informe,inicio:inicio,aviso:aviso,disena:disena,programa:programa,lectura:lectura,bitacora:bitacora,ajustes:ajustes};
 var previa='inicio';
 function render(foco){limpiar();if(E.pantalla!=='ajustes')previa=E.pantalla;app.innerHTML='<div class="vista v-'+E.pantalla+'">'+VISTAS[E.pantalla]()+'</div>';
  document.body.classList.toggle('grande',E.ajustes.grande);document.body.classList.toggle('nomotion',E.ajustes.sinMov);

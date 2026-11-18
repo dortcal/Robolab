@@ -1,6 +1,6 @@
 # RoboLab · Misión Archipiélago · Estado del proyecto
 
-**Última actualización:** 17/11/2026 (conversación 1, duodécima tanda)
+**Última actualización:** 17/11/2026 (conversación 1, decimotercera tanda)
 **Fase 4 (prototipo de El Monteverde):** probada por David con alumnado de 3.º: **salió bien, algo difícil para el nivel**. Se da por superada la condición de salida con esa salvedad; no hay detalle de dónde costó.
 **Fase actual:** 5 · Motor completo (en curso). Hay motor, interfaz, una misión de 5.º y edición del programa en cualquier punto.
 **Dirección de arte:** A · Guagua (confirmada el 15/11 junto con Infantil en la fase 11). **No se tomó como confirmación de la vigencia del decreto ni de los criterios contra el BOC**, que siguen pendientes.
@@ -45,6 +45,12 @@ Misiones de 3.º: z3m1 «El helecho que se seca», z3m2 «La lluvia que no cae»
 - **Alternativa sin arrastrar** (también teclado y Makey Makey): Espacio o toque sobre un bloque lo marca; tocar un hueco lo mueve allí; «borrar» quita solo ese bloque. Sin bloque marcado, «borrar» quita el anterior al cursor.
 - **Ejecutado:** `tests/nav/editar.py` (21 comprobaciones) con ratón en Chrome real; arrastre táctil emulado; regresión de las 3 misiones de 3.º, z5m1 e informe sin errores de consola; validador estático de la skill, 0 errores.
 - **No verificado:** táctil en móvil o tableta reales; Makey Makey físico; los huecos miden unos 30 px de ancho (menos de 44 px); no se ha probado con alumnado.
+
+## Decimotercera tanda (18/11): ventana «Para docentes»
+- **Pantalla «Para docentes»** (botón en el inicio, imprimible o PDF): aviso de que es una selección de saberes y orientativa, fuente curricular con fecha y estado («vigencia sin confirmar»), sugerencias de uso (individual, pareja, gran grupo, Makey Makey) y una ficha por misión con aviso, órdenes, saberes y criterios **con su texto literal** tomado de `curriculo.js`, y una pregunta para conversar después de jugar (campo `conversa` de cada misión).
+- **Ejecutado:** `tests/nav/docentes.py` (pc y móvil): 6 fichas, avisos, vigencia declarada sin comprobar, ningún saber o criterio sin texto, PDF generado, volver al inicio, sin errores de consola; captura vista.
+- **No verificado:** el PDF visto página a página; que las preguntas de conversación sirvan en el aula (las he redactado yo); la duración por misión sigue sin medir.
+- **Falta de la fase 8:** tabla de anclaje por ciclo completa (hoy solo las misiones existentes), propuesta por misión de duración y niveles de evidencia.
 
 ## Duodécima tanda (17/11): funciones y contadores implementados
 - **Motor:** `ejecutar(m,d,prog,fn)` y `coste(prog,fn)` con «Mi rutina» (`{llama}`), la orden `contar` (solo sobre una cúpula `C`, con telescopio), condiciones `cont=N` y meta `contar`. Casilla `C`, clima `noche` (el panel solar no carga) y batería por misión (`bateria`). `expandir()` sustituye las llamadas por la rutina para comparar costes.
