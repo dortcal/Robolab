@@ -28,6 +28,7 @@ function robot(d,ojosT,mover){var s='',met=P.metal;
  else{s+='<rect x="96" y="44" width="8" height="20" fill="'+shade(met,-.3)+'"/>'+circ(100,38,15,met,'')+circ(100,38,7,P.screen,'')+'<circle cx="97" cy="35" r="2.4" fill="#fff"/>'}
  s+=rr(146,100,22,12,6,shade(met,-.1));
  if(d.her==='regadera'){s+=rr(166,92,28,26,7,P.mar)+'<path d="M194 102l14-9" '+SW+' fill="none"/><rect x="206" y="86" width="8" height="10" rx="2" fill="'+P.amarillo+'" '+SW+'/><path d="M170 92q8-14 16 0" fill="none" '+SW+'/>'}
+ else if(d.her==='iman'){s+='<rect x="166" y="98" width="12" height="20" rx="3" fill="'+P.metal+'" '+SW+'/><path d="M178 98h14v7h-8v6h8v7h-14z" fill="'+P.coral+'" '+SW+'/><path d="M188 98h4v7h-4zM188 111h4v7h-4z" fill="#fff"/>'}
  else{s+='<g class="claw1"><path d="M166 98q22-4 18 14-6-2-12 0z" fill="'+P.amarillo+'" '+SW+'/></g><g class="claw2"><path d="M166 114q22 4 18-14-6 2-12 0z" fill="'+shade(P.amarillo,-.15)+'" '+SW+'/></g>'}
  return s+'</g>'}
 RL.Arte={P:P,shade:shade,SW:SW,rr:rr,circ:circ,robot:robot};

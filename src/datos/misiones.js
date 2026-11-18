@@ -82,6 +82,17 @@ RL.misiones=[
  porque:{hunde:'El picón es suelto y las ruedas o las patas se hunden. Las orugas reparten el peso.',herramienta:'La muestra de roca se coge con la pinza; la regadera no sirve.',roca:'Hay una roca en el camino: rodéala.',noLlega:'Cuenta las casillas hasta la roca de lava.'},
  bitacora:[{t:'Elegí orugas porque reparten el peso y no se hunden en el picón.',ok:true},{t:'Elegí orugas porque son más rápidas.',ok:false},{t:'Elegí la pinza porque la regadera pesa más.',ok:false}],
  saberes:['I.2.5'],criterios:['3.2','5.1']}
+,{id:'z4m3',conversa:'¿Qué materiales atrae el imán y cuáles no? ¿Por qué la pinza no servía para sacar el hierro de la lava?',zona:'volcanes',curso:4,ciclo:2,titulo:'La roca que no se mueve',
+ aviso:{quien:'Operario',texto:'Hay trozos de hierro mezclados con la lava enfriada y no puedo moverlos a mano. ¿Puedes llegar hasta ellos y recogerlos sin tocarlos?',
+  datos:[{id:'hierro',x:80,y:16,t:'Entre la lava hay un trozo de hierro, brillante y pesado.'},{id:'lava',x:40,y:50,t:'La lava enfriada es dura y oscura; los imanes no la atraen.'},{id:'sol',x:84,y:40,t:'Hace sol y no hay niebla.'}]},
+ clima:'sol',tablero:['.....G','.#.##.','......','.##.#.','......','R.....'],lecturas:{},
+ meta:{tipo:'llegar',x:5,y:0,herramienta:'iman'},ordenes:['N','S','E','O','repetir'],limite:8,optimo:4,
+ diseno:{mov:'ruedas',ene:'solar',sen:'camara',her:'iman'},energiaOK:'solar',
+ solucion:[{rep:5,body:['E']},{rep:5,body:['N']}],
+ errores:{pinza:{cambio:{her:'pinza'},fallo:'herramienta'},regadera:{cambio:{her:'regadera'},fallo:'herramienta'}},
+ porque:{herramienta:'El hierro se recoge sin tocarlo con un imán, que lo atrae. La pinza y la regadera no sirven aquí.',roca:'Hay una roca en el camino: rodéala.',noLlega:'Cuenta las casillas hasta el hierro.'},
+ bitacora:[{t:'Elegí el imán porque atrae el hierro y no atrae la lava.',ok:true},{t:'Elegí el imán porque agarra cualquier cosa.',ok:false},{t:'Elegí la pinza porque es más fuerte.',ok:false}],
+ saberes:['I.3.3'],criterios:['2.1','3.2']}
 ];
 RL.misiones.forEach(function(m){if(m.bancoLecturas){var v=m.bancoLecturas[0];m.ordenLecturas.forEach(function(k,i){m.lecturas[k]=v[i]})}});
 })(globalThis.RL=globalThis.RL||{});

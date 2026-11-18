@@ -13,6 +13,7 @@
   {id:'telescopio',n:'Telescopio',z:['cumbre'],f:'Los espejos y las lentes del telescopio recogen la poca luz de los astros y la hacen mayor. Sirve para observar el cielo de noche, no para ver el suelo.'}]},
  her:{nombre:'Herramienta',op:[
   {id:'regadera',n:'Regadera',f:'Echa agua a las plantas.'},
-  {id:'pinza',n:'Pinza',f:'Agarra y coloca objetos pequeños, como un poste.'}]}};
+  {id:'pinza',n:'Pinza',f:'Agarra y coloca objetos pequeños, como un poste.'},
+  {id:'iman',n:'Imán',z:['volcanes'],f:'El imán atrae el hierro y otros pocos materiales, sin tocarlos. No atrae la lava enfriada, ni la madera, ni el plástico.'}]}};
 RL.piezaNombre=function(id){var r=id;Object.keys(RL.piezas).forEach(function(k){RL.piezas[k].op.forEach(function(o){if(o.id===id)r=o.n})});return r};
 })(globalThis.RL=globalThis.RL||{});

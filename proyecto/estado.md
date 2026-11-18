@@ -46,6 +46,13 @@ Misiones de 3.º: z3m1 «El helecho que se seca», z3m2 «La lluvia que no cae»
 - **Ejecutado:** `tests/nav/editar.py` (21 comprobaciones) con ratón en Chrome real; arrastre táctil emulado; regresión de las 3 misiones de 3.º, z5m1 e informe sin errores de consola; validador estático de la skill, 0 errores.
 - **No verificado:** táctil en móvil o tableta reales; Makey Makey físico; los huecos miden unos 30 px de ancho (menos de 44 px); no se ha probado con alumnado.
 
+## Decimosexta tanda (18/11): segunda misión de 4.º
+- **Misión z4m3 «La roca que no se mueve»** (4.º, Tierra de Volcanes): hay que llegar hasta un trozo de hierro entre la lava enfriada. Solo sirve el **imán** (la pinza y la regadera fallan con `herramienta`); programa óptimo con dos bucles (`repetir 5 E`, `repetir 5 N`), 4 órdenes, límite 8 (sin bucles harían falta 10). Saber `I.3.3`, criterios `2.1` y `3.2`: **propuesta**, pendiente de contrastar con el BOC.
+- **Diferencia con `diseno.md`:** allí z4m3 incluye un banco de pruebas de fuerzas a distancia y elegir piezas; lo implementado es solo la decisión de herramienta y la ruta. El banco de pruebas queda pendiente (mecánica sin crear).
+- **Nuevo:** pieza `imán` (solo en la zona de volcanes) con su dibujo en el robot.
+- **Ejecutado:** pruebas de Node (intérprete y misiones, con el validador); en Chrome real `iman.py` (pc y móvil: se ofrece el imán, la pinza falla, el imán llega con 4 órdenes, sin errores de consola), `volcan.py` y `docentes.py`; captura vista.
+- **No verificado:** el resto de pruebas de navegador tras este cambio (solo cambian datos y una pieza); z4m3 con alumnado.
+
 ## Decimoquinta tanda (18/11): primera misión de 4.º (Tierra de Volcanes)
 - **Misión z4m1 «Piedras del volcán»** (4.º): una ladera con una franja de picón; hay que llegar a la roca con la pinza. Orugas obligatorias (ruedas y patas se hunden: fallo `hunde`, con pista que explica por qué). Programa óptimo: dos bucles (`repetir 5 N`, `repetir 4 E`) en 4 órdenes, límite 12. Saber `I.2.5`, criterios `3.2` y `5.1`: **propuesta**, pendiente de contrastar con el BOC.
 - **Diferencia con `diseno.md`:** allí z4m1 incluye un «clasificador de rocas»; lo implementado es solo la ruta con la decisión de diseño. El clasificador queda pendiente.
