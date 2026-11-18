@@ -412,6 +412,10 @@ function pistas(m,d,prog,res){
  var f=res.fallo;if(!f)return null;
  var desv=primerDesvio(m,d,prog,res),n1=(f.tipo==='noLlega'||f.tipo==='faltanMedidas'||f.tipo==='faltanCupulas')?desv:f.paso;
  var sol=ejecutar(m,m.diseno,m.solucion,m.rutina).pasos.slice(0,2).map(function(s){return s.o}).join(' ');
+ var RANURA={hunde:'Movimiento',patina:'Movimiento',sinEnergia:'Energía',sinSensor:'Sensor',medirFuera:'Sensor',herramienta:'Herramienta'};
+ if(RANURA[f.tipo]&&f.tipo!=='medirFuera')return[{nivel:1,texto:TXT[f.tipo]},
+  {nivel:2,texto:'El programa no es el problema: el fallo está en el diseño del robot. Vuelve a «Diseña» y lee los datos del lugar y la ficha de cada pieza.',paso:n1,ref:(res.pasos[n1]||{}).ref},
+  {nivel:3,texto:'Cambia la pieza de «'+RANURA[f.tipo]+'». '+(m.porque[f.tipo]||''),porque:m.porque[f.tipo]||''}];
  return[{nivel:1,texto:TXT[f.tipo]||'Algo ha salido mal.'},
   {nivel:2,texto:'El robot se desvía en el paso '+(n1+1)+'.'+delante(m,res.traza[n1],prog),paso:n1,ref:(res.pasos[n1]||{}).ref},
   {nivel:3,texto:(m.porque[f.tipo]||'')+' El programa empieza así: '+sol+'.',porque:m.porque[f.tipo]||''}]}

@@ -25,7 +25,7 @@ r=I.ejecutar(m3,m3.diseno,P('N E N E N E N E N E'));ok(r.meta&&r.coste===10,'m3:
 ok(r.coste<=m3.limite&&r.coste>m3.optimo,'m3: sin bucle cumple la misión pero no es eficiente');
 /* pistas: tres escalones y nunca un simple «mal» */
 r=I.ejecutar(m1,Object.assign({},m1.diseno,{mov:'ruedas'}),m1.solucion);var ps=I.pistas(m1,m1.diseno,m1.solucion,r);
-ok(ps.length===3&&ps[0].nivel===1&&ps[1].paso===1&&/patinan/.test(ps[2].texto)&&/N N/.test(ps[2].texto),'pistas: qué pasó, en qué paso, y primera parte de la solución');
+ok(ps.length===3&&ps[0].nivel===1&&/diseño del robot/.test(ps[1].texto)&&/Movimiento/.test(ps[2].texto)&&/patinan/.test(ps[2].texto),'pistas de diseño: qué pasó, que el fallo es de una pieza y cuál');
 r=I.ejecutar(m1,m1.diseno,P('N N N E E E'));ps=I.pistas(m1,m1.diseno,P('N N N E E E'),r);ok(ps&&ps[1].paso>=0,'desvío calculado cuando no llega ('+(r.fallo&&r.fallo.tipo)+', paso '+(ps&&ps[1].paso+1)+')');
 ok(I.pistas(m1,m1.diseno,m1.solucion,I.ejecutar(m1,m1.diseno,m1.solucion))===null,'sin fallo no hay pistas');
 /* validador: detecta misiones imposibles y códigos inventados */

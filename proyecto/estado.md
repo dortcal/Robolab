@@ -46,6 +46,12 @@ Misiones de 3.º: z3m1 «El helecho que se seca», z3m2 «La lluvia que no cae»
 - **Ejecutado:** `tests/nav/editar.py` (21 comprobaciones) con ratón en Chrome real; arrastre táctil emulado; regresión de las 3 misiones de 3.º, z5m1 e informe sin errores de consola; validador estático de la skill, 0 errores.
 - **No verificado:** táctil en móvil o tableta reales; Makey Makey físico; los huecos miden unos 30 px de ancho (menos de 44 px); no se ha probado con alumnado.
 
+## Decimoséptima tanda (18/11): pistas de diseño
+- **Petición de David:** tareas sencillas y buenas pistas para quien se bloquea.
+- **Cambio:** cuando el fallo es de una pieza (se hunde, patina, sin energía, sensor o herramienta que no sirve), las pistas dejan de hablar del «paso N» del programa. Escalón 1: qué pasó. Escalón 2: «el programa no es el problema; el fallo está en el diseño del robot; vuelve a Diseña y lee los datos del lugar y la ficha de cada pieza». Escalón 3: qué ranura cambiar («Movimiento», «Energía», «Sensor» o «Herramienta») y la explicación de la misión. Los fallos de programa siguen igual (qué pasó, en qué paso, primeros pasos de la solución).
+- **Ejecutado:** pruebas de Node (intérprete actualizado, misiones); Chrome real `volcan.py` e `iman.py`, sin errores.
+- **No verificado:** cómo se leen las pistas nuevas en pantalla con alumnado; el resto de pruebas de navegador no se repitieron.
+
 ## Decimosexta tanda (18/11): segunda misión de 4.º
 - **Misión z4m3 «La roca que no se mueve»** (4.º, Tierra de Volcanes): hay que llegar hasta un trozo de hierro entre la lava enfriada. Solo sirve el **imán** (la pinza y la regadera fallan con `herramienta`); programa óptimo con dos bucles (`repetir 5 E`, `repetir 5 N`), 4 órdenes, límite 8 (sin bucles harían falta 10). Saber `I.3.3`, criterios `2.1` y `3.2`: **propuesta**, pendiente de contrastar con el BOC.
 - **Diferencia con `diseno.md`:** allí z4m3 incluye un banco de pruebas de fuerzas a distancia y elegir piezas; lo implementado es solo la decisión de herramienta y la ruta. El banco de pruebas queda pendiente (mecánica sin crear).
