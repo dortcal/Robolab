@@ -1,10 +1,11 @@
 /* Casillas en vista de tres cuartos y objetos de pie. */
 (function(RL){var A=RL.Arte,P=A.P,shade=A.shade,SW=A.SW,uid=0;
 function tile(kind,x,y,s,dep){
- var top={hierba:P.grass,barro:P.mud,roca:P.rock,cumbre:'#7A6BB5'}[kind]||P.grass,o='',id='t'+(++uid),k=s/56;
+ var top={hierba:P.grass,barro:P.mud,roca:P.rock,cumbre:'#7A6BB5',picon:'#4B3B3A',ceniza:'#9C7C66'}[kind]||P.grass,o='',id='t'+(++uid),k=s/56;
  o+='<rect x="'+x+'" y="'+(y+dep)+'" width="'+s+'" height="'+s+'" rx="9" fill="'+shade(top,-.35)+'"/><rect x="'+x+'" y="'+y+'" width="'+s+'" height="'+s+'" rx="9" fill="'+top+'"/>';
  o+='<clipPath id="'+id+'"><rect x="'+x+'" y="'+y+'" width="'+s+'" height="'+s+'" rx="9"/></clipPath><g clip-path="url(#'+id+')">';
  if(kind==='hierba')o+='<path d="M'+(x+10*k)+' '+(y+36*k)+'l3-9 3 9M'+(x+34*k)+' '+(y+20*k)+'l3-9 3 9M'+(x+42*k)+' '+(y+44*k)+'l3-9 3 9" stroke="'+shade(top,-.3)+'" stroke-width="3" fill="none" stroke-linecap="round"/>';
+ if(kind==='picon'){for(var q=0;q<9;q++)o+='<circle cx="'+(x+(8+(q*13)%40)*k)+'" cy="'+(y+(14+(q*17)%34)*k)+'" r="'+(2+q%3)*k+'" fill="'+(q%2?'#7A6360':'#2D2221')+'"/>'}
  if(kind==='barro')o+='<ellipse cx="'+(x+20*k)+'" cy="'+(y+22*k)+'" rx="'+9*k+'" ry="'+5*k+'" fill="'+shade(top,-.25)+'"/><ellipse cx="'+(x+38*k)+'" cy="'+(y+40*k)+'" rx="'+11*k+'" ry="'+6*k+'" fill="'+shade(top,.2)+'" opacity=".6"/>';
  if(kind==='roca')o+='<circle cx="'+(x+18*k)+'" cy="'+(y+20*k)+'" r="'+4*k+'" fill="'+shade(top,-.25)+'"/><circle cx="'+(x+40*k)+'" cy="'+(y+36*k)+'" r="'+5*k+'" fill="'+shade(top,.25)+'"/><circle cx="'+(x+24*k)+'" cy="'+(y+44*k)+'" r="'+3*k+'" fill="'+shade(top,-.25)+'"/>';
  o+='</g><rect x="'+x+'" y="'+y+'" width="'+s+'" height="'+s+'" rx="9" fill="none" '+SW+'/><path d="M'+x+' '+(y+s)+'v'+dep+'a9 9 0 0 0 9 9h'+(s-18)+'a9 9 0 0 0 9-9v-'+dep+'" fill="none" '+SW+'/>';return o}

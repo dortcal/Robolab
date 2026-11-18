@@ -1,6 +1,6 @@
 # RoboLab · Misión Archipiélago · Estado del proyecto
 
-**Última actualización:** 17/11/2026 (conversación 1, decimotercera tanda)
+**Última actualización:** 17/11/2026 (conversación 1, decimocuarta tanda)
 **Fase 4 (prototipo de El Monteverde):** probada por David con alumnado de 3.º: **salió bien, algo difícil para el nivel**. Se da por superada la condición de salida con esa salvedad; no hay detalle de dónde costó.
 **Fase actual:** 5 · Motor completo (en curso). Hay motor, interfaz, una misión de 5.º y edición del programa en cualquier punto.
 **Dirección de arte:** A · Guagua (confirmada el 15/11 junto con Infantil en la fase 11). **No se tomó como confirmación de la vigencia del decreto ni de los criterios contra el BOC**, que siguen pendientes.
@@ -45,6 +45,18 @@ Misiones de 3.º: z3m1 «El helecho que se seca», z3m2 «La lluvia que no cae»
 - **Alternativa sin arrastrar** (también teclado y Makey Makey): Espacio o toque sobre un bloque lo marca; tocar un hueco lo mueve allí; «borrar» quita solo ese bloque. Sin bloque marcado, «borrar» quita el anterior al cursor.
 - **Ejecutado:** `tests/nav/editar.py` (21 comprobaciones) con ratón en Chrome real; arrastre táctil emulado; regresión de las 3 misiones de 3.º, z5m1 e informe sin errores de consola; validador estático de la skill, 0 errores.
 - **No verificado:** táctil en móvil o tableta reales; Makey Makey físico; los huecos miden unos 30 px de ancho (menos de 44 px); no se ha probado con alumnado.
+
+## Decimoquinta tanda (18/11): primera misión de 4.º (Tierra de Volcanes)
+- **Misión z4m1 «Piedras del volcán»** (4.º): una ladera con una franja de picón; hay que llegar a la roca con la pinza. Orugas obligatorias (ruedas y patas se hunden: fallo `hunde`, con pista que explica por qué). Programa óptimo: dos bucles (`repetir 5 N`, `repetir 4 E`) en 4 órdenes, límite 12. Saber `I.2.5`, criterios `3.2` y `5.1`: **propuesta**, pendiente de contrastar con el BOC.
+- **Diferencia con `diseno.md`:** allí z4m1 incluye un «clasificador de rocas»; lo implementado es solo la ruta con la decisión de diseño. El clasificador queda pendiente.
+- **Nuevo:** pieza `orugas` (solo en la zona de volcanes), casilla de picón, fondo volcánico, casillas de ceniza.
+- **Ciclo:** en 4.º (segundo ciclo) no se usan condiciones; la misión solo usa bucles.
+- **Ejecutado:** pruebas de Node (intérprete y misiones, validador: z4m1 resoluble, óptimo 4); en Chrome real `volcan.py` (pc y móvil) y regresión de `jugar`, `teclado`, `teclado_si`, `isla`, `muro`, `cupulas`, `editar`, `tactil`, `informe` y `docentes`, sin errores de consola.
+- **No verificado:** z4m1 con alumnado de 4.º; táctil real; la ficha de saber `I.2.5` contra el texto del BOC.
+
+## Decimocuarta tanda (18/11): alcance
+- **Decisión de David:** sin Infantil ni 1.º y 2.º de momento (no los considera un juego interesante para esas edades). Alcance: **3.º a 6.º**, cuatro zonas, 28 misiones previstas. Anotado en `diseno.md`, sección 10. Nivel Semilla descartado; las zonas de 1.º y 2.º quedan aparcadas.
+- **Corrijo un error mío anterior:** en `diseno.md` la fase 11 incluía el Nivel Semilla como opcional; queda sin efecto.
 
 ## Decimotercera tanda (18/11): ventana «Para docentes»
 - **Pantalla «Para docentes»** (botón en el inicio, imprimible o PDF): aviso de que es una selección de saberes y orientativa, fuente curricular con fecha y estado («vigencia sin confirmar»), sugerencias de uso (individual, pareja, gran grupo, Makey Makey) y una ficha por misión con aviso, órdenes, saberes y criterios **con su texto literal** tomado de `curriculo.js`, y una pregunta para conversar después de jugar (campo `conversa` de cada misión).

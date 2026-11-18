@@ -275,6 +275,8 @@ Cada zona tiene seis misiones y un Gran Reto. Los límites de órdenes (≤n) so
 
 ### Tierra de Volcanes (4.º)
 
+*z4m1 está implementada (18/11) sin el clasificador de rocas; ver `estado.md`.*
+
 | Id | Misión y aviso | Decisión de diseño | Retos | Saberes | Criterios |
 |---|---|---|---|---|---|
 | z4m1 | **Piedras del volcán.** Un geólogo: ¿qué rocas hay en la ladera? | Orugas: no se hunden en el picón. | Clasificador de rocas · Ruta con bucle 6×6 (≤8) | I.2.5 | 5.1, 3.2 |
@@ -348,3 +350,14 @@ No vienen en el decreto (ver sección 2): son una ampliación declarada, solo en
 - **Misión z6p1 «Las cúpulas del observatorio»** (retos extra de La Cumbre y el Cielo): noche, batería de 18 órdenes (el panel solar no carga), telescopio como sensor. Cuatro cúpulas con tramos de camino distintos; en cada una se repite «avanzar, avanzar, contar». Solución de referencia: rutina de 3 órdenes (coste 4) + 9 elementos de programa = **13**; el mismo programa sin rutina cuesta 17 y el límite es 14. Saberes `III.1.1` (observación del cielo y contaminación lumínica) y `II.2.3`; criterio `3.2`.
 - **Qué comprueba el validador con rutina:** la referencia cumple la misión, su coste es el óptimo declarado y no pasa del límite; el mismo programa expandido (sin función) **no cabe** en el límite; la misión ofrece «llamar». **No** busca exhaustivamente una solución mejor (el espacio es enorme): el óptimo con rutina es «el mínimo conocido», no un mínimo demostrado.
 - **Pendiente:** usar `cont=N` en alguna misión; que la definición de rutina admita más de un nivel en misiones posteriores; probar con alumnado de 6.º.
+
+## 10. Alcance: sin Infantil ni 1.º y 2.º de momento (18/11/2026)
+
+**Decisión (David):** de momento RoboLab **no se usará en Infantil ni en 1.º y 2.º de Primaria**, porque no lo considera un juego interesante para esas edades. El proyecto se centra en **3.º a 6.º** (tercer a sexto curso).
+
+- **Nivel Semilla de Infantil:** descartado por ahora (se quita de la fase 11).
+- **Zonas 1.º y 2.º** (El Barrio y la Huerta; La Costa y el Puerto): quedan **aparcadas**. Sus 14 misiones de la sección 6 se conservan como referencia, pero no se desarrollan en la versión 1.0. Si se retomaran, habría que replantear la mecánica para esas edades, no solo reescribir contenidos.
+- **Versión 1.0 acotada:** cuatro zonas (El Monteverde 3.º, Tierra de Volcanes 4.º, La Isla Sostenible 5.º, La Cumbre y el Cielo 6.º) con 6 misiones y un Gran Reto cada una: **28 misiones**.
+- **Efecto en el lenguaje de órdenes:** desaparecen las flechas y los tableros de 4×4 y 5×5. La progresión empieza en N S E O con bucle simple (3.º).
+- **Efecto en accesibilidad:** el requisito «sin lectura obligatoria» (iconos, voz) ya no es obligatorio para el alumnado lector de 3.º a 6.º; se mantienen la lectura en voz alta cuando el navegador la ofrezca y el resto de requisitos de accesibilidad.
+- **Efecto curricular:** los criterios de primer ciclo y los de segundo ciclo de 1.º/2.º dejan de usarse en las misiones. En 3.º y 4.º siguen aplicándose los del segundo ciclo (el ciclo 2.º es 3.º y 4.º en Primaria).

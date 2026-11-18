@@ -30,5 +30,13 @@ function cumbre(w,h){
  s+='<g class="par" data-p="16"><path d="M-40 360q140-60 300-20t300-30q160-30 320 30v120H-40z" fill="#3A2F63"/></g>';
  s+='<rect x="0" y="400" width="'+w+'" height="'+(h-400)+'" fill="#2A2252"/>';
  return s}
-RL.Fondos={isla:isla,monteverde:monteverde,lluvia:lluvia,cumbre:cumbre};
+function volcanes(w,h){
+ var s='<defs><linearGradient id="skyV" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6E3B2E"/><stop offset=".55" stop-color="#D9884A"/><stop offset="1" stop-color="#F2C078"/></linearGradient></defs>';
+ s+='<rect width="'+w+'" height="'+h+'" fill="url(#skyV)"/><circle cx="700" cy="120" r="46" fill="#FFE9B0" opacity=".85"/>';
+ s+='<g class="par" data-p="6"><path d="M-40 330L170 200l90 -20 190 150z" fill="#8C5A48" opacity=".8"/><path d="M360 340L560 150l60-8 220 198z" fill="#5C3A34"/><path d="M548 156l22-14 40 6-22 22z" fill="#FF6A2B"/><path d="M572 142q-6-30 8-52" stroke="#E8D2C0" stroke-width="14" fill="none" stroke-linecap="round" opacity=".6"/></g>';
+ s+='<g class="par" data-p="14"><path d="M-40 400q200-110 420-30t380-20l120 40v120H-40z" fill="#3A2926"/></g>';
+ s+='<path d="M600 330q8 30-6 54" stroke="#FF6A2B" stroke-width="6" fill="none" stroke-linecap="round" opacity=".8"/>';
+ s+='<rect x="0" y="410" width="'+w+'" height="'+(h-410)+'" fill="#2A1D1B"/>';
+ return s}
+RL.Fondos={isla:isla,monteverde:monteverde,lluvia:lluvia,cumbre:cumbre,volcanes:volcanes};
 })(globalThis.RL=globalThis.RL||{});

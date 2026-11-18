@@ -14,8 +14,8 @@ function hdT(d){var v=DV[d];return'translate('+(100+v[0]*78)+' '+(140+v[1]*78)+'
 function setHead(d){var h=$('#hd');if(h)h.setAttribute('transform',hdT(d))}
 function estrecha(){return window.innerWidth<640}
 function board(m,o){o=o||{};var g=geo(m),s='';var vb=estrecha()?[g.X0-24,0,g.w*g.S+48,540]:[0,0,900,540];
- s+=(m.zona==='isla'?RL.Fondos.isla(900,540):(m.zona==='cumbre'?RL.Fondos.cumbre(900,540):RL.Fondos.monteverde(900,540,m.clima==='niebla')));
- for(var y=0;y<g.n;y++)for(var x=0;x<g.w;x++){var c=m.tablero[y][x],k=c==='#'?'roca':(c==='B'||c==='M')?'barro':(m.zona==='cumbre'?'cumbre':'hierba');s+=RL.Casillas.tile(k,g.X0+x*g.S,g.Y0+y*g.S,g.S-4,12)}
+ s+=(m.zona==='isla'?RL.Fondos.isla(900,540):(m.zona==='cumbre'?RL.Fondos.cumbre(900,540):(m.zona==='volcanes'?RL.Fondos.volcanes(900,540):RL.Fondos.monteverde(900,540,m.clima==='niebla'))));
+ for(var y=0;y<g.n;y++)for(var x=0;x<g.w;x++){var c=m.tablero[y][x],k=c==='#'?'roca':(c==='B'||c==='M')?'barro':(c==='P'?'picon':(m.zona==='cumbre'?'cumbre':(m.zona==='volcanes'?'ceniza':'hierba')));s+=RL.Casillas.tile(k,g.X0+x*g.S,g.Y0+y*g.S,g.S-4,12)}
  for(y=0;y<g.n;y++)for(x=0;x<g.w;x++){c=m.tablero[y][x];var cx=g.X0+x*g.S+g.S/2-2,by=g.Y0+y*g.S+g.S-10;
   if(c==='H'||c==='M')s+=RL.Casillas.obj('poste',cx,by,.9);
   if(c==='C')s+=RL.Casillas.obj('cupula',cx,by,.95);
@@ -23,7 +23,7 @@ function board(m,o){o=o||{};var g=geo(m),s='';var vb=estrecha()?[g.X0-24,0,g.w*g
  s+=rosa(vb[0]);
  if(m.clima==='niebla')s+=RL.Fondos.lluvia();
  s+='<g id="fxs"></g><g id="bot" style="transition:transform '+(.5/E.ajustes.vel)+'s cubic-bezier(.3,1.3,.5,1);transform:'+botT(g,o.pos||I.inicio(m))+'"><g id="botInner">'+A.robot(o.diseno||E.diseno,o.ojos||'reposo',false)+'</g>'+(m.rumbo?'<g id="hd" style="transition:transform .25s" transform="'+hdT(m.rumbo)+'"><path d="M0-18L13 8H-13z" fill="#FF6A4D" stroke="#2B1A16" stroke-width="5" stroke-linejoin="round"/></g>':'')+'</g>';
- return'<svg id="tab" viewBox="'+vb.join(' ')+'" role="img" aria-label="Tablero de '+g.w+' por '+g.n+' casillas en '+({isla:'la isla',cumbre:'la cumbre'}[m.zona]||'el monteverde')+'">'+s+'</svg>'}
+ return'<svg id="tab" viewBox="'+vb.join(' ')+'" role="img" aria-label="Tablero de '+g.w+' por '+g.n+' casillas en '+({isla:'la isla',cumbre:'la cumbre',volcanes:'el volcán'}[m.zona]||'el monteverde')+'">'+s+'</svg>'}
 function setBot(ojos,mover){var b=$('#botInner');if(b)b.innerHTML=A.robot(E.diseno,ojos,mover)}
 function par(){var sv=$('#tab');if(!sv)return}
 /* ---------- pantallas ---------- */
@@ -93,7 +93,7 @@ if(m.ordenes.indexOf('llamar')>=0)h+='<p class="guia">Si un tramo se repite pero
  h+='<div class="res" id="res" aria-live="polite">'+resultado()+'</div>';return h}
 function resultado(){var r=E.res;if(!r||E.ejecutando)return'';
  if(!r.fallo&&r.meta){return'<div class="ok"><b>¡Lo has conseguido!</b> Con '+r.coste+' órdenes. '+(E.m.lectura?'Ahora toca leer los datos.':'')+'</div><div class="acc"><button class="btn gr" data-nav data-act="ir" data-p="'+(E.m.lectura?'lectura':'bitacora')+'">'+(E.m.lectura?'Leer los datos':'Bitácora')+'</button></div>'}
- var h='<div class="mal">',p=E.pistas;h+='<p><b>Prediste:</b> '+({ok:'lo conseguirá',atasca:'se atascará o chocará',energia:'se quedará sin energía'}[E.pred])+'. <b>Pasó:</b> '+({patina:'se atascó',roca:'chocó',borde:'chocó',sinEnergia:'se quedó sin energía'}[r.fallo.tipo]||'no lo consiguió')+'.</p>';
+ var h='<div class="mal">',p=E.pistas;h+='<p><b>Prediste:</b> '+({ok:'lo conseguirá',atasca:'se atascará o chocará',energia:'se quedará sin energía'}[E.pred])+'. <b>Pasó:</b> '+({hunde:'se hundió',patina:'se atascó',roca:'chocó',borde:'chocó',sinEnergia:'se quedó sin energía'}[r.fallo.tipo]||'no lo consiguió')+'.</p>';
  for(var i=0;i<E.hint&&i<3;i++)h+='<p class="pista"><span class="np">Pista '+(i+1)+'</span> '+esc(p[i].texto)+'</p>';
  h+='</div><div class="acc">';if(E.hint<3)h+='<button class="btn" data-nav data-act="pista">Otra pista</button>';
  h+='<button class="btn" data-nav data-act="ir" data-p="disena">Cambiar el robot</button><button class="btn gr" data-nav data-act="ir" data-p="programa">Seguir programando</button></div>';return h}
@@ -110,7 +110,7 @@ function bitacora(){var m=E.m,s=estrellasMision(),h=barra('Bitácora','programa'
  h+='<h2>¿Cómo te has sentido?</h2><div class="fila">';[['c','Contento'],['t','Tranquilo'],['n','Nervioso'],['f','Frustrado']].forEach(function(e){h+='<button class="btn pz" data-nav data-act="emo" data-e="'+e[0]+'" aria-pressed="'+(E.emo===e[0])+'">'+e[1]+'</button>'});
  return h+'</div><div class="acc"><button class="btn gr" data-nav data-act="terminar"'+((E.frase!=null&&m.bitacora[E.frase].ok&&E.emo)?'':' disabled')+'>Terminar</button></div>'}
 function ajustes(){var a=E.ajustes;return barra('Ajustes','inicio')+'<div class="fila aj">'+[['grande','Texto grande'],['sinMov','Sin movimiento'],['silencio','Silencio']].map(function(x){return'<button class="btn pz" data-nav data-act="ajuste" data-k="'+x[0]+'" aria-pressed="'+a[x[0]]+'">'+x[1]+'</button>'}).join('')+'<button class="btn pz" data-nav data-act="vel" aria-pressed="false">Velocidad del robot ×'+a.vel+'</button></div><p class="nota">M silencia el sonido. Esc vuelve al inicio.</p><p class="nota">Este prototipo no guarda nombres ni datos personales. El progreso queda en este navegador.</p>'}
-var EMO={c:'Contento',t:'Tranquilo',n:'Nervioso',f:'Frustrado'},TIPO={contarFuera:'Contó donde no había cúpula',faltanCupulas:'Faltaron cúpulas',sinRutina:'Llamó a una rutina vacía',rutinaEnRutina:'Una rutina llamó a otra',patina:'Se atascó',roca:'Chocó con una roca',borde:'Se salió del tablero',sinEnergia:'Se quedó sin energía',sinSensor:'Faltaba el sensor',medirFuera:'Midió donde no había poste',herramienta:'Herramienta equivocada',noLlega:'No llegó a la meta',faltanMedidas:'Faltaron medidas',demasiados:'Demasiadas órdenes'};
+var EMO={c:'Contento',t:'Tranquilo',n:'Nervioso',f:'Frustrado'},TIPO={hunde:'Se hundió en el picón',contarFuera:'Contó donde no había cúpula',faltanCupulas:'Faltaron cúpulas',sinRutina:'Llamó a una rutina vacía',rutinaEnRutina:'Una rutina llamó a otra',patina:'Se atascó',roca:'Chocó con una roca',borde:'Se salió del tablero',sinEnergia:'Se quedó sin energía',sinSensor:'Faltaba el sensor',medirFuera:'Midió donde no había poste',herramienta:'Herramienta equivocada',noLlega:'No llegó a la meta',faltanMedidas:'Faltaron medidas',demasiados:'Demasiadas órdenes'};
 function informe(){var d=G.datos,h='<div class="top noprint"><button class="btn peq" data-nav data-act="inicio">← Volver</button><h1>Informe</h1><button class="btn peq gr" data-nav data-act="imprimir">Imprimir o guardar PDF</button></div>';
  h+='<div class="hoja"><h1 class="tit">RoboLab · Informe</h1><p class="nom">Nombre: ______________________ Fecha: ____________</p><p class="nota">Informe orientativo generado en este dispositivo. No recoge datos personales y no sustituye la evaluación docente.</p>';
  RL.misiones.forEach(function(m){var n=d.estrellas[m.id];h+='<section class="im"><h2>'+esc(m.titulo)+'</h2>';

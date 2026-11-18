@@ -2,6 +2,7 @@
 (function(RL){RL.piezas={
  mov:{nombre:'Movimiento',op:[
   {id:'ruedas',n:'Ruedas',f:'Las ruedas ruedan muy bien en suelo duro, pero en el barro patinan y no avanzan.'},
+  {id:'orugas',n:'Orugas',z:['volcanes'],f:'Las orugas reparten el peso del robot sobre una superficie grande, y por eso no se hunde en el picón, la gravilla suelta de los volcanes. Las ruedas y las patas se hunden.'},
   {id:'patas',n:'Patas',f:'Las patas se apoyan en puntos del suelo. Pisan el barro sin patinar.'}]},
  ene:{nombre:'Energía',op:[
   {id:'bateria',n:'Batería',f:'La batería guarda energía y funciona con niebla, de noche o a la sombra. Se gasta con cada paso.'},

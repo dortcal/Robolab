@@ -196,6 +196,7 @@ if(typeof module!=='undefined')module.exports=RL.curriculo;})(globalThis.RL=glob
 (function(RL){RL.piezas={
  mov:{nombre:'Movimiento',op:[
   {id:'ruedas',n:'Ruedas',f:'Las ruedas ruedan muy bien en suelo duro, pero en el barro patinan y no avanzan.'},
+  {id:'orugas',n:'Orugas',z:['volcanes'],f:'Las orugas reparten el peso del robot sobre una superficie grande, y por eso no se hunde en el picón, la gravilla suelta de los volcanes. Las ruedas y las patas se hunden.'},
   {id:'patas',n:'Patas',f:'Las patas se apoyan en puntos del suelo. Pisan el barro sin patinar.'}]},
  ene:{nombre:'Energía',op:[
   {id:'bateria',n:'Batería',f:'La batería guarda energía y funciona con niebla, de noche o a la sombra. Se gasta con cada paso.'},
@@ -282,7 +283,18 @@ RL.misiones=[
  errores:{solar:{cambio:{ene:'solar'},fallo:'sinEnergia'},camara:{cambio:{sen:'camara'},fallo:'sinSensor'}},
  porque:{sinEnergia:'De noche el panel solar no carga. La batería sí funciona.',sinSensor:'La cámara no distingue las cúpulas en la oscuridad. El telescopio recoge la poca luz de los astros.',contarFuera:'Solo se cuenta encima de una cúpula.',faltanCupulas:'Hay cuatro cúpulas y hay que contar en todas.',borde:'Fíjate en hacia dónde mira el robot al girar.',sinRutina:'Escribe algo dentro de «Mi rutina» antes de llamarla.',rutinaEnRutina:'Una rutina no puede llamar a otra rutina.',noLlega:'Fíjate en lo que se repite en cada cúpula y escríbelo una sola vez en «Mi rutina».'},
  bitacora:[{t:'Escribí «avanzar, avanzar, contar» una sola vez en una rutina y la llamé en cada cúpula.',ok:true},{t:'Copié los mismos pasos cuatro veces porque no sabía otra forma.',ok:false},{t:'Elegí el panel solar porque es más ecológico, aunque sea de noche.',ok:false}],
- saberes:['III.1.1','II.2.3'],criterios:['3.2']}
+ saberes:['III.1.1','II.2.3'],criterios:['3.2']},
+{id:'z4m1',conversa:'¿Qué diferencia hay entre las ruedas y las orugas sobre el picón? ¿Qué rocas has visto en la ladera y cómo se formaron?',zona:'volcanes',curso:4,ciclo:2,titulo:'Piedras del volcán',
+ aviso:{quien:'Geólogo',texto:'En la ladera del volcán hay una roca de lava que quiero estudiar. El camino cruza una franja de picón. ¿Puedes traerme una muestra?',
+  datos:[{id:'picon',x:30,y:72,t:'El picón es gravilla volcánica suelta: lo que queda de los pequeños trozos de lava.'},{id:'roca',x:78,y:16,t:'Arriba hay roca de lava enfriada, oscura y con agujeros.'},{id:'sol',x:84,y:40,t:'Hace sol y no hay niebla.'}]},
+ clima:'sol',tablero:['....G.','.##...','PPPPPP','......','.#.#..','R.....'],lecturas:{},
+ meta:{tipo:'llegar',x:4,y:0,herramienta:'pinza'},ordenes:['N','S','E','O','repetir'],limite:12,optimo:4,
+ diseno:{mov:'orugas',ene:'solar',sen:'camara',her:'pinza'},energiaOK:'solar',
+ solucion:[{rep:5,body:['N']},{rep:4,body:['E']}],
+ errores:{ruedas:{cambio:{mov:'ruedas'},fallo:'hunde'},patas:{cambio:{mov:'patas'},fallo:'hunde'},regadera:{cambio:{her:'regadera'},fallo:'herramienta'}},
+ porque:{hunde:'El picón es suelto y las ruedas o las patas se hunden. Las orugas reparten el peso.',herramienta:'La muestra de roca se coge con la pinza; la regadera no sirve.',roca:'Hay una roca en el camino: rodéala.',noLlega:'Cuenta las casillas hasta la roca de lava.'},
+ bitacora:[{t:'Elegí orugas porque reparten el peso y no se hunden en el picón.',ok:true},{t:'Elegí orugas porque son más rápidas.',ok:false},{t:'Elegí la pinza porque la regadera pesa más.',ok:false}],
+ saberes:['I.2.5'],criterios:['3.2','5.1']}
 ];
 RL.misiones.forEach(function(m){if(m.bancoLecturas){var v=m.bancoLecturas[0];m.ordenLecturas.forEach(function(k,i){m.lecturas[k]=v[i]})}});
 })(globalThis.RL=globalThis.RL||{});
@@ -339,7 +351,8 @@ function ejecutar(m,d,prog,fn){
   if(c2===null){fail('borde',ref,ev);ev.a={x:p.x,y:p.y}}
   else if(c2==='#'){fail('roca',ref,ev);ev.a={x:p.x,y:p.y}}
   else{p={x:nx,y:ny};ev.a={x:nx,y:ny};
-   if((c2==='B'||c2==='M')&&d.mov==='ruedas')fail('patina',ref,ev)}
+   if((c2==='B'||c2==='M')&&d.mov==='ruedas')fail('patina',ref,ev);
+   else if(c2==='P'&&d.mov!=='orugas')fail('hunde',ref,ev)}
   tr.push(ev);i++}
  function correr(items,path){
   for(var k=0;k<items.length&&!fallo&&!exceso;k++){
@@ -371,7 +384,7 @@ function primerDesvio(m,d,prog,res){
  for(k=0;k<res.traza.length;k++){var a=res.traza[k].a,b=ref[k]&&ref[k].a;if(!b||!a||a.x!==b.x||a.y!==b.y)return k}
  return res.traza.length?res.traza.length-1:0}
 var TXT={
- patina:'El robot se ha atascado en el barro.',sinEnergia:'El robot se ha quedado sin energía antes de terminar.',
+ patina:'El robot se ha atascado en el barro.',hunde:'El robot se ha hundido en el picón.',sinEnergia:'El robot se ha quedado sin energía antes de terminar.',
  roca:'El robot ha chocado con una roca.',borde:'El robot se ha salido del tablero.',
  sinSensor:'El sensor no sirve para medir aquí.',medirFuera:'El robot ha medido donde no hay poste.',
  herramienta:'El robot ha llegado, pero su herramienta no sirve para esto.',
@@ -380,7 +393,7 @@ var TXT={
 function delante(m,ev,prog){
  if(!ev||!ev.de||!ev.dir||!/"(si|hasta)":/.test(JSON.stringify(prog)))return'';
  var v=DIR[ev.dir],k=celda(m,ev.de.x+v[0],ev.de.y+v[1]);
- var t=k===null?'el borde del tablero':(k==='#'?'una roca':(k==='G'?'la meta':(k==='B'||k==='M'?'barro':'camino libre')));
+ var t=k===null?'el borde del tablero':(k==='#'?'una roca':(k==='G'?'la meta':(k==='B'||k==='M'?'barro':(k==='P'?'picón':'camino libre'))));
  return' En ese momento tenía delante '+t+'.'}
 /* Tres escalones: qué ha pasado, en qué paso se desvía, primera parte de la solución. */
 function pistas(m,d,prog,res){
@@ -476,6 +489,7 @@ function robot(d,ojosT,mover){var s='',met=P.metal;
  s+='<ellipse cx="100" cy="188" rx="54" ry="7" fill="#2B1A16" opacity=".22"/><g class="'+(mover?'':'bob')+'">';
  if(d.mov==='patas'){
   s+='<g class="'+(mover?'legL':'')+'">'+rr(66,148,16,32,6,shade(met,-.35))+rr(58,174,32,12,6,P.amarillo)+'</g><g class="'+(mover?'legR':'')+'">'+rr(118,148,16,32,6,shade(met,-.35))+rr(110,174,32,12,6,P.amarillo)+'</g>'}
+ else if(d.mov==='orugas'){var tk=shade(met,-.45);s+=rr(46,156,50,32,16,tk)+rr(104,156,50,32,16,tk)+'<g class="spin"><circle cx="64" cy="172" r="8" fill="'+shade(met,.2)+'"/><circle cx="64" cy="166" r="2.4" fill="'+P.screen+'"/></g><g class="spin"><circle cx="136" cy="172" r="8" fill="'+shade(met,.2)+'"/><circle cx="136" cy="166" r="2.4" fill="'+P.screen+'"/></g><path d="M52 188h38M110 188h38" stroke="'+P.screen+'" stroke-width="3" stroke-dasharray="4 5"/>'}
  else{s+=circ(74,166,19,P.mar,'')+circ(126,166,19,P.mar,'')+'<g class="spin"><circle cx="74" cy="166" r="7" fill="'+shade(met,.3)+'"/><circle cx="74" cy="158" r="2.4" fill="'+P.screen+'"/></g><g class="spin"><circle cx="126" cy="166" r="7" fill="'+shade(met,.3)+'"/><circle cx="126" cy="158" r="2.4" fill="'+P.screen+'"/></g>'}
  if(d.ene==='solar'){s+='<g class="sway"><rect x="38" y="76" width="5" height="26" fill="'+shade(met,-.3)+'"/><path d="M8 62l52-12 6 22-52 12z" fill="'+P.mar+'"/><path d="M21 59l6 22M34 56l6 22M47 53l6 22M10 71l52-12" stroke="'+shade(P.mar,.55)+'" stroke-width="2"/><path d="M8 62l52-12 6 22-52 12z" fill="none" '+SW+'/></g>'}
  else{s+=rr(22,92,30,44,8,P.monte)+rr(31,86,12,8,3,shade(met,.1))+'<path d="M38 104l-8 14h7l-3 12 11-17h-7l3-9z" fill="#FFF" opacity=".95"/>'}
@@ -493,10 +507,11 @@ RL.Arte={P:P,shade:shade,SW:SW,rr:rr,circ:circ,robot:robot};
 /* Casillas en vista de tres cuartos y objetos de pie. */
 (function(RL){var A=RL.Arte,P=A.P,shade=A.shade,SW=A.SW,uid=0;
 function tile(kind,x,y,s,dep){
- var top={hierba:P.grass,barro:P.mud,roca:P.rock,cumbre:'#7A6BB5'}[kind]||P.grass,o='',id='t'+(++uid),k=s/56;
+ var top={hierba:P.grass,barro:P.mud,roca:P.rock,cumbre:'#7A6BB5',picon:'#4B3B3A',ceniza:'#9C7C66'}[kind]||P.grass,o='',id='t'+(++uid),k=s/56;
  o+='<rect x="'+x+'" y="'+(y+dep)+'" width="'+s+'" height="'+s+'" rx="9" fill="'+shade(top,-.35)+'"/><rect x="'+x+'" y="'+y+'" width="'+s+'" height="'+s+'" rx="9" fill="'+top+'"/>';
  o+='<clipPath id="'+id+'"><rect x="'+x+'" y="'+y+'" width="'+s+'" height="'+s+'" rx="9"/></clipPath><g clip-path="url(#'+id+')">';
  if(kind==='hierba')o+='<path d="M'+(x+10*k)+' '+(y+36*k)+'l3-9 3 9M'+(x+34*k)+' '+(y+20*k)+'l3-9 3 9M'+(x+42*k)+' '+(y+44*k)+'l3-9 3 9" stroke="'+shade(top,-.3)+'" stroke-width="3" fill="none" stroke-linecap="round"/>';
+ if(kind==='picon'){for(var q=0;q<9;q++)o+='<circle cx="'+(x+(8+(q*13)%40)*k)+'" cy="'+(y+(14+(q*17)%34)*k)+'" r="'+(2+q%3)*k+'" fill="'+(q%2?'#7A6360':'#2D2221')+'"/>'}
  if(kind==='barro')o+='<ellipse cx="'+(x+20*k)+'" cy="'+(y+22*k)+'" rx="'+9*k+'" ry="'+5*k+'" fill="'+shade(top,-.25)+'"/><ellipse cx="'+(x+38*k)+'" cy="'+(y+40*k)+'" rx="'+11*k+'" ry="'+6*k+'" fill="'+shade(top,.2)+'" opacity=".6"/>';
  if(kind==='roca')o+='<circle cx="'+(x+18*k)+'" cy="'+(y+20*k)+'" r="'+4*k+'" fill="'+shade(top,-.25)+'"/><circle cx="'+(x+40*k)+'" cy="'+(y+36*k)+'" r="'+5*k+'" fill="'+shade(top,.25)+'"/><circle cx="'+(x+24*k)+'" cy="'+(y+44*k)+'" r="'+3*k+'" fill="'+shade(top,-.25)+'"/>';
  o+='</g><rect x="'+x+'" y="'+y+'" width="'+s+'" height="'+s+'" rx="9" fill="none" '+SW+'/><path d="M'+x+' '+(y+s)+'v'+dep+'a9 9 0 0 0 9 9h'+(s-18)+'a9 9 0 0 0 9-9v-'+dep+'" fill="none" '+SW+'/>';return o}
@@ -542,7 +557,15 @@ function cumbre(w,h){
  s+='<g class="par" data-p="16"><path d="M-40 360q140-60 300-20t300-30q160-30 320 30v120H-40z" fill="#3A2F63"/></g>';
  s+='<rect x="0" y="400" width="'+w+'" height="'+(h-400)+'" fill="#2A2252"/>';
  return s}
-RL.Fondos={isla:isla,monteverde:monteverde,lluvia:lluvia,cumbre:cumbre};
+function volcanes(w,h){
+ var s='<defs><linearGradient id="skyV" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6E3B2E"/><stop offset=".55" stop-color="#D9884A"/><stop offset="1" stop-color="#F2C078"/></linearGradient></defs>';
+ s+='<rect width="'+w+'" height="'+h+'" fill="url(#skyV)"/><circle cx="700" cy="120" r="46" fill="#FFE9B0" opacity=".85"/>';
+ s+='<g class="par" data-p="6"><path d="M-40 330L170 200l90 -20 190 150z" fill="#8C5A48" opacity=".8"/><path d="M360 340L560 150l60-8 220 198z" fill="#5C3A34"/><path d="M548 156l22-14 40 6-22 22z" fill="#FF6A2B"/><path d="M572 142q-6-30 8-52" stroke="#E8D2C0" stroke-width="14" fill="none" stroke-linecap="round" opacity=".6"/></g>';
+ s+='<g class="par" data-p="14"><path d="M-40 400q200-110 420-30t380-20l120 40v120H-40z" fill="#3A2926"/></g>';
+ s+='<path d="M600 330q8 30-6 54" stroke="#FF6A2B" stroke-width="6" fill="none" stroke-linecap="round" opacity=".8"/>';
+ s+='<rect x="0" y="410" width="'+w+'" height="'+(h-410)+'" fill="#2A1D1B"/>';
+ return s}
+RL.Fondos={isla:isla,monteverde:monteverde,lluvia:lluvia,cumbre:cumbre,volcanes:volcanes};
 })(globalThis.RL=globalThis.RL||{});
 
 /* Escenas del prototipo: inicio, aviso, diseña, programa y prueba, lectura de datos y bitácora. */
@@ -561,8 +584,8 @@ function hdT(d){var v=DV[d];return'translate('+(100+v[0]*78)+' '+(140+v[1]*78)+'
 function setHead(d){var h=$('#hd');if(h)h.setAttribute('transform',hdT(d))}
 function estrecha(){return window.innerWidth<640}
 function board(m,o){o=o||{};var g=geo(m),s='';var vb=estrecha()?[g.X0-24,0,g.w*g.S+48,540]:[0,0,900,540];
- s+=(m.zona==='isla'?RL.Fondos.isla(900,540):(m.zona==='cumbre'?RL.Fondos.cumbre(900,540):RL.Fondos.monteverde(900,540,m.clima==='niebla')));
- for(var y=0;y<g.n;y++)for(var x=0;x<g.w;x++){var c=m.tablero[y][x],k=c==='#'?'roca':(c==='B'||c==='M')?'barro':(m.zona==='cumbre'?'cumbre':'hierba');s+=RL.Casillas.tile(k,g.X0+x*g.S,g.Y0+y*g.S,g.S-4,12)}
+ s+=(m.zona==='isla'?RL.Fondos.isla(900,540):(m.zona==='cumbre'?RL.Fondos.cumbre(900,540):(m.zona==='volcanes'?RL.Fondos.volcanes(900,540):RL.Fondos.monteverde(900,540,m.clima==='niebla'))));
+ for(var y=0;y<g.n;y++)for(var x=0;x<g.w;x++){var c=m.tablero[y][x],k=c==='#'?'roca':(c==='B'||c==='M')?'barro':(c==='P'?'picon':(m.zona==='cumbre'?'cumbre':(m.zona==='volcanes'?'ceniza':'hierba')));s+=RL.Casillas.tile(k,g.X0+x*g.S,g.Y0+y*g.S,g.S-4,12)}
  for(y=0;y<g.n;y++)for(x=0;x<g.w;x++){c=m.tablero[y][x];var cx=g.X0+x*g.S+g.S/2-2,by=g.Y0+y*g.S+g.S-10;
   if(c==='H'||c==='M')s+=RL.Casillas.obj('poste',cx,by,.9);
   if(c==='C')s+=RL.Casillas.obj('cupula',cx,by,.95);
@@ -570,7 +593,7 @@ function board(m,o){o=o||{};var g=geo(m),s='';var vb=estrecha()?[g.X0-24,0,g.w*g
  s+=rosa(vb[0]);
  if(m.clima==='niebla')s+=RL.Fondos.lluvia();
  s+='<g id="fxs"></g><g id="bot" style="transition:transform '+(.5/E.ajustes.vel)+'s cubic-bezier(.3,1.3,.5,1);transform:'+botT(g,o.pos||I.inicio(m))+'"><g id="botInner">'+A.robot(o.diseno||E.diseno,o.ojos||'reposo',false)+'</g>'+(m.rumbo?'<g id="hd" style="transition:transform .25s" transform="'+hdT(m.rumbo)+'"><path d="M0-18L13 8H-13z" fill="#FF6A4D" stroke="#2B1A16" stroke-width="5" stroke-linejoin="round"/></g>':'')+'</g>';
- return'<svg id="tab" viewBox="'+vb.join(' ')+'" role="img" aria-label="Tablero de '+g.w+' por '+g.n+' casillas en '+({isla:'la isla',cumbre:'la cumbre'}[m.zona]||'el monteverde')+'">'+s+'</svg>'}
+ return'<svg id="tab" viewBox="'+vb.join(' ')+'" role="img" aria-label="Tablero de '+g.w+' por '+g.n+' casillas en '+({isla:'la isla',cumbre:'la cumbre',volcanes:'el volcán'}[m.zona]||'el monteverde')+'">'+s+'</svg>'}
 function setBot(ojos,mover){var b=$('#botInner');if(b)b.innerHTML=A.robot(E.diseno,ojos,mover)}
 function par(){var sv=$('#tab');if(!sv)return}
 /* ---------- pantallas ---------- */
@@ -640,7 +663,7 @@ if(m.ordenes.indexOf('llamar')>=0)h+='<p class="guia">Si un tramo se repite pero
  h+='<div class="res" id="res" aria-live="polite">'+resultado()+'</div>';return h}
 function resultado(){var r=E.res;if(!r||E.ejecutando)return'';
  if(!r.fallo&&r.meta){return'<div class="ok"><b>¡Lo has conseguido!</b> Con '+r.coste+' órdenes. '+(E.m.lectura?'Ahora toca leer los datos.':'')+'</div><div class="acc"><button class="btn gr" data-nav data-act="ir" data-p="'+(E.m.lectura?'lectura':'bitacora')+'">'+(E.m.lectura?'Leer los datos':'Bitácora')+'</button></div>'}
- var h='<div class="mal">',p=E.pistas;h+='<p><b>Prediste:</b> '+({ok:'lo conseguirá',atasca:'se atascará o chocará',energia:'se quedará sin energía'}[E.pred])+'. <b>Pasó:</b> '+({patina:'se atascó',roca:'chocó',borde:'chocó',sinEnergia:'se quedó sin energía'}[r.fallo.tipo]||'no lo consiguió')+'.</p>';
+ var h='<div class="mal">',p=E.pistas;h+='<p><b>Prediste:</b> '+({ok:'lo conseguirá',atasca:'se atascará o chocará',energia:'se quedará sin energía'}[E.pred])+'. <b>Pasó:</b> '+({hunde:'se hundió',patina:'se atascó',roca:'chocó',borde:'chocó',sinEnergia:'se quedó sin energía'}[r.fallo.tipo]||'no lo consiguió')+'.</p>';
  for(var i=0;i<E.hint&&i<3;i++)h+='<p class="pista"><span class="np">Pista '+(i+1)+'</span> '+esc(p[i].texto)+'</p>';
  h+='</div><div class="acc">';if(E.hint<3)h+='<button class="btn" data-nav data-act="pista">Otra pista</button>';
  h+='<button class="btn" data-nav data-act="ir" data-p="disena">Cambiar el robot</button><button class="btn gr" data-nav data-act="ir" data-p="programa">Seguir programando</button></div>';return h}
@@ -657,7 +680,7 @@ function bitacora(){var m=E.m,s=estrellasMision(),h=barra('Bitácora','programa'
  h+='<h2>¿Cómo te has sentido?</h2><div class="fila">';[['c','Contento'],['t','Tranquilo'],['n','Nervioso'],['f','Frustrado']].forEach(function(e){h+='<button class="btn pz" data-nav data-act="emo" data-e="'+e[0]+'" aria-pressed="'+(E.emo===e[0])+'">'+e[1]+'</button>'});
  return h+'</div><div class="acc"><button class="btn gr" data-nav data-act="terminar"'+((E.frase!=null&&m.bitacora[E.frase].ok&&E.emo)?'':' disabled')+'>Terminar</button></div>'}
 function ajustes(){var a=E.ajustes;return barra('Ajustes','inicio')+'<div class="fila aj">'+[['grande','Texto grande'],['sinMov','Sin movimiento'],['silencio','Silencio']].map(function(x){return'<button class="btn pz" data-nav data-act="ajuste" data-k="'+x[0]+'" aria-pressed="'+a[x[0]]+'">'+x[1]+'</button>'}).join('')+'<button class="btn pz" data-nav data-act="vel" aria-pressed="false">Velocidad del robot ×'+a.vel+'</button></div><p class="nota">M silencia el sonido. Esc vuelve al inicio.</p><p class="nota">Este prototipo no guarda nombres ni datos personales. El progreso queda en este navegador.</p>'}
-var EMO={c:'Contento',t:'Tranquilo',n:'Nervioso',f:'Frustrado'},TIPO={contarFuera:'Contó donde no había cúpula',faltanCupulas:'Faltaron cúpulas',sinRutina:'Llamó a una rutina vacía',rutinaEnRutina:'Una rutina llamó a otra',patina:'Se atascó',roca:'Chocó con una roca',borde:'Se salió del tablero',sinEnergia:'Se quedó sin energía',sinSensor:'Faltaba el sensor',medirFuera:'Midió donde no había poste',herramienta:'Herramienta equivocada',noLlega:'No llegó a la meta',faltanMedidas:'Faltaron medidas',demasiados:'Demasiadas órdenes'};
+var EMO={c:'Contento',t:'Tranquilo',n:'Nervioso',f:'Frustrado'},TIPO={hunde:'Se hundió en el picón',contarFuera:'Contó donde no había cúpula',faltanCupulas:'Faltaron cúpulas',sinRutina:'Llamó a una rutina vacía',rutinaEnRutina:'Una rutina llamó a otra',patina:'Se atascó',roca:'Chocó con una roca',borde:'Se salió del tablero',sinEnergia:'Se quedó sin energía',sinSensor:'Faltaba el sensor',medirFuera:'Midió donde no había poste',herramienta:'Herramienta equivocada',noLlega:'No llegó a la meta',faltanMedidas:'Faltaron medidas',demasiados:'Demasiadas órdenes'};
 function informe(){var d=G.datos,h='<div class="top noprint"><button class="btn peq" data-nav data-act="inicio">← Volver</button><h1>Informe</h1><button class="btn peq gr" data-nav data-act="imprimir">Imprimir o guardar PDF</button></div>';
  h+='<div class="hoja"><h1 class="tit">RoboLab · Informe</h1><p class="nom">Nombre: ______________________ Fecha: ____________</p><p class="nota">Informe orientativo generado en este dispositivo. No recoge datos personales y no sustituye la evaluación docente.</p>';
  RL.misiones.forEach(function(m){var n=d.estrellas[m.id];h+='<section class="im"><h2>'+esc(m.titulo)+'</h2>';

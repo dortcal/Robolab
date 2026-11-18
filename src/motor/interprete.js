@@ -50,7 +50,8 @@ function ejecutar(m,d,prog,fn){
   if(c2===null){fail('borde',ref,ev);ev.a={x:p.x,y:p.y}}
   else if(c2==='#'){fail('roca',ref,ev);ev.a={x:p.x,y:p.y}}
   else{p={x:nx,y:ny};ev.a={x:nx,y:ny};
-   if((c2==='B'||c2==='M')&&d.mov==='ruedas')fail('patina',ref,ev)}
+   if((c2==='B'||c2==='M')&&d.mov==='ruedas')fail('patina',ref,ev);
+   else if(c2==='P'&&d.mov!=='orugas')fail('hunde',ref,ev)}
   tr.push(ev);i++}
  function correr(items,path){
   for(var k=0;k<items.length&&!fallo&&!exceso;k++){
@@ -82,7 +83,7 @@ function primerDesvio(m,d,prog,res){
  for(k=0;k<res.traza.length;k++){var a=res.traza[k].a,b=ref[k]&&ref[k].a;if(!b||!a||a.x!==b.x||a.y!==b.y)return k}
  return res.traza.length?res.traza.length-1:0}
 var TXT={
- patina:'El robot se ha atascado en el barro.',sinEnergia:'El robot se ha quedado sin energía antes de terminar.',
+ patina:'El robot se ha atascado en el barro.',hunde:'El robot se ha hundido en el picón.',sinEnergia:'El robot se ha quedado sin energía antes de terminar.',
  roca:'El robot ha chocado con una roca.',borde:'El robot se ha salido del tablero.',
  sinSensor:'El sensor no sirve para medir aquí.',medirFuera:'El robot ha medido donde no hay poste.',
  herramienta:'El robot ha llegado, pero su herramienta no sirve para esto.',
@@ -91,7 +92,7 @@ var TXT={
 function delante(m,ev,prog){
  if(!ev||!ev.de||!ev.dir||!/"(si|hasta)":/.test(JSON.stringify(prog)))return'';
  var v=DIR[ev.dir],k=celda(m,ev.de.x+v[0],ev.de.y+v[1]);
- var t=k===null?'el borde del tablero':(k==='#'?'una roca':(k==='G'?'la meta':(k==='B'||k==='M'?'barro':'camino libre')));
+ var t=k===null?'el borde del tablero':(k==='#'?'una roca':(k==='G'?'la meta':(k==='B'||k==='M'?'barro':(k==='P'?'picón':'camino libre'))));
  return' En ese momento tenía delante '+t+'.'}
 /* Tres escalones: qué ha pasado, en qué paso se desvía, primera parte de la solución. */
 function pistas(m,d,prog,res){

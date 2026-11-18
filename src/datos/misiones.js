@@ -70,7 +70,18 @@ RL.misiones=[
  errores:{solar:{cambio:{ene:'solar'},fallo:'sinEnergia'},camara:{cambio:{sen:'camara'},fallo:'sinSensor'}},
  porque:{sinEnergia:'De noche el panel solar no carga. La batería sí funciona.',sinSensor:'La cámara no distingue las cúpulas en la oscuridad. El telescopio recoge la poca luz de los astros.',contarFuera:'Solo se cuenta encima de una cúpula.',faltanCupulas:'Hay cuatro cúpulas y hay que contar en todas.',borde:'Fíjate en hacia dónde mira el robot al girar.',sinRutina:'Escribe algo dentro de «Mi rutina» antes de llamarla.',rutinaEnRutina:'Una rutina no puede llamar a otra rutina.',noLlega:'Fíjate en lo que se repite en cada cúpula y escríbelo una sola vez en «Mi rutina».'},
  bitacora:[{t:'Escribí «avanzar, avanzar, contar» una sola vez en una rutina y la llamé en cada cúpula.',ok:true},{t:'Copié los mismos pasos cuatro veces porque no sabía otra forma.',ok:false},{t:'Elegí el panel solar porque es más ecológico, aunque sea de noche.',ok:false}],
- saberes:['III.1.1','II.2.3'],criterios:['3.2']}
+ saberes:['III.1.1','II.2.3'],criterios:['3.2']},
+{id:'z4m1',conversa:'¿Qué diferencia hay entre las ruedas y las orugas sobre el picón? ¿Qué rocas has visto en la ladera y cómo se formaron?',zona:'volcanes',curso:4,ciclo:2,titulo:'Piedras del volcán',
+ aviso:{quien:'Geólogo',texto:'En la ladera del volcán hay una roca de lava que quiero estudiar. El camino cruza una franja de picón. ¿Puedes traerme una muestra?',
+  datos:[{id:'picon',x:30,y:72,t:'El picón es gravilla volcánica suelta: lo que queda de los pequeños trozos de lava.'},{id:'roca',x:78,y:16,t:'Arriba hay roca de lava enfriada, oscura y con agujeros.'},{id:'sol',x:84,y:40,t:'Hace sol y no hay niebla.'}]},
+ clima:'sol',tablero:['....G.','.##...','PPPPPP','......','.#.#..','R.....'],lecturas:{},
+ meta:{tipo:'llegar',x:4,y:0,herramienta:'pinza'},ordenes:['N','S','E','O','repetir'],limite:12,optimo:4,
+ diseno:{mov:'orugas',ene:'solar',sen:'camara',her:'pinza'},energiaOK:'solar',
+ solucion:[{rep:5,body:['N']},{rep:4,body:['E']}],
+ errores:{ruedas:{cambio:{mov:'ruedas'},fallo:'hunde'},patas:{cambio:{mov:'patas'},fallo:'hunde'},regadera:{cambio:{her:'regadera'},fallo:'herramienta'}},
+ porque:{hunde:'El picón es suelto y las ruedas o las patas se hunden. Las orugas reparten el peso.',herramienta:'La muestra de roca se coge con la pinza; la regadera no sirve.',roca:'Hay una roca en el camino: rodéala.',noLlega:'Cuenta las casillas hasta la roca de lava.'},
+ bitacora:[{t:'Elegí orugas porque reparten el peso y no se hunden en el picón.',ok:true},{t:'Elegí orugas porque son más rápidas.',ok:false},{t:'Elegí la pinza porque la regadera pesa más.',ok:false}],
+ saberes:['I.2.5'],criterios:['3.2','5.1']}
 ];
 RL.misiones.forEach(function(m){if(m.bancoLecturas){var v=m.bancoLecturas[0];m.ordenLecturas.forEach(function(k,i){m.lecturas[k]=v[i]})}});
 })(globalThis.RL=globalThis.RL||{});

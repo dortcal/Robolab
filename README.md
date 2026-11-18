@@ -1,6 +1,6 @@
 # RoboLab · Misión Archipiélago
 
-Juego web de Conocimiento del Medio para Primaria (1.º a 6.º) en el que el alumnado **diseña, programa y prueba un robot** para resolver problemas reales de Canarias. No hay combates, vidas ni preguntas de cuatro opciones: se aprende decidiendo, viendo qué le pasa al robot y corrigiendo.
+Juego web de Conocimiento del Medio para Primaria (3.º a 6.º) en el que el alumnado **diseña, programa y prueba un robot** para resolver problemas reales de Canarias. No hay combates, vidas ni preguntas de cuatro opciones: se aprende decidiendo, viendo qué le pasa al robot y corrigiendo.
 
 > **Estado: prototipo (fase 5 de 12).** Hay 6 misiones jugables: tres de 3.º (El Monteverde), dos de 5.º (La Isla Sostenible) y una de 6.º (La Cumbre y el Cielo), con bloques `si… si no`, bucles anidados y, en 6.º, una rutina propia y un contador (ampliación opcional, fuera del decreto). El resto se construye por fases; ver `proyecto/estado.md`.
 
@@ -47,3 +47,8 @@ Se apoya en el **Decreto 211/2022** (Primaria, Canarias): competencia específic
 ## Licencia
 
 CC BY-NC-ND 4.0 · © David OZC. Ver `LICENSE.md`.
+
+
+## Alcance
+
+RoboLab está pensado para **3.º a 6.º de Primaria**. De momento no se desarrolla para Infantil ni para 1.º y 2.º.
