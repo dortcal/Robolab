@@ -135,3 +135,18 @@ body.arrastrando .pal{outline:3px dashed var(--ink);outline-offset:4px}
 .v-docentes h2{font:600 1.3rem Fredoka,sans-serif;margin:1rem 0 .3rem}.v-docentes h3{font:600 1.1rem Fredoka,sans-serif;margin:.2rem 0}
 .v-docentes .ficha{break-inside:avoid;border-top:2px solid #D8CFC6;padding:.6rem 0}.v-docentes li{margin:.2rem 0;line-height:1.4}
 .aviso-doc{background:#FFF1C7;border:2px solid var(--ink);border-radius:12px;padding:8px 10px}
+
+.eje{display:flex;justify-content:space-between;font-family:Fredoka,sans-serif;font-weight:600;margin:4px 6px}
+.eje::after{content:"";}
+.lin{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.lhueco{min-height:150px;border:3px dashed var(--ink);border-radius:16px;display:flex;align-items:center;justify-content:center;background:#ffffff80}
+.lhueco.lleno{border-style:solid;background:transparent;border-color:transparent}
+.lnum{font-family:Fredoka,sans-serif;font-size:2rem;opacity:.5}
+.ltray{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0;min-height:30px}
+.ltarj{display:flex;flex-direction:column;align-items:center;gap:6px;width:100%;min-height:150px;padding:8px;background:var(--paper);border:3px solid var(--ink);border-radius:16px;box-shadow:0 4px 0 var(--ink);font:inherit;color:inherit;cursor:pointer;text-align:center}
+.ltarj svg{width:100%;max-width:90px;height:auto}
+.ltarj span{font-size:.85rem;line-height:1.2}
+.ltarj:hover:not(:disabled){transform:translateY(-2px)}
+.ltarj:focus-visible{outline:4px solid var(--ink);outline-offset:3px;box-shadow:0 0 0 7px var(--amarillo)}
+@media(max-width:640px){.lin,.ltray{grid-template-columns:repeat(2,1fr)}}
+.lhueco.lleno .ltarj{background:#FFF1B8}

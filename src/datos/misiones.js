@@ -93,6 +93,23 @@ RL.misiones=[
  porque:{herramienta:'El hierro se recoge sin tocarlo con un imán, que lo atrae. La pinza y la regadera no sirven aquí.',roca:'Hay una roca en el camino: rodéala.',noLlega:'Cuenta las casillas hasta el hierro.'},
  bitacora:[{t:'Elegí el imán porque atrae el hierro y no atrae la lava.',ok:true},{t:'Elegí el imán porque agarra cualquier cosa.',ok:false},{t:'Elegí la pinza porque es más fuerte.',ok:false}],
  saberes:['I.3.3'],criterios:['2.1','3.2']}
+,{id:'z4m2',conversa:'¿Qué pasó primero y qué pasó después cuando nació la isla? ¿Por qué las orugas no se hunden en el picón?',zona:'volcanes',curso:4,ciclo:2,titulo:'Cómo nació la isla',
+ aviso:{quien:'Vulcanóloga',texto:'Quiero explicar a mi clase cómo nace una isla volcánica y llevarles una muestra de ceniza del cráter. Primero, ¿ordenas lo que pasó? Después, ¿me traes la muestra?',
+  datos:[{id:'cono',x:50,y:20,t:'Las islas Canarias son islas volcánicas: nacieron de erupciones bajo el mar.'},{id:'picon',x:30,y:72,t:'La ceniza suelta del cráter es picón: las ruedas se hunden en él.'},{id:'sol',x:84,y:40,t:'Hace sol y no hay niebla.'}]},
+ linea:{pregunta:'Ordena las etapas del nacimiento de una isla volcánica, de la primera a la última.',cierre:'Así nace una isla volcánica: primero la lava bajo el mar, después la isla y al final la vida.',
+  tarjetas:[
+   {id:'magma',t:'Sale magma por una grieta del fondo del mar.',p:'Todo empieza con el magma que sale del interior de la Tierra.'},
+   {id:'enfria',t:'La lava se enfría y se amontona bajo el agua.',p:'La lava se enfría en el agua y forma una montaña bajo el mar.'},
+   {id:'asoma',t:'El volcán crece y asoma sobre el mar: nace la isla.',p:'Cuando la montaña es muy alta, su cima sale del agua.'},
+   {id:'vida',t:'El viento y la lluvia rompen la roca y llega la vida.',p:'La isla tiene que existir antes de que lleguen plantas y animales.'}]},
+ clima:'sol',tablero:['.G....','......','PPPPPP','.#..#.','......','R.....'],lecturas:{},
+ meta:{tipo:'llegar',x:1,y:0,herramienta:'pinza'},ordenes:['N','S','E','O','repetir'],limite:8,optimo:3,
+ diseno:{mov:'orugas',ene:'solar',sen:'camara',her:'pinza'},energiaOK:'solar',
+ solucion:[{rep:5,body:['N']},'E'],
+ errores:{ruedas:{cambio:{mov:'ruedas'},fallo:'hunde'},patas:{cambio:{mov:'patas'},fallo:'hunde'},regadera:{cambio:{her:'regadera'},fallo:'herramienta'}},
+ porque:{hunde:'La ceniza del cráter es picón, suelto. Las ruedas o las patas se hunden. Las orugas reparten el peso.',herramienta:'La muestra de ceniza se coge con la pinza; la regadera no sirve.',roca:'Hay una roca en el camino: rodéala.',noLlega:'Cuenta las casillas hasta el cráter.'},
+ bitacora:[{t:'Ordené las etapas: primero la lava bajo el mar y al final la vida.',ok:true},{t:'Ordené las etapas: primero llegaron las plantas.',ok:false},{t:'Elegí ruedas porque son más rápidas.',ok:false}],
+ saberes:['III.1.1'],criterios:['5.2','3.2']}
 ];
 RL.misiones.forEach(function(m){if(m.bancoLecturas){var v=m.bancoLecturas[0];m.ordenLecturas.forEach(function(k,i){m.lecturas[k]=v[i]})}});
 })(globalThis.RL=globalThis.RL||{});

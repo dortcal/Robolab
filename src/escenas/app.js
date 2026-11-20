@@ -2,6 +2,8 @@
 (function(RL){
 var E=RL.E,A=RL.Arte,I=RL.Interprete,G=RL.Guardado,$=function(s){return document.querySelector(s)},app,timers=[];
 var GL={N:'↑',S:'↓',E:'→',O:'←',medir:'⌖',contar:'+1',llamar:'↪',A:'▲',GI:'↶',GD:'↷'},NOM={N:'norte',S:'sur',E:'este',O:'oeste',medir:'medir',contar:'contar',llamar:'Mi rutina',A:'avanzar',GI:'girar izq.',GD:'girar der.'},DV={N:[0,-1],E:[1,0],S:[0,1],O:[-1,0]},ANG={N:0,E:90,S:180,O:270};
+function nuevaLinea(m){var l={pos:[],mix:[],ok:false,fallos:0,hint:0,msg:''};if(!m.linea)return l;var ids=m.linea.tarjetas.map(function(c){return c.id}),a;
+ do{a=ids.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}}while(a.length>1&&a.every(function(x,k){return x===ids[k]}));l.mix=a;return l}
 function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function decir(t){var e=$('#estado');if(e)e.textContent=t}
 function limpiar(){timers.forEach(clearTimeout);timers=[]}
@@ -41,7 +43,7 @@ function aviso(){var m=E.m,o=Object.keys(E.datos).length;
  m.aviso.datos.forEach(function(d){h+='<button class="hot'+(E.datos[d.id]?' ok':'')+'" data-nav data-act="dato" data-id="'+d.id+'" style="left:'+d.x+'%;top:'+d.y+'%" aria-label="Mirar: '+esc(d.id)+'"><span aria-hidden="true">'+(E.datos[d.id]?'✓':'?')+'</span></button>'});
  h+='</div><div class="burbuja"><b>'+esc(m.aviso.quien)+':</b> '+esc(m.aviso.texto)+'</div>';
  h+='<ul class="datos" aria-label="Datos reunidos">';m.aviso.datos.forEach(function(d){h+='<li class="'+(E.datos[d.id]?'on':'')+'">'+(E.datos[d.id]?esc(d.t):'Toca la escena para reunir un dato')+'</li>'});
- return h+'</ul><div class="acc"><button class="btn gr" data-nav data-act="ir" data-p="disena">Diseñar el robot</button><span class="nota">Datos: '+o+' de '+m.aviso.datos.length+'</span></div>'}
+ return h+'</ul><div class="acc"><button class="btn gr" data-nav data-act="ir" data-p="'+(m.linea?'linea':'disena')+'">'+(m.linea?'Ordenar las etapas':'Diseñar el robot')+'</button><span class="nota">Datos: '+o+' de '+m.aviso.datos.length+'</span></div>'}
 function disena(){var m=E.m,d=E.diseno,h=barra('Diseña el robot','aviso'),listo=d.mov&&d.ene&&d.sen&&d.her&&E.pred;
  h+='<div class="dis"><div class="stage"><svg viewBox="0 0 220 200" role="img" aria-label="Robot con las piezas elegidas">'+'<g transform="translate(10 0)">'+A.robot({mov:d.mov||'ruedas',ene:d.ene||'bateria',sen:d.sen||'camara',her:d.her||'pinza'},E.pred?'reposo':'duda',false)+'</g></svg></div><div class="slots">';
  ['mov','ene','sen','her'].forEach(function(k){var S=RL.piezas[k];h+='<div class="col"><h2>'+S.nombre+'</h2>';
@@ -131,7 +133,29 @@ function docentes(){var C=RL.curriculo,h='<div class="top noprint"><button class
   h+='<p><b>Criterios de evaluación (orientativos)</b></p><ul>'+m.criterios.map(function(k){return'<li><b>'+esc(k)+'</b> '+esc(cc.criterios[k]||'')+'</li>'}).join('')+'</ul>';
   h+='<p><b>Para conversar después de jugar:</b> '+esc(m.conversa||'')+'</p></section>'});
  return h+'</div>'}
-var VISTAS={docentes:docentes,informe:informe,inicio:inicio,aviso:aviso,disena:disena,programa:programa,lectura:lectura,bitacora:bitacora,ajustes:ajustes};
+
+var ICO={
+ magma:'<path d="M6 44h68" stroke="#2B1A16" stroke-width="3"/><path d="M30 44l6-22 8 0 6 22z" fill="#D8392B" stroke="#2B1A16" stroke-width="3" stroke-linejoin="round"/><circle cx="40" cy="14" r="5" fill="#FFC21A" stroke="#2B1A16" stroke-width="2.5"/>',
+ enfria:'<path d="M2 14q8-6 16 0t16 0 16 0 16 0 14 0v40H2z" fill="#1F86C8" stroke="#2B1A16" stroke-width="3"/><path d="M22 54l10-22h16l10 22z" fill="#5B4A47" stroke="#2B1A16" stroke-width="3" stroke-linejoin="round"/>',
+ asoma:'<path d="M2 36q8-6 16 0t16 0 16 0 16 0 14 0v18H2z" fill="#1F86C8" stroke="#2B1A16" stroke-width="3"/><path d="M20 38l14-26 8 0 14 26z" fill="#5B4A47" stroke="#2B1A16" stroke-width="3" stroke-linejoin="round"/>',
+ vida:'<path d="M2 40q8-6 16 0t16 0 16 0 16 0 14 0v14H2z" fill="#1F86C8" stroke="#2B1A16" stroke-width="3"/><path d="M18 42l12-16h20l12 16z" fill="#5B4A47" stroke="#2B1A16" stroke-width="3" stroke-linejoin="round"/><path d="M40 26v-10" stroke="#2B1A16" stroke-width="3"/><path d="M40 18q-12-2-14-10 12-1 14 10zM40 18q12-2 14-10-12-1-14 10z" fill="#2E9D68" stroke="#2B1A16" stroke-width="2.5" stroke-linejoin="round"/>'};
+function tarj(c,k,acc){return'<button class="ltarj" data-nav data-act="'+acc+'" data-id="'+c.id+'" aria-label="'+(acc==='lquita'?'Quitar, puesto '+(k+1)+': ':'Poner: ')+esc(c.t)+'"'+(E.lin.ok?' disabled':'')+'><svg viewBox="0 0 80 56" aria-hidden="true">'+(ICO[c.id]||'')+'</svg><span>'+esc(c.t)+'</span></button>'}
+function tarjeta(id){return E.m.linea.tarjetas.filter(function(c){return c.id===id})[0]}
+function linea(){var m=E.m,L=m.linea,n=L.tarjetas.length,l=E.lin,h=barra('Ordena el tiempo','aviso');
+ h+='<div class="burbuja">'+esc(L.pregunta)+'</div><div class="eje"><span>Primero</span><span>Después</span></div><ol class="lin" aria-label="Línea del tiempo">';
+ for(var k=0;k<n;k++){var id=l.pos[k];h+='<li class="lhueco'+(id?' lleno':'')+'">'+(id?tarj(tarjeta(id),k,'lquita'):'<span class="lnum">'+(k+1)+'</span>')+'</li>'}
+ h+='</ol><div class="ltray" aria-label="Tarjetas por colocar">';
+ l.mix.forEach(function(id){if(l.pos.indexOf(id)<0)h+=tarj(tarjeta(id),0,'lpon')});
+ h+='</div><div class="ficha" id="ficha" aria-live="polite">'+(l.ok?'<b>¡Bien ordenado!</b> '+esc(L.cierre):esc(l.msg||'Toca una tarjeta para ponerla en la línea. Toca una tarjeta colocada para quitarla.'))+'</div>';
+ h+='<div class="acc">';
+ if(!l.ok)h+='<button class="btn gr" data-nav data-act="lcomp"'+(l.pos.length<n?' disabled':'')+'>Comprobar</button><button class="btn" data-nav data-act="lpista">Pista</button>';
+ return h+'<button class="btn gr" data-nav data-act="ir" data-p="disena"'+(l.ok?'':' disabled')+'>Diseñar el robot</button></div>'}
+function lpista(){var L=E.m.linea.tarjetas,l=E.lin,k=0;while(k<L.length&&l.pos[k]===L[k].id)k++;
+ if(k>=L.length)return;var c=L[k];
+ if(l.hint===1)l.msg='Pista 1: hay '+k+' tarjeta'+(k===1?'':'s')+' bien colocada'+(k===1?'':'s')+' desde el principio. Piensa qué tiene que pasar primero para que pase lo siguiente.';
+ else if(l.hint===2)l.msg='Pista 2: en el puesto '+(k+1)+' va esta tarjeta: «'+c.t+'»';
+ else{l.pos=L.slice(0,k+1).map(function(x){return x.id});l.msg='Pista 3: te la he colocado en el puesto '+(k+1)+'. '+(c.p||'')}}
+var VISTAS={linea:linea,docentes:docentes,informe:informe,inicio:inicio,aviso:aviso,disena:disena,programa:programa,lectura:lectura,bitacora:bitacora,ajustes:ajustes};
 var previa='inicio';
 function render(foco){limpiar();if(E.pantalla!=='ajustes')previa=E.pantalla;app.innerHTML='<div class="vista v-'+E.pantalla+'">'+VISTAS[E.pantalla]()+'</div>';
  document.body.classList.toggle('grande',E.ajustes.grande);document.body.classList.toggle('nomotion',E.ajustes.sinMov);
@@ -205,7 +229,7 @@ function iniciarArrastre(){
  document.addEventListener('pointerup',function(e){fin(e,false)});document.addEventListener('pointercancel',function(e){fin(e,true)});
  document.addEventListener('click',function(e){if(sinClic){e.stopPropagation();e.preventDefault()}},true)}
 var AC={
- mision:function(d){E.m=mision(d.id);E.datos={};E.diseno={mov:null,ene:null,sen:null,her:null};E.pred=null;E.prog=[];E.fn=[];E.cur={c:'',i:0};E.sel=null;E.enBucle=null;E.intentos=0;E.hint=0;E.fallosSeguidos=0;E.ficha=null;E.res=null;E.pistas=null;E.lectura=null;E.frase=null;E.emo=null;
+ mision:function(d){E.m=mision(d.id);E.datos={};E.diseno={mov:null,ene:null,sen:null,her:null};E.pred=null;E.prog=[];E.fn=[];E.cur={c:'',i:0};E.sel=null;E.enBucle=null;E.intentos=0;E.hint=0;E.fallosSeguidos=0;E.lin=nuevaLinea(E.m);E.ficha=null;E.res=null;E.pistas=null;E.lectura=null;E.frase=null;E.emo=null;
   if(E.m.bancoLecturas){var v=E.m.bancoLecturas[Math.floor(Math.random()*E.m.bancoLecturas.length)];E.m.ordenLecturas.forEach(function(k,i){E.m.lecturas[k]=v[i]})}ir('aviso')},
  ir:function(d){if(d.p==='programa'&&!(E.diseno.mov&&E.diseno.ene&&E.diseno.sen&&E.diseno.her&&E.pred))return;ir(d.p)},
  aviso:function(){ir('aviso')},disena:function(){ir('disena')},programa:function(){ir('programa')},inicio:function(){G.guardar();ir('inicio')},
@@ -213,6 +237,12 @@ var AC={
  dato:function(d){E.datos[d.id]=true;RL.Audio.toca();render('[data-id="'+d.id+'"]');decir(E.m.aviso.datos.filter(function(x){return x.id===d.id})[0].t)},
  pieza:function(d){E.diseno[d.k]=d.id;E.ficha=RL.piezas[d.k].op.filter(function(o){return o.id===d.id})[0];RL.Audio.toca();render('[data-k="'+d.k+'"][data-id="'+d.id+'"]')},
  pred:function(d){E.pred=d.id;RL.Audio.toca();render('[data-act="pred"][data-id="'+d.id+'"]')},
+ lpon:function(d){if(E.lin.ok)return;E.lin.pos.push(d.id);E.lin.msg='';RL.Audio.toca();render('[data-act="lcomp"]')},
+ lquita:function(d){if(E.lin.ok)return;var i=E.lin.pos.indexOf(d.id);if(i>=0)E.lin.pos.splice(i,1);E.lin.msg='';RL.Audio.toca();render('[data-act="lpon"]')},
+ lcomp:function(){var L=E.m.linea.tarjetas,l=E.lin;if(l.pos.length<L.length)return;
+  if(L.every(function(c,k){return l.pos[k]===c.id})){l.ok=true;l.msg='';RL.Audio.ok();render('[data-p="disena"]');decir('¡Bien ordenado!')}
+  else{l.fallos++;l.hint=Math.min(3,Math.max(l.hint,l.fallos));RL.Audio.error();lpista();render('[data-act="lpista"]')}},
+ lpista:function(){var l=E.lin;l.hint=Math.min(3,l.hint+1);lpista();RL.Audio.toca();render('[data-act="lpista"]')},
  ord:function(d){nuevo({o:d.o},'[data-act="ord"][data-o="'+d.o+'"]')},
  rep:function(d){nuevo({rep:+d.n},'[data-act="ord"]')},
  hasta:function(d){nuevo({hasta:d.cond},'[data-act="ord"]')},

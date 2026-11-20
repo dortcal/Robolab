@@ -275,7 +275,7 @@ Cada zona tiene seis misiones y un Gran Reto. Los límites de órdenes (≤n) so
 
 ### Tierra de Volcanes (4.º)
 
-*z4m1 y z4m3 están implementadas (18/11) sin el clasificador de rocas ni el banco de pruebas de fuerzas; ver `estado.md`.*
+*z4m1, z4m2 y z4m3 están implementadas (18 y 20/11) sin el clasificador de rocas, el banco de pruebas de fuerzas ni la decisión «cuándo se mide y cuándo se espera»; ver `estado.md`.*
 
 | Id | Misión y aviso | Decisión de diseño | Retos | Saberes | Criterios |
 |---|---|---|---|---|---|
