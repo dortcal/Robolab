@@ -46,6 +46,10 @@ Misiones de 3.º: z3m1 «El helecho que se seca», z3m2 «La lluvia que no cae»
 - **Ejecutado:** `tests/nav/editar.py` (21 comprobaciones) con ratón en Chrome real; arrastre táctil emulado; regresión de las 3 misiones de 3.º, z5m1 e informe sin errores de consola; validador estático de la skill, 0 errores.
 - **No verificado:** táctil en móvil o tableta reales; Makey Makey físico; los huecos miden unos 30 px de ancho (menos de 44 px); no se ha probado con alumnado.
 
+## Decimonovena tanda (20/11): lista de pruebas manuales
+- Nuevo `proyecto/pruebas-manuales.md`: dispositivos, teclado y Makey Makey, arrastre táctil, sonido y ajustes, revisión de contenido, observación con alumnado y datos/guardado. Solo incluye lo que **no** se ha podido comprobar de forma automática. Todas las casillas están **sin probar**.
+- **Revisado, no ejecutado:** es un documento; no se ha usado todavía.
+
 ## Decimoctava tanda (20/11): línea del tiempo y misión z4m2
 - **Mecánica nueva «Línea del tiempo»** (pantalla entre el aviso y «Diseña», solo en las misiones que la declaran con `linea`): 4 tarjetas con dibujo (SVG) y frase corta; se tocan para colocarlas (o para quitarlas), sin arrastrar, así que funciona igual con teclado, táctil y Makey Makey. Sin límite de intentos. Pistas en 3 escalones, que salen al fallar o al pedirlas con «Pista»: 1) cuántas tarjetas están bien desde el principio; 2) qué tarjeta va en el primer puesto equivocado; 3) esa tarjeta queda colocada y una frase que explica por qué va ahí.
 - **Misión z4m2 «Cómo nació la isla»** (4.º, Tierra de Volcanes): ordenar las etapas del nacimiento de una isla volcánica (magma → lava bajo el agua → asoma la isla → erosión y vida) y llevar una muestra de ceniza del cráter (orugas por el picón, pinza). Programa óptimo: `repetir 5 N` + `E`, 3 órdenes, límite 8. Saber `III.1.1`, criterios `5.2` y `3.2`: **propuesta**, pendiente de contrastar con el BOC.

@@ -52,3 +52,6 @@ CC BY-NC-ND 4.0 · © David OZC. Ver `LICENSE.md`.
 ## Alcance
 
 RoboLab está pensado para **3.º a 6.º de Primaria**. De momento no se desarrolla para Infantil ni para 1.º y 2.º.
+
+## Pruebas manuales
+La lista para comprobar el juego en dispositivos reales está en [`proyecto/pruebas-manuales.md`](proyecto/pruebas-manuales.md).
